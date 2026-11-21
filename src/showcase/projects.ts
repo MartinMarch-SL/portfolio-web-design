@@ -11,7 +11,7 @@ interface Project {
 
 export const projects: Project[] = [
   { n: '01', name: 'RUIDO', sector: 'Moda urbana', href: url('ruido/'), preview: 'showcase/img/ruido-preview.webp', status: 'live' },
-  { n: '02', name: 'Restaurante', sector: 'Gastronomía', status: 'soon' },
+  { n: '02', name: 'Bar Caribe', sector: 'Bar de barrio', href: url('bar-caribe/'), preview: 'showcase/img/bar-caribe-preview.webp', status: 'live' },
   { n: '03', name: 'Estudio de arquitectura', sector: 'Arquitectura', status: 'soon' },
   { n: '04', name: 'Fisioterapia', sector: 'Salud', status: 'soon' },
   { n: '05', name: 'Fotografía de bodas', sector: 'Fotografía', status: 'soon' },

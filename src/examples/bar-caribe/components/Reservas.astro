@@ -1,0 +1,57 @@
+---
+import { address, phone, telephone } from '../data/bar'
+import { slots } from '../lib/reservations'
+import '../styles/reservas.css'
+---
+<div class="wrap reservation">
+  <header class="page-title">
+    <p class="kicker">Bar Caribe · Lavapiés</p>
+    <h1>Reserva mesa</h1>
+  </header>
+  <div class="reservation-grid">
+    <div class="reservation-info">
+      <h2>Hay sitio</h2>
+      <p>{address}</p>
+      <p>De martes a domingo<br />Cocina de 13:00 a 16:00 y de 20:00 a 23:30</p>
+      <p>Para más de 8, <a href={telephone}>llámanos al {phone}</a>.</p>
+      <p class="note">El lunes bajamos la persiana.</p>
+    </div>
+    <div>
+      <form class="ticket reservation-form" data-reservation novalidate hidden>
+        <p class="kicker">Comanda · Reserva de mesa</p>
+        <div class="form-fields">
+          <label>Nombre <input name="name" autocomplete="name" required /></label>
+          <label>Teléfono <input type="tel" name="phone" autocomplete="tel" required /></label>
+          <label>Día <input type="date" name="date" required /></label>
+          <label>Hora
+            <select name="time" required>
+              <option value="">Elige hora</option>
+              {slots.map(slot => <option>{slot}</option>)}
+            </select>
+          </label>
+          <label>Comensales
+            <select name="guests">
+              {Array.from({ length: 12 }, (_, index) => <option>{index + 1}</option>)}
+            </select>
+          </label>
+        </div>
+        <p class="reservation-error" role="alert"></p>
+        <button type="submit" class="action">Reservar mesa</button>
+        <p class="simulation">Reserva de prueba</p>
+      </form>
+      <noscript><p>Para reservar, llama al <a href={telephone}>{phone}</a>.</p></noscript>
+      <section class="ticket confirmation" data-confirmation hidden tabindex="-1">
+        <p class="kicker">Bar Caribe · Reserva de prueba</p>
+        <h2>Mesa apuntada</h2>
+        <p data-confirmation-name></p>
+        <p data-confirmation-details></p>
+        <p class="note">Hasta ahora.</p>
+        <button type="button" class="action" data-print>Imprimir ticket</button>
+        <button type="button" class="plain" data-new>Hacer otra reserva</button>
+      </section>
+    </div>
+  </div>
+</div>
+<script>
+  import '../scripts/reservas'
+</script>

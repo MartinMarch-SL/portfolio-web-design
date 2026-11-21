@@ -5,12 +5,12 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
 
-const candidatesDir = new URL('./candidates/', import.meta.url);
 const publicDir = await realpath(fileURLToPath(new URL('../../public/', import.meta.url)));
-const [mapFile] = process.argv.slice(2);
-if (!mapFile || process.argv.length !== 3) {
-  throw new Error('Usage: node scripts/photos/apply-selection.mjs <selection.json>');
+const [mapFile, batch = 'candidates'] = process.argv.slice(2);
+if (!mapFile || process.argv.length > 4 || !/^candidates(?:-[a-z0-9-]+)?$/.test(batch)) {
+  throw new Error('Usage: node scripts/photos/apply-selection.mjs <selection.json> [candidates-directory]');
 }
+const candidatesDir = new URL(`./${batch}/`, import.meta.url);
 
 const selection = JSON.parse(await readFile(mapFile, 'utf8'));
 if (!selection || typeof selection !== 'object' || Array.isArray(selection)) {
@@ -48,7 +48,11 @@ for (const [key, number] of Object.entries(selection)) {
     throw new Error(`Invalid Unsplash download endpoint for candidate ${number}`);
   }
   const relative = path.relative(publicDir, target);
-  const creditsDir = path.join(publicDir, relative.startsWith('showcase/') ? 'showcase/img' : 'examples/ruido/img');
+  const directory = path.dirname(relative);
+  if (directory !== 'showcase/img' && !/^examples[/\\][a-z0-9-]+[/\\]img$/.test(directory)) {
+    throw new Error(`Expected a photo under an example or showcase image directory: ${key}`);
+  }
+  const creditsDir = path.join(publicDir, directory);
   const file = path.relative(creditsDir, target);
   const credit = `${file} — Photo by ${candidate.author.replace(/[\r\n]+/g, ' ')} (${candidate.authorUrl}) on Unsplash (${candidate.page})`;
   replacements.push({ target, image, downloadUrl, creditsPath: path.join(creditsDir, 'CREDITS.md'), file, credit });
@@ -70,7 +74,7 @@ for (const { target, image, downloadUrl, creditsPath, file, credit } of replacem
     throw error;
   });
   const lines = credits.trimEnd().split(/\r?\n/);
-  const index = lines.findIndex(line => line.startsWith(`${file} — Photo by `));
+  const index = lines.findIndex(line => line.startsWith(`${file} — `));
   if (index === -1) {
     if (lines.length === 1) lines.push('');
     lines.push(credit);

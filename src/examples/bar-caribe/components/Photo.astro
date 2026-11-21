@@ -1,0 +1,13 @@
+---
+import { responsiveImage } from '../../../lib/responsive-image'
+interface Props {
+  name: string
+  alt: string
+  width?: number
+  height?: number
+  sizes?: string
+  eager?: boolean
+}
+const { name, alt, width = 1080, height = 1350, sizes = '(max-width: 720px) 100vw, 50vw', eager = false } = Astro.props
+---
+<img {...responsiveImage(`examples/bar-caribe/img/${name}.webp`, sizes, width)} {alt} {width} {height} loading={eager ? 'eager' : 'lazy'} decoding="async" />

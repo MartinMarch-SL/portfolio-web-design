@@ -1,0 +1,59 @@
+---
+import { allergens, dishes, sections } from '../data/menu'
+import { price } from '../lib/service'
+import '../styles/carta.css'
+---
+<div class="wrap">
+  <header class="page-title">
+    <p class="kicker">Bar Caribe · Cocina</p>
+    <h1>La carta</h1>
+  </header>
+  <div class="carta-layout">
+    <div>
+      <form class="filters" data-filters hidden>
+        <label>Excluir alérgeno
+          <select name="allergen">
+            <option value="">Ninguno</option>
+            {allergens.map(allergen => <option>{allergen}</option>)}
+          </select>
+        </label>
+        <label><input type="checkbox" name="house" /> De la casa</label>
+      </form>
+      <p class="filter-empty" data-empty hidden>No hay platos con esos filtros.</p>
+      {sections.map(section => (
+        <section class="menu-section">
+          <h2>{section}</h2>
+          <ul>
+            {dishes.filter(dish => dish.section === section).map(dish => (
+              <li data-dish={dish.id}>
+                <div>
+                  <strong>{dish.name}</strong>
+                  {dish.house && <span class="house">De la casa</span>}
+                  {dish.allergens.length > 0 && <small>{dish.allergens.join(' · ')}</small>}
+                </div>
+                <span class="price">{price(dish.price)}</span>
+                <button type="button" data-add={dish.id} aria-label={`Añadir ${dish.name}`} hidden>+</button>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </div>
+    <aside class="order" data-order hidden>
+      <button class="action order-toggle" type="button" data-order-toggle aria-controls="comanda" aria-expanded="false">Comanda <span class="price" data-order-summary>{price(0)}</span></button>
+      <div class="ticket order-ticket" id="comanda">
+        <button class="order-close" type="button" data-order-close aria-label="Cerrar comanda">×</button>
+        <p class="kicker">Bar Caribe · La cuenta</p>
+        <h2>Comanda</h2>
+        <p data-order-empty>De momento, nada en la mesa.</p>
+        <ul data-order-lines></ul>
+        <p class="order-total"><strong>Total</strong> <output class="price" data-order-total>{price(0)}</output></p>
+        <button class="action" type="button" data-pay disabled>Pedir la cuenta</button>
+      </div>
+    </aside>
+    <p class="announcement" data-order-status role="status"></p>
+  </div>
+</div>
+<script>
+  import '../scripts/carta'
+</script>

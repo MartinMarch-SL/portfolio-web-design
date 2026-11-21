@@ -1,0 +1,74 @@
+---
+import Photo from './Photo.astro'
+import { dishes } from '../data/menu'
+import { price } from '../lib/service'
+import { url } from '../../../lib/url'
+import '../styles/home.css'
+---
+<section class="hero">
+  <Photo name="hero" alt="La barra del Caribe" width={1600} height={1000} sizes="100vw" eager />
+  <div class="hero-content">
+    <p class="kicker">Calle de la Esperanza, 12</p>
+    <h1 aria-label="Bar Caribe"><span aria-hidden="true">BAR</span> <span aria-hidden="true">C<span class="neon-letter">A</span>RIBE</span></h1>
+    <p>Desde 1974 · Lavapiés</p>
+  </div>
+  <div class="frieze hero-frieze" aria-hidden="true"></div>
+</section>
+<section class="wrap block lunch" data-reveal>
+  <div>
+    <p class="kicker">De 13:00 a 16:00</p>
+    <h2>Menú<br />del día</h2>
+    <a href={url('bar-caribe/carta/')}>Ver la carta</a>
+  </div>
+  <div class="chalkboard" data-chalkboard>
+    <p data-weekday></p>
+    <ol data-menu></ol>
+    <p data-meal hidden>Pan, bebida y postre</p>
+    <p class="price" data-menu-price hidden>{price(1350)}</p>
+    <noscript>Pregunta en la barra por el menú de hoy. Los lunes cerramos.</noscript>
+  </div>
+</section>
+<section class="vitrina" data-vitrina>
+  <div class="vitrina-sticky">
+    <div class="wrap vitrina-head">
+      <h2>En la barra hoy</h2>
+      <div class="rail-buttons" hidden>
+        <button type="button" data-back aria-label="Tapas anteriores">←</button>
+        <button type="button" data-next aria-label="Más tapas">→</button>
+      </div>
+    </div>
+    <div class="tapa-rail" data-vitrina-track tabindex="0" aria-label="Tapas de la vitrina">
+      {dishes.filter(dish => dish.photo).map(dish => (
+        <figure class="tapa">
+          <Photo name={dish.photo!} alt={dish.name} sizes="(max-width: 720px) 68vw, 25vw" eager />
+          <figcaption>
+            <span>{dish.name}</span><strong class="price">{price(dish.price)}</strong>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  </div>
+</section>
+<section class="bar-numbers" aria-label="El bar en cifras">
+  <div class="wrap">
+    <p><strong>50</strong>años</p><p><strong>3</strong>cafeteras</p><p><strong>0</strong>manteles</p>
+  </div>
+</section>
+<section class="wrap block aperitivo" data-reveal>
+  <Photo name="vermut" alt="Vermut de grifo del Caribe" />
+  <div>
+    <p class="kicker">A la hora del aperitivo</p>
+    <h2>De grifo</h2>
+    <p>Vermut, hielo y una rodaja de naranja.</p>
+    <p class="note price">{price(340)}</p>
+  </div>
+</section>
+<section class="reserve-call block">
+  <div class="wrap">
+    <h2>Te guardamos mesa</h2>
+    <a class="action" href={url('bar-caribe/reservas/')}>Reserva mesa</a>
+  </div>
+</section>
+<script>
+  import '../scripts/home'
+</script>

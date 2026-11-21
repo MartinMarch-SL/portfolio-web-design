@@ -12,6 +12,10 @@ const pages = {
   producto: 'ruido/producto/bloc-380/',
   checkout: 'ruido/checkout/',
   creditos: 'ruido/creditos/',
+  caribe: 'bar-caribe/',
+  carta: 'bar-caribe/carta/',
+  reservas: 'bar-caribe/reservas/',
+  casa: 'bar-caribe/casa/',
 }
 
 for (const [width, height] of viewports) {
@@ -44,7 +48,7 @@ for (const [width, height] of viewports) {
               smallText.push(`${label}: ${style.fontSize}`)
             }
 
-            const clippingWindow = element.parentElement?.closest('[data-section="ticker"], [data-rail-active] [data-rail-window], [data-gallery-track]')
+            const clippingWindow = element.parentElement?.closest('[data-section="ticker"], [data-rail-active] [data-rail-window], [data-gallery-track], [data-vitrina-track]')
             const clips = clippingWindow &&
               ['clip', 'hidden', 'auto'].includes(getComputedStyle(clippingWindow).overflowX)
             const outOfBounds = (rect: DOMRect) => rect.width > 0 && (rect.left < -.5 || rect.right > innerWidth + .5)

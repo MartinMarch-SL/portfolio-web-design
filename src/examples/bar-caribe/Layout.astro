@@ -1,0 +1,37 @@
+---
+import '@fontsource-variable/bricolage-grotesque/wdth.css'
+import '@fontsource/instrument-sans/400.css'
+import '@fontsource/instrument-sans/600.css'
+import '@fontsource/caveat/600.css'
+import './styles/tokens.css'
+import './styles/base.css'
+import { url } from '../../lib/url'
+const { title = 'Bar Caribe · Lavapiés' } = Astro.props
+const links = [['', 'Inicio'], ['carta/', 'Carta'], ['reservas/', 'Reservas'], ['casa/', 'La casa']]
+---
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>{title}</title>
+  </head>
+  <body style={`--grain: url("${url('examples/bar-caribe/img/grain.png')}")`}>
+    <header class="masthead">
+      <a class="brand" href={url('bar-caribe/')}>Bar Caribe</a>
+      <nav aria-label="Principal">
+        {links.map(([path, text]) => <a href={url('bar-caribe/' + path)} aria-current={Astro.url.pathname === url('bar-caribe/' + path) ? 'page' : undefined}>{text}</a>)}
+      </nav>
+    </header>
+    <main><slot /></main>
+    <footer class="napkin">
+      <div class="frieze" aria-hidden="true"></div>
+      <p>Gracias por su visita</p>
+      <a href={url('')}>Volver al catálogo</a>
+    </footer>
+  </body>
+</html>
+<script>
+  import './scripts/motion'
+</script>
