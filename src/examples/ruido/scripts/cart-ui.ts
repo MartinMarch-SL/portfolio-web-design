@@ -1,5 +1,5 @@
 import { animate } from 'motion'
-import { url } from '../../../lib/url'
+import { responsiveImage } from '../../../lib/responsive-image'
 import { products, getProduct } from '../data/products'
 import { freeShippingAt, loadCart, maxQty, removeItem, saveCart, setQty, subtotal } from '../lib/cart'
 import { euros } from '../lib/price'
@@ -27,7 +27,10 @@ function render() {
   lines.forEach((line, position) => {
     const product = getProduct(line.slug)!
     const row = template.content.cloneNode(true) as DocumentFragment
-    row.querySelector('img')!.src = url(product.images[0])
+    const { src, srcset } = responsiveImage(product.images[0], '64px')
+    const image = row.querySelector('img')!
+    image.srcset = srcset
+    image.src = src
     row.querySelector('[data-name]')!.textContent = product.name
     row.querySelector('[data-variant]')!.textContent = `${line.color} / ${product.sizes.length ? line.size : 'Única'}`
     row.querySelector('[data-price]')!.textContent = euros.format(product.price * line.qty)

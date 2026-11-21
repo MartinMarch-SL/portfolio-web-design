@@ -1,5 +1,5 @@
 ---
-import { url } from '../../../lib/url'
+import { responsiveImage } from '../../../lib/responsive-image'
 import type { Product } from '../data/products'
 
 const { product } = Astro.props as { product: Product }
@@ -8,7 +8,7 @@ const { product } = Astro.props as { product: Product }
   <div class="track" data-gallery-track data-lenis-prevent data-cursor="ARRASTRA" tabindex="0" aria-label="Desliza para ver las fotos">
     {product.images.map((image, index) => (
       <figure transition:name={index === 0 ? `ruido-img-${product.slug}` : undefined}>
-        <img src={url(image)} alt={`${product.name} · Vista ${index + 1}`} draggable="false" loading={index ? 'lazy' : 'eager'} />
+        <img {...responsiveImage(image, '(max-width: 768px) 92vw, 58vw')} alt={`${product.name} · Vista ${index + 1}`} draggable="false" loading={index ? 'lazy' : undefined} decoding={index ? 'async' : undefined} fetchpriority={index ? undefined : 'high'} />
       </figure>
     ))}
   </div>

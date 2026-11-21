@@ -1,6 +1,8 @@
 const projects = document.querySelector('.projects')
 projects?.classList.add('is-revealing')
-window.setTimeout(() => projects?.classList.remove('is-revealing'), 900)
+projects?.lastElementChild?.addEventListener('animationend', () => {
+  projects.classList.remove('is-revealing')
+}, { once: true })
 
 const clock = document.querySelector<HTMLTimeElement>('[data-madrid-clock]')
 const madridTime = new Intl.DateTimeFormat('es-ES', {

@@ -7,7 +7,7 @@ import './styles/base.css'
 import Header from './components/Header.astro'
 import Footer from './components/Footer.astro'
 import CartDrawer from './components/CartDrawer.astro'
-import Grain from './components/Grain.astro'
+import { url } from '../../lib/url'
 
 const { title = 'RUIDO · Fet a Barcelona' } = Astro.props
 ---
@@ -20,13 +20,11 @@ const { title = 'RUIDO · Fet a Barcelona' } = Astro.props
     <title>{title}</title>
     <ClientRouter />
   </head>
-  <body>
+  <body style={`--grain-image: url("${url('examples/ruido/img/grain.png')}")`}>
     <Header />
     <slot />
     <Footer />
     <CartDrawer />
-    <Grain />
-    <div class="ruido-cursor" data-ruido-cursor aria-hidden="true"></div>
   </body>
 </html>
 <script>

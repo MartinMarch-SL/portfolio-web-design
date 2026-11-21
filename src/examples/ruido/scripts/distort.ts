@@ -130,14 +130,6 @@ function mount(element: HTMLElement, image: HTMLImageElement, ogl: OGL) {
     previous = { x, y, time: event.timeStamp }
     if (!frame) frame = requestAnimationFrame(settle)
   }, { signal })
-  element.addEventListener('pointerleave', () => {
-    previous = undefined
-    // Keep the image as the idle presentation, avoiding an extra composited surface.
-    canvas.style.visibility = 'hidden'
-  }, { signal })
-  element.addEventListener('pointerenter', event => {
-    if (event.pointerType !== 'touch') canvas.style.visibility = ''
-  }, { signal })
   measure()
   element.append(canvas)
   return dispose
@@ -149,42 +141,44 @@ function update() {
   if (!canHover() || prefersReducedMotion()) return
   const elements = document.querySelectorAll<HTMLElement>('[data-distort-image]')
   if (!elements.length) return
-  const states = new Map<HTMLElement, { listeners: AbortController; dispose?: Cleanup }>()
-  const observer = new IntersectionObserver(entries => {
-    for (const entry of entries) {
-      const element = entry.target as HTMLElement
-      const old = states.get(element)
-      if (!entry.isIntersecting) {
-        old?.listeners.abort()
-        old?.dispose?.()
-        states.delete(element)
-        continue
+  const listeners = new AbortController()
+  const { signal } = listeners
+  let hovered: HTMLElement | undefined
+  let visit = 0
+  let dispose: Cleanup | undefined
+
+  function clear() {
+    hovered = undefined
+    visit++
+    dispose?.()
+    dispose = undefined
+  }
+
+  for (const element of elements) {
+    element.addEventListener('pointerenter', async event => {
+      if (event.pointerType === 'touch') return
+      clear()
+      hovered = element
+      const currentVisit = visit
+      const image = element.parentElement?.querySelector<HTMLImageElement>('[data-distort-hover-source]')
+        ?? element.querySelector('img')!
+      try {
+        const [ogl] = await Promise.all([import('ogl'), image.decode()])
+        if (signal.aborted || currentVisit !== visit || !element.matches(':hover')) return
+        dispose = mount(element, image, ogl)
+      } catch {
+        // The underlying image handles unsupported graphics, context loss and decode failures.
       }
-      if (old) continue
-      const listeners = new AbortController()
-      const { signal } = listeners
-      const state: { listeners: AbortController; dispose?: Cleanup } = { listeners }
-      states.set(element, state)
-      element.addEventListener('pointerenter', async event => {
-        if (event.pointerType === 'touch' || state.dispose) return
-        const image = element.querySelector('img')!
-        try {
-          const [ogl] = await Promise.all([import('ogl'), image.decode()])
-          if (signal.aborted || state.dispose || !element.matches(':hover')) return
-          state.dispose = mount(element, image, ogl)
-        } catch {
-          // The underlying image handles unsupported graphics, context loss and decode failures.
-        }
-      }, { signal })
-    }
-  })
-  elements.forEach(element => observer.observe(element))
+    }, { signal })
+    element.addEventListener('pointerleave', () => {
+      if (hovered === element) clear()
+    }, { signal })
+  }
+
+  window.addEventListener('blur', clear, { signal })
   teardown = () => {
-    observer.disconnect()
-    for (const state of states.values()) {
-      state.listeners.abort()
-      state.dispose?.()
-    }
+    listeners.abort()
+    clear()
   }
 }
 

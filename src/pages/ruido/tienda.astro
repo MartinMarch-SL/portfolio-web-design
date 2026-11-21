@@ -14,8 +14,8 @@ import { sortProducts } from '../../examples/ruido/lib/filter'
     <Filters />
     <p data-shop-empty hidden>No hay piezas con estos filtros.</p>
     <ul data-shop-grid>
-      {sortProducts(products, 'nuevo').map(product => (
-        <li data-slug={product.slug} data-category={product.category}><ProductCard product={product} /></li>
+      {sortProducts(products, 'nuevo').map((product, index) => (
+        <li data-slug={product.slug} data-category={product.category}><ProductCard product={product} priority={index === 0} /></li>
       ))}
     </ul>
   </main>

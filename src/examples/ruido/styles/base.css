@@ -30,21 +30,15 @@
 .ruido-footer { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 1rem; padding: 1.4rem var(--gutter); border-top: 1px solid var(--hairline); font: .6875rem/1.5 var(--mono); text-transform: uppercase; }
 .ruido-footer p { margin: 0; display: flex; align-items: baseline; gap: 1rem; }
 
-.ruido-grain {
+.ruido body::after {
+  content: '';
   position: fixed;
   z-index: 20;
-  inset: -5px;
-  width: calc(100% + 10px);
-  height: calc(100% + 10px);
+  inset: 0;
+  background: var(--grain-image) repeat;
   pointer-events: none;
   opacity: .07;
-  animation: ruido-grain .55s steps(1, end) infinite;
-}
-@keyframes ruido-grain {
-  20% { transform: translate(3px, -2px); }
-  40% { transform: translate(-2px, 3px); }
-  60% { transform: translate(2px, 3px); }
-  80% { transform: translate(-3px, -2px); }
+  transform: translateZ(0);
 }
 
 .ruido-cursor { display: none; }
@@ -58,18 +52,19 @@
     display: grid;
     place-items: center;
     pointer-events: none;
-    mix-blend-mode: difference;
+    will-change: transform;
     opacity: 0;
     visibility: hidden;
   }
   .ruido-cursor.is-visible { opacity: 1; visibility: visible; }
   .ruido-cursor::before, .ruido-cursor::after { grid-area: 1 / 1; }
-  .ruido-cursor::before { content: ''; width: 10px; height: 10px; border-radius: 50%; background: var(--signal); transition: scale .22s var(--ease), opacity .15s; }
+  .ruido-cursor::before { content: ''; width: 10px; height: 10px; border-radius: 50%; background: var(--signal); border: 1px solid var(--asphalt); transition: scale .22s var(--ease), opacity .15s; }
   .ruido-cursor::after {
     content: attr(data-label);
     padding: .55rem .8rem;
     border-radius: 100vw;
     background: var(--signal);
+    border: 1px solid var(--asphalt);
     color: var(--asphalt);
     font: .6875rem/1 var(--mono);
     letter-spacing: .08em;
@@ -83,6 +78,5 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ruido-grain { animation: none; }
   .ruido::view-transition-group(*), .ruido::view-transition-old(*), .ruido::view-transition-new(*) { animation: none !important; }
 }

@@ -1,5 +1,6 @@
 ---
-import { url } from '../../../lib/url'
+import { responsiveImage } from '../../../lib/responsive-image'
+const wideSizes = ['58vw', '33vw', '83vw', '33vw', '50vw', '83vw']
 const looks = [
   ['01', 'Chaqueta Taller / Pantalón Sants', 22],
   ['02', 'Camiseta Entrevías / Gorra Dársena', -16],
@@ -12,9 +13,9 @@ const looks = [
 <section data-section="lookbook" id="lookbook" aria-labelledby="lookbook-title">
   <div class="heading"><div class="section-line"><p>Serie 04</p><p>Barcelona / 2026</p></div><h2 id="lookbook-title">Lookbook.</h2></div>
   <div class="looks">
-    {looks.map(([number, pieces, speed]) => (
+    {looks.map(([number, pieces, speed], index) => (
       <figure>
-        <div class="frame"><img data-parallax={speed} src={url(`examples/ruido/img/look-${number}.webp`)} alt={pieces} loading="lazy" decoding="async" /></div>
+        <div class="frame"><img data-parallax={speed} {...responsiveImage(`examples/ruido/img/look-${number}.webp`, `(max-width: 600px) 92vw, ${wideSizes[index]}`)} alt={pieces} loading="lazy" decoding="async" /></div>
         <figcaption>Look {number} — {pieces}</figcaption>
       </figure>
     ))}
@@ -32,7 +33,7 @@ const looks = [
   figure:nth-child(5) { grid-column: 7 / 13; }
   figure:nth-child(6) { grid-column: 1 / 11; --ratio: 16 / 10; }
   .frame { overflow: hidden; aspect-ratio: var(--ratio, 4 / 5); background: var(--asphalt); }
-  img { width: 100%; height: 100%; object-fit: cover; transform: translateY(var(--photo-y, 0px)) scale(var(--photo-scale, 1)); }
+  img { width: 100%; height: 100%; object-fit: cover; }
   figcaption { padding: .6rem var(--gutter) 0; font: .6875rem/1.5 var(--mono); text-transform: uppercase; }
   @media (max-width: 600px) {
     figure { grid-column: 1 / 12; }

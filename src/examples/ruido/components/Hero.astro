@@ -1,5 +1,5 @@
 ---
-import { url } from '../../../lib/url'
+import { responsiveImage } from '../../../lib/responsive-image'
 ---
 <section data-section="hero" class="hero" aria-labelledby="hero-title">
   <div class="plate">
@@ -7,18 +7,18 @@ import { url } from '../../../lib/url'
     <h1 id="hero-title"><span data-wordmark>RUIDO</span></h1>
     <div class="meta bottom"><span>41.36°N 2.10°E</span><span>Drop 04 — Viernes 18:00</span></div>
   </div>
-  <figure data-campaign>
-    <img src={url('examples/ruido/img/campaign-01.webp')} alt="Campaña de la serie 04 de RUIDO" width="1600" height="1000" fetchpriority="high" />
+  <figure>
+    <img data-campaign {...responsiveImage('examples/ruido/img/campaign-01.webp', '100vw', 1600)} alt="Campaña de la serie 04 de RUIDO" width="1600" height="1000" fetchpriority="high" />
   </figure>
 </section>
 <style>
   .hero { overflow: clip; }
   .plate { position: relative; display: grid; padding-block: clamp(2.75rem, 6vw, 6rem); }
-  h1 { margin: 0; display: flex; justify-content: center; min-width: 0; text-align: center; color: var(--signal); font: 900 27vw/.8 var(--display); --width: 125; font-variation-settings: 'wdth' var(--width); letter-spacing: var(--tracking, -.05em); white-space: nowrap; }
-  h1 span { display: flex; flex: none; transform: translate(calc(-.85vw * var(--ink-shift, 0)), var(--rise, 0px)) scaleX(var(--fit, 1)); }
+  h1 { margin: 0; display: flex; justify-content: center; min-width: 0; text-align: center; color: var(--signal); font: 900 27vw/.8 var(--display); font-variation-settings: 'wdth' 62; letter-spacing: -.06em; white-space: nowrap; }
+  h1 span { display: flex; flex: none; transform-origin: top; will-change: transform; }
   .meta { position: absolute; z-index: 1; inset-inline: var(--gutter); display: flex; justify-content: space-between; gap: .6rem; color: var(--concrete); font: clamp(.55rem, 1vw, .75rem)/1.4 var(--mono); text-transform: uppercase; }
   .top { top: 1rem; }
   .bottom { bottom: 1rem; }
-  figure { margin: 0; background: var(--concrete); clip-path: inset(var(--mask-top, 0%) 0 var(--mask-bottom, 0%) 0); }
-  figure img { width: 100%; height: clamp(19rem, 61vw, 85svh); object-fit: cover; }
+  figure { margin: 0; overflow: hidden; }
+  figure img { width: 100%; height: clamp(19rem, 61vw, 85svh); object-fit: cover; will-change: transform; }
 </style>

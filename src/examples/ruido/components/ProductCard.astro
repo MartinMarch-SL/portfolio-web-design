@@ -1,5 +1,6 @@
 ---
 import { url } from '../../../lib/url'
+import { responsiveImage } from '../../../lib/responsive-image'
 import type { Product } from '../data/products'
 import { euros } from '../lib/price'
 import DistortImage from './DistortImage.astro'
@@ -8,15 +9,19 @@ interface Props {
   product: Product
   index?: number
   total?: number
+  priority?: boolean
 }
-const { product, index, total } = Astro.props
+const { product, index, total, priority } = Astro.props
+const sizes = index === undefined
+  ? '(max-width: 768px) 46vw, 30vw'
+  : '(max-width: 768px) 92vw, clamp(240px, 31vw, 512px)'
 const soldOut = product.sizes.length > 0 && product.sizes.every(size => product.soldOut.includes(size))
 ---
 <article class="product-card">
   <a href={url(`ruido/producto/${product.slug}/`)} data-cursor="VER">
     <div class="card-image" transition:name={`ruido-img-${product.slug}`}>
-      <DistortImage src={product.images[0]} alt="" />
-      {index === undefined && product.images[1] && <img class="alternate" src={url(product.images[1])} alt="" loading="lazy" decoding="async" />}
+      <DistortImage src={product.images[0]} alt="" sizes={sizes} priority={priority} />
+      {index === undefined && product.images[1] && <img class="alternate" data-distort-hover-source {...responsiveImage(product.images[1], sizes)} alt="" loading="lazy" decoding="async" />}
     </div>
     <div class:list={['details', { numbered: index !== undefined }]}>
       {index !== undefined && <span>{String(index).padStart(2, '0')}/{String(total).padStart(2, '0')}</span>}
@@ -29,6 +34,7 @@ const soldOut = product.sizes.length > 0 && product.sizes.every(size => product.
 <style>
   a { display: block; }
   .card-image { position: relative; }
+  .card-image :global(canvas) { z-index: 1; }
   .alternate { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; visibility: hidden; pointer-events: none; }
   @media (hover: hover) and (pointer: fine) {
     .card-image:hover .alternate { opacity: 1; visibility: visible; }

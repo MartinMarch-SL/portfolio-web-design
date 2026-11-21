@@ -1,45 +1,42 @@
 import { animate, scroll } from 'motion'
-import { canHover, onMotionPreferencesChange, prefersReducedMotion } from './motion-prefs'
+import { onMotionPreferencesChange, prefersReducedMotion } from './motion-prefs'
 import { scrollVelocity } from './smooth-scroll'
-import { fitWordmark } from './wordmark'
 
 type Cleanup = () => void
 let cleanup: Cleanup | undefined
 const desktop = matchMedia('(min-width: 769px)')
 const clamp = (value: number) => Math.max(0, Math.min(1, value))
 
-function hero(section: HTMLElement, reduced: boolean, signal: AbortSignal): Cleanup {
+function hero(section: HTMLElement, reduced: boolean): Cleanup {
   const word = section.querySelector<HTMLElement>('[data-wordmark]')!
   const title = word.parentElement!
   const campaign = section.querySelector<HTMLElement>('[data-campaign]')!
   let progress = 0
-  let pointer = 0
+  let fit = 1
   function render() {
-    title.style.setProperty('--width', String(125 - 63 * progress))
-    title.style.setProperty('--tracking', `${-.035 - .025 * progress + pointer * .006}em`)
-    word.style.setProperty('--ink-shift', String(1 - progress))
-    word.style.setProperty('--rise', `${-word.offsetHeight * .22 * progress}px`)
-    fitWordmark(word, 1.03 - .31 * progress)
-    campaign.style.setProperty('--mask-top', `${reduced ? 0 : 17 * (1 - progress)}%`)
-    campaign.style.setProperty('--mask-bottom', `${reduced ? 0 : 79 * (1 - progress)}%`)
+    word.style.transform = `translateY(${-18 * progress}%) scale(${fit * (1 - .28 * progress)}, ${1 - .12 * progress})`
+    word.style.opacity = String(1 - .22 * progress)
+    campaign.style.transform = `translateY(${65 * (1 - progress)}%)`
   }
-  const observer = new ResizeObserver(render)
+  function measure() {
+    fit = title.clientWidth / (word.offsetWidth || title.clientWidth || 1)
+    if (reduced) word.style.transform = `scaleX(${fit})`
+    else render()
+  }
+  const observer = new ResizeObserver(measure)
   observer.observe(title)
-  document.fonts.ready.then(() => { if (!signal.aborted) render() })
+  observer.observe(word)
   const stop = reduced ? undefined : scroll(value => {
     progress = value
     render()
   }, { target: section, offset: ['start 52px', 'start -260px'] })
-  if (!reduced && canHover()) {
-    section.addEventListener('pointermove', event => {
-      if (event.pointerType === 'touch') return
-      pointer = (event.clientX / section.clientWidth - .5) * 2
-      render()
-    }, { signal })
-    section.addEventListener('pointerleave', () => { pointer = 0; render() }, { signal })
+  measure()
+  return () => {
+    observer.disconnect()
+    stop?.()
+    word.removeAttribute('style')
+    campaign.removeAttribute('style')
   }
-  render()
-  return () => { observer.disconnect(); stop?.(); title.removeAttribute('style'); word.removeAttribute('style'); campaign.removeAttribute('style') }
 }
 
 function ticker(track: HTMLElement): Cleanup {
@@ -50,6 +47,10 @@ function ticker(track: HTMLElement): Cleanup {
   let direction = 1
   let speed = 34
   let visible = false
+  const item = track.firstElementChild!
+  let cycle = item.getBoundingClientRect().width
+  const resize = new ResizeObserver(([entry]) => { cycle = entry.contentRect.width })
+  resize.observe(item)
   function render(time: number) {
     const elapsed = Math.min(40, time - lastTime) || 16
     lastTime = time
@@ -57,7 +58,6 @@ function ticker(track: HTMLElement): Cleanup {
     lastY = window.scrollY
     if (Math.abs(velocity) > .05) direction = Math.sign(velocity)
     speed += (direction * (34 + Math.min(300, Math.abs(velocity) * 9)) - speed) * .22
-    const cycle = track.children[0].getBoundingClientRect().width
     if (cycle > 0) {
       position = ((position + speed * elapsed / 1000) % cycle + cycle) % cycle
       track.style.transform = `translateX(${-position}px)`
@@ -74,7 +74,7 @@ function ticker(track: HTMLElement): Cleanup {
     }
   })
   observer.observe(track.parentElement!)
-  return () => { observer.disconnect(); cancelAnimationFrame(frame); track.style.removeProperty('transform') }
+  return () => { observer.disconnect(); resize.disconnect(); cancelAnimationFrame(frame); track.style.removeProperty('transform') }
 }
 
 function rail(section: HTMLElement): Cleanup {
@@ -103,9 +103,15 @@ function rail(section: HTMLElement): Cleanup {
 
 function manifesto(section: HTMLElement): Cleanup {
   const words = Array.from(section.querySelectorAll<HTMLElement>('[data-word]'))
+  const applied = words.map(() => 1)
+  // Motion batches scroll callbacks in its animation frame.
   const stop = scroll(progress => {
+    const position = progress * (words.length + 3)
     words.forEach((word, index) => {
-      word.style.opacity = String(.15 + .85 * clamp((progress * (words.length + 3) - index) / 3))
+      const opacity = .15 + .85 * clamp((position - index) / 3)
+      if (Math.abs(opacity - applied[index]) <= .02) return
+      word.style.opacity = String(opacity)
+      applied[index] = opacity
     })
   }, { target: section, offset: ['start 85%', 'end 65%'] })
   return () => { stop(); words.forEach(word => word.style.removeProperty('opacity')) }
@@ -114,9 +120,8 @@ function manifesto(section: HTMLElement): Cleanup {
 function lookbook(section: HTMLElement): Cleanup {
   const restores = Array.from(section.querySelectorAll<HTMLElement>('[data-parallax]'), photo => {
     const speed = Number(photo.dataset.parallax)
-    photo.style.setProperty('--photo-scale', '1.15')
     const stop = scroll(progress => {
-      photo.style.setProperty('--photo-y', `${(progress - .5) * speed}px`)
+      photo.style.transform = `translateY(${(progress - .5) * speed}px) scale(1.15)`
     }, { target: photo.closest('figure')!, offset: ['start end', 'end start'] })
     return () => { stop(); photo.removeAttribute('style') }
   })
@@ -158,7 +163,7 @@ function update() {
   }, { signal })
 
   const reduced = prefersReducedMotion()
-  const restores = [hero(find('[data-section="hero"]'), reduced, signal)]
+  const restores = [hero(find('[data-section="hero"]'), reduced)]
   if (!reduced) {
     restores.push(ticker(find('[data-ticker-track]')), manifesto(find('[data-section="manifesto"]')),
       lookbook(find('[data-section="lookbook"]')), workshop(find('[data-workshop-stats]')))

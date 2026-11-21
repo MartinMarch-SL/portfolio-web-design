@@ -1,15 +1,17 @@
 ---
-import { url } from '../../../lib/url'
+import { responsiveImage } from '../../../lib/responsive-image'
 
 interface Props {
   src: string
   alt: string
   class?: string
+  sizes: string
+  priority?: boolean
 }
-const { src, alt, class: className } = Astro.props
+const { src, alt, sizes, priority, class: className } = Astro.props
 ---
 <div class:list={['distort-image', className]} data-distort-image>
-  <img src={url(src)} alt={alt} loading="lazy" decoding="async" />
+  <img {...responsiveImage(src, sizes)} alt={alt} loading={priority ? undefined : 'lazy'} decoding={priority ? undefined : 'async'} fetchpriority={priority ? 'high' : undefined} />
 </div>
 <style>
   .distort-image { position: relative; overflow: hidden; aspect-ratio: 4 / 5; background: var(--concrete); }

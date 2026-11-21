@@ -4,14 +4,17 @@ let cleanup: (() => void) | undefined
 
 function update() {
   cleanup?.()
-  const cursor = document.querySelector<HTMLElement>('[data-ruido-cursor]')
-  if (!cursor || !canHover() || prefersReducedMotion()) return
+  if (!document.documentElement.classList.contains('ruido') || !canHover() || prefersReducedMotion()) return
+  const cursor = document.createElement('div')
+  cursor.className = 'ruido-cursor'
+  cursor.setAttribute('aria-hidden', 'true')
+  document.body.append(cursor)
 
   const root = document.documentElement
   const listeners = new AbortController()
   const { signal } = listeners
   function hide() {
-    cursor?.classList.remove('is-visible')
+    cursor.classList.remove('is-visible')
     root.classList.remove('has-cursor')
   }
 
@@ -22,9 +25,11 @@ function update() {
       return
     }
     const label = target.closest<HTMLElement>('[data-cursor]')?.dataset.cursor
-    if (label) cursor.dataset.label = label
-    else delete cursor.dataset.label
-    cursor.style.translate = `calc(${event.clientX}px - 50%) calc(${event.clientY}px - 50%)`
+    if (label !== cursor.dataset.label) {
+      if (label) cursor.dataset.label = label
+      else delete cursor.dataset.label
+    }
+    cursor.style.transform = `translate3d(calc(${event.clientX}px - 50%), calc(${event.clientY}px - 50%), 0)`
     root.classList.add('has-cursor')
     cursor.classList.add('is-visible')
   }, { signal })
@@ -37,6 +42,7 @@ function update() {
   cleanup = () => {
     listeners.abort()
     hide()
+    cursor.remove()
     cleanup = undefined
   }
 }

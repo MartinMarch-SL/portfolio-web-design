@@ -1,11 +1,11 @@
 ---
-import { url } from '../../../lib/url'
+import { responsiveImage } from '../../../lib/responsive-image'
 ---
 <section data-section="workshop" class="workshop" aria-labelledby="workshop-title">
   <div class="section-line"><h2 id="workshop-title">En el taller</h2><p>L’Hospitalet de Llobregat</p></div>
   <div class="photos">
-    <figure><img src={url('examples/ruido/img/workshop-01.webp')} alt="Mesa de trabajo del taller" loading="lazy" /><figcaption>01 / Corte</figcaption></figure>
-    <figure><img src={url('examples/ruido/img/workshop-02.webp')} alt="Puesto de confección del taller" loading="lazy" /><figcaption>02 / Confección</figcaption></figure>
+    <figure><img {...responsiveImage('examples/ruido/img/workshop-01.webp', '58vw', 1600)} alt="Mesa de trabajo del taller" loading="lazy" decoding="async" /><figcaption>01 / Corte</figcaption></figure>
+    <figure><img {...responsiveImage('examples/ruido/img/workshop-02.webp', '34vw')} alt="Puesto de confección del taller" loading="lazy" decoding="async" /><figcaption>02 / Confección</figcaption></figure>
   </div>
   <dl data-workshop-stats>
     <div><dt>Talleres</dt><dd data-count="3">3</dd></div>
