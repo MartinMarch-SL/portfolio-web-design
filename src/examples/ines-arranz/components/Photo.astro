@@ -6,9 +6,10 @@ interface Props {
   height?: number
   sizes?: string
   eager?: boolean
+  alt?: string
 }
-const { name, width = 1080, height = 1350, sizes = '(max-width: 720px) 100vw, 50vw', eager = false } = Astro.props
+const { name, width = 1080, height = 1350, sizes = '(max-width: 720px) 100vw, 50vw', eager = false, alt = '' } = Astro.props
 ---
 <div class="photo" data-reveal-image>
-  <img {...responsiveImage(`examples/ines-arranz/img/${name}.webp`, sizes, width)} alt="" {width} {height} loading={eager ? 'eager' : 'lazy'} decoding="async" />
+  <img {...responsiveImage(`examples/ines-arranz/img/${name}.webp`, sizes, width)} {alt} {width} {height} loading={eager ? 'eager' : 'lazy'} decoding="async" />
 </div>

@@ -4,10 +4,12 @@ const { visit = false } = Astro.props
 <form class="contact-form" data-contact data-visit={visit || undefined}>
   <label>Nombre<input name="nombre" autocomplete="name" required /></label>
   <label>Correo electrónico<input name="correo" type="email" autocomplete="email" required /></label>
-  {visit ? <label>Franja para la visita<select name="franja" required>
-    <option value="">Elige una franja</option><option>Martes · 10:00–12:00</option><option>Jueves · 16:00–18:00</option><option>Sábado · 10:00–12:00</option>
-  </select></label> : <label>Mensaje <span>(opcional)</span><textarea name="mensaje" rows="3"></textarea></label>}
-  <button class="button">{visit ? 'Solicitar visita' : 'Pedir una valoración personalizada'} ↗</button>
+  {visit ? <fieldset class="slots"><legend>Franja para la visita</legend>
+    {['Martes · 10:00–12:00', 'Jueves · 16:00–18:00', 'Sábado · 10:00–12:00'].map(slot =>
+      <label><input type="radio" name="franja" value={slot} required /><span>{slot}</span></label>
+    )}
+  </fieldset> : <label>Mensaje <span>(opcional)</span><textarea name="mensaje" rows="3"></textarea></label>}
+  <button class="button">{visit ? 'Solicitar visita' : 'Pedir una valoración personalizada'}</button>
   <p class="note">Formulario de demostración. Los datos se quedan en esta página.</p>
   <p role="status" data-contact-status></p>
 </form>

@@ -6,7 +6,7 @@ import Contact from './Contact.astro'
 import Photo from './Photo.astro'
 ---
 <Layout title="Vender">
-  <section class="section page-intro"><p class="kicker">Vende con Marès</p><h1>¿Cuánto vale <em>tu casa?</em></h1><p>Estima el precio de venta de tu vivienda en tres pasos.</p></section>
+  <section class="section page-intro"><p class="kicker">Vende con Marès</p><h1>¿Cuánto vale tu casa?</h1><p>Estima el precio de venta de tu vivienda en tres pasos.</p></section>
   <section class="section split">
     <div class="valuation-panel">
       <form data-valuation>
@@ -24,15 +24,15 @@ import Photo from './Photo.astro'
           <label>Estado<select name="estado"><option value="reformar">Para reformar</option><option value="bueno" selected>Buen estado</option><option value="reformado">Reformada</option></select></label>
           <div class="extras">{(Object.keys(valuationExtras) as (keyof typeof valuationExtras)[]).map(key => <label><input name="extra" type="checkbox" value={key} /> {features[key]}</label>)}</div>
         </fieldset>
-        <div class="step-nav"><button type="button" class="text-button" data-back hidden>← Atrás</button><button class="button" data-step-next>Continuar →</button></div>
+        <div class="step-nav"><button type="button" class="text-button" data-back hidden>Atrás</button><button class="button" data-step-next>Continuar</button></div>
       </form>
       <div data-valuation-result hidden>
-        <h2>Tu <em>estimación</em></h2><output data-range aria-live="polite"></output>
+        <h2>Tu estimación</h2><output data-range aria-live="polite"></output>
         <p>Horquilla orientativa basada en el precio de referencia del barrio, la superficie, el estado y los extras.</p>
         <button type="button" class="text-button" data-edit>Editar los datos</button>
         <h3>Hablemos de tu vivienda</h3><Contact />
       </div>
     </div>
-    <Photo path="examples/mares/img/palma-02.webp" width={1080} height={1350} reveal />
+    <Photo path="examples/mares/img/prop-03-c.webp" width={1080} height={1350} reveal />
   </section>
 </Layout>

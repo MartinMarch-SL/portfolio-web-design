@@ -106,46 +106,6 @@ export function initListings(root: HTMLElement, { signal, reduce }: Scope) {
   syncLayout()
 }
 
-export function initMap(root: HTMLElement, { signal, reduce }: Scope) {
-  const points = [...root.querySelectorAll<SVGAElement>('[data-area]')]
-  const stats = [...root.querySelectorAll<HTMLAnchorElement>('[data-stat]')]
-  let selected = stats.find(stat => stat.classList.contains('active'))?.dataset.stat
-  let selectedBeforeTouch: string | undefined
-  let effect: ReturnType<typeof animate> | undefined
-  signal.addEventListener('abort', () => effect?.cancel(), { once: true })
-  function select(area: string) {
-    if (area === selected) return
-    selected = area
-    points.forEach(point => point.classList.toggle('active', point.dataset.area === area))
-    stats.forEach(stat => {
-      const active = stat.dataset.stat === area
-      stat.classList.toggle('active', active)
-      if (active && !reduce) {
-        effect?.cancel()
-        effect = animate(stat, { opacity: [.9, 1] }, { duration: .35 })
-      }
-    })
-  }
-  points.forEach(point => {
-    const activate = () => select(point.dataset.area!)
-    point.addEventListener('focus', activate, { signal })
-    point.addEventListener('pointerdown', event => {
-      if (event.pointerType === 'touch') selectedBeforeTouch = selected
-    }, { signal })
-    point.addEventListener('pointerenter', event => { if (event.pointerType === 'mouse') activate() }, { signal })
-    point.addEventListener('click', event => {
-      if (event instanceof PointerEvent && event.pointerType === 'touch' && selectedBeforeTouch !== point.dataset.area) {
-        event.preventDefault()
-        activate()
-      }
-    }, { signal })
-  })
-  stats.forEach(stat => {
-    stat.addEventListener('focus', () => select(stat.dataset.stat!), { signal })
-    stat.addEventListener('pointerenter', event => { if (event.pointerType === 'mouse') select(stat.dataset.stat!) }, { signal })
-  })
-}
-
 export function initGallery(root: HTMLElement, { signal }: Scope) {
   const dialog = root.querySelector('dialog')!
   const frames = [...root.querySelectorAll<HTMLButtonElement>('[data-frame]')]
@@ -219,7 +179,7 @@ export function initValuation(form: HTMLFormElement, { signal }: Scope) {
     current = index
     steps.forEach((step, i) => { step.hidden = step.disabled = i !== index })
     back.hidden = index === 0
-    next.textContent = index === 2 ? 'Calcular valoración ↗' : 'Continuar →'
+    next.textContent = index === 2 ? 'Calcular valoración' : 'Continuar'
     stepCount.textContent = `Paso ${index + 1} de 3`
     steps[index].querySelector<HTMLElement>('select, input')?.focus()
   }

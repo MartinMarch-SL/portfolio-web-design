@@ -6,4 +6,4 @@ bar-caribe-preview.webp — Photo by Nacho Carretero Molero (https://unsplash.co
 
 ines-arranz-preview.webp — Photo by Croissant (https://unsplash.com/@getcroissant) on Unsplash (https://unsplash.com/photos/assorted-green-leafed-plants-fSuVFIDJwX4)
 
-mares-preview.webp — Photo by David Vives (https://unsplash.com/@davidvives) on Unsplash (https://unsplash.com/photos/brown-concrete-building-near-body-of-water-under-blue-sky-during-daytime-B9-aMfw4gwI)
+mares-preview.webp — Photo by Tim Schmidbauer (https://unsplash.com/@timschmidbauer) on Unsplash (https://unsplash.com/photos/luxury-modern-home-overlooks-the-ocean-dtTlZ4DwjgA)

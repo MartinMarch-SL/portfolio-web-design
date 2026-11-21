@@ -11,7 +11,7 @@ Son las once de la noche y mañana tienes una reunión. Ya has preparado lo que 
 
 ## Preparar algo tiene un final
 
-La preocupación anticipatoria suele empezar con una intención comprensible: protegerte de algo que podría doler. A veces esa intención se traduce en una acción concreta. Puedes preparar tres ideas para la reunión, comprobar la hora o pedir a alguien que te explique un punto de la agenda. Cuando terminas, queda una parte imprevisible, pero sabes qué has hecho.
+La preocupación anticipatoria suele empezar con una intención comprensible: protegerte de algo que podría doler. A veces esa intención se traduce en una acción concreta. Puedes preparar tres ideas para la reunión, comprobar la hora o pedir a alguien que te explique un punto de la agenda. Cuando terminas, queda una parte imprevisible, pero sabes qué has hecho. <span class="sidenote">Nota. Puedes decidir de antemano cuándo dar por terminada la preparación.</span>
 
 Otras veces seguimos repasando el asunto aunque ya no quede una decisión que tomar. Es fácil confundir ese esfuerzo con estar preparándose. Una pregunta que puede ayudarte a distinguirlos es «¿Qué acción concreta saldría de dedicarle diez minutos más?». Si encuentras una, anótala con un momento para hacerla. Si cuesta encontrarla, quizá lo que buscas es una certeza que esta noche no está disponible.
 

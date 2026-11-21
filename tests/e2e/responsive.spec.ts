@@ -58,7 +58,8 @@ for (const [width, height] of viewports) {
               smallText.push(`${label}: ${style.fontSize}`)
             }
 
-            const clippingWindow = element.parentElement?.closest('[data-section="ticker"], [data-rail-active] [data-rail-window], [data-gallery-track], [data-vitrina-track]')
+            const maresPhotoWindow = element.parentElement?.closest('[data-mares] .hero-image')
+            const clippingWindow = maresPhotoWindow ?? element.parentElement?.closest('[data-section="ticker"], [data-rail-active] [data-rail-window], [data-gallery-track], [data-vitrina-track]')
             const clips = clippingWindow &&
               ['clip', 'hidden', 'auto'].includes(getComputedStyle(clippingWindow).overflowX)
             const outOfBounds = (rect: DOMRect) => rect.width > 0 && (rect.left < -.5 || rect.right > innerWidth + .5)

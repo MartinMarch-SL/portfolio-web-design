@@ -1,8 +1,5 @@
-import { initShutters } from './shutters'
-import Lenis from 'lenis'
-import 'lenis/dist/lenis.css'
-import { animate } from 'motion'
-import { initContact, initGallery, initListings, initMap, initMortgage, initValuation } from './interactions'
+import { initCarousel, initIndex, initLivePlan, initSolar } from './dossier'
+import { initContact, initGallery, initListings, initMortgage, initValuation } from './interactions'
 
 let page: AbortController | undefined
 
@@ -17,51 +14,27 @@ function start() {
   preference.addEventListener('change', start, { signal })
 
   body.querySelectorAll<HTMLElement>('[data-listing]').forEach(root => initListings(root, scope))
-  body.querySelectorAll<HTMLElement>('[data-map]').forEach(root => initMap(root, scope))
   body.querySelectorAll<HTMLElement>('[data-gallery]').forEach(root => initGallery(root, scope))
   body.querySelectorAll<HTMLFormElement>('[data-mortgage]').forEach(form => initMortgage(form, scope))
   body.querySelectorAll<HTMLFormElement>('[data-valuation]').forEach(form => initValuation(form, scope))
   body.querySelectorAll<HTMLFormElement>('[data-contact]').forEach(form => initContact(form, scope))
+  const carousel = body.querySelector<HTMLElement>('[data-carousel]')
+  const index = body.querySelector<HTMLElement>('[data-index]')
+  const plan = body.querySelector<HTMLElement>('[data-live-plan]')
+  const solar = body.querySelector<HTMLElement>('[data-solar]')
+  if (carousel) initCarousel(carousel, scope)
+  if (index) initIndex(index, scope)
+  if (plan) initLivePlan(plan, signal)
+  if (solar) initSolar(solar, signal)
   if (scope.reduce) return
 
-  const scroller = new Lenis({ autoRaf: true, duration: 1.15, anchors: false, prevent: node => !!node.closest('dialog, select, textarea') })
-  const counters = new Set<ReturnType<typeof animate>>()
-  const ease = [.22, .72, .18, 1] as const
-  initShutters(body, signal)
-  const countersObserver = new IntersectionObserver(entries => entries.forEach(({ target, isIntersecting }) => {
+  const observer = new IntersectionObserver(entries => entries.forEach(({ target, isIntersecting }) => {
     if (!isIntersecting) return
-    countersObserver.unobserve(target)
-    const total = Number((target as HTMLElement).dataset.counter)
-    counters.add(animate(0, total, { duration: 1.2, ease, onUpdate: value => { target.textContent = String(Math.round(value)) } }))
-  }), { threshold: .18 })
-  body.querySelectorAll('[data-counter]').forEach(counter => countersObserver.observe(counter))
-  body.querySelectorAll<HTMLElement>('[data-line]').forEach((line, index) => counters.add(animate(line, {
-    transform: ['translateY(14px)', 'translateY(0px)'],
-  }, { duration: .85, delay: index * .13, ease })))
-
-  const planes = [...body.querySelectorAll<HTMLElement>('[data-parallax]')]
-  let frame = 0
-  function parallax() {
-    frame = 0
-    planes.forEach(plane => {
-      const bounds = plane.parentElement!.getBoundingClientRect()
-      if (bounds.bottom < 0 || bounds.top > innerHeight) return
-      const progress = (bounds.top + bounds.height / 2 - innerHeight / 2) / (innerHeight + bounds.height)
-      plane.style.transform = `translateY(${progress * 5}%)`
-    })
-  }
-  function schedule() { if (!frame) frame = requestAnimationFrame(parallax) }
-  window.addEventListener('scroll', schedule, { passive: true, signal })
-  window.addEventListener('resize', schedule, { signal })
-  schedule()
-  signal.addEventListener('abort', () => {
-    scroller.destroy()
-    countersObserver.disconnect()
-    counters.forEach(animation => animation.cancel())
-    cancelAnimationFrame(frame)
-    planes.forEach(plane => plane.style.removeProperty('transform'))
-    body.querySelectorAll<HTMLElement>('[data-counter]').forEach(counter => { counter.textContent = counter.dataset.counter! })
-  }, { once: true })
+    target.classList.add('in-view')
+    observer.unobserve(target)
+  }), { threshold: .12 })
+  body.querySelectorAll('[data-reveal]').forEach(photo => observer.observe(photo))
+  signal.addEventListener('abort', () => observer.disconnect(), { once: true })
 }
 
 document.addEventListener('astro:page-load', start)

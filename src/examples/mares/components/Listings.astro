@@ -7,7 +7,7 @@ import Card from './Card.astro'
 import BayMap from './BayMap.astro'
 ---
 <Layout title="Propiedades">
-  <section class="section page-intro"><p class="kicker">Venta y alquiler · Mallorca</p><h1>Las <em>propiedades</em></h1><p>Pisos, casas y villas entre el centro de Palma y la bahía.</p></section>
+  <section class="section page-intro"><p class="kicker">Venta y alquiler · Mallorca</p><h1>Las propiedades</h1><p>Pisos, casas y villas entre el centro de Palma y la bahía.</p></section>
   <section class="section listing" data-listing aria-label="Listado de propiedades">
     <button class="button" type="button" data-filter-open aria-haspopup="dialog" aria-controls="listing-filters" hidden><span>Filtros (<span data-filter-count>0</span>)</span></button>
     <div data-filter-inline><Filters /></div>
@@ -25,8 +25,8 @@ import BayMap from './BayMap.astro'
       </div>
     </div>
     <div class="card-grid" data-results>{properties.map(property => <Card {property} />)}</div>
-    <div class="dark map-results" data-map-results hidden>
-      <BayMap listing />
+    <div class="map-results" data-map-results hidden>
+      <BayMap />
       <ul class="pin-links">{properties.map(property => <li data-pin={property.slug}><a href={url(propertyPath(property))}>{property.name}</a></li>)}</ul>
     </div>
     <p data-empty hidden>No hay viviendas con estos filtros. Prueba a ampliar el precio o cambiar de barrio.</p>

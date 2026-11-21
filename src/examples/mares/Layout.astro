@@ -2,9 +2,8 @@
 import { ClientRouter } from 'astro:transitions'
 import PortfolioIcons from '../../lib/PortfolioIcons.astro'
 import { url } from '../../lib/url'
-import '@fontsource/instrument-serif/400.css'
-import '@fontsource/instrument-serif/400-italic.css'
 import '@fontsource-variable/geist'
+import '@fontsource/geist-mono/400.css'
 import './styles/base.css'
 
 const { title, description = 'Viviendas con carácter en Palma de Mallorca. Venta, alquiler y valoraciones.' } = Astro.props
@@ -16,7 +15,7 @@ const links = [['propiedades/', 'Propiedades'], ['vender/', 'Vender'], ['estudio
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex, nofollow" />
-    <meta name="theme-color" content="#F6F2EA" />
+    <meta name="theme-color" content="#EEEAE3" />
     <meta name="description" content={description} />
     <PortfolioIcons />
     <ClientRouter />
@@ -32,10 +31,10 @@ const links = [['propiedades/', 'Propiedades'], ['vender/', 'Vender'], ['estudio
       <span class="mast-place">PALMA DE MALLORCA</span>
     </header>
     <main id="contenido"><slot /></main>
-    <footer class="footer dark">
-      <div><a class="mark" href={url('mares/')}>MARÈS<span>· PROPIETATS</span></a><p>La luz de Palma, en piedra.</p></div>
+    <footer class="footer">
+      <div><a class="mark" href={url('mares/')}>MARÈS<span>· PROPIETATS</span></a><p>Selección y venta de viviendas.</p></div>
       <address>C/ de Sant Magí 41, Santa Catalina<br />07013 Palma de Mallorca<br />API 07184 · Identificación ficticia</address>
-      <div><a href="tel:+34871010404">+34 871 010 404</a><br /><a href="mailto:hola@mares-propietats.example">hola@mares-propietats.example</a><p><a href={url('')} data-astro-reload>Volver al catálogo ↗</a></p></div>
+      <div><a href="tel:+34871010404">+34 871 010 404</a><br /><a href="mailto:hola@mares-propietats.example">hola@mares-propietats.example</a><p><a href={url('')} data-astro-reload>Volver al catálogo</a></p></div>
     </footer>
     <script>import './scripts/main'</script>
   </body>

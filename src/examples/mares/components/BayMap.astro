@@ -1,35 +1,23 @@
 ---
 import { url } from '../../../lib/url'
-import { euros, propertyPath, properties } from '../data/properties'
+import { propertyPath, properties } from '../data/properties'
 import { areaStats } from '../lib/listing'
-const { listing = false } = Astro.props
 const stats = areaStats(properties)
 ---
 <div class="bay-map" data-map>
-  <svg viewBox="0 0 780 370" role="group" aria-label={listing ? 'Mapa de viviendas en la bahía de Palma' : 'Mapa de barrios de la bahía de Palma'}>
+  <svg viewBox="0 0 780 370" role="group" aria-label="Mapa de viviendas en la bahía de Palma">
     <path class="land" d="M0 0H780V154L748 142 719 158 696 150 665 176 628 171 595 190 562 166 524 169 501 158 470 170 452 192 418 188 420 214 390 222 380 206 351 221 322 234 292 224 269 249 247 245 217 269 200 257 179 286 153 288 120 307 95 301 63 321 32 319 0 335Z" />
     <g class="roads" aria-hidden="true">
       <path d="M0 260Q160 269 230 192T428 110T780 116M0 207Q155 138 294 153T509 84T780 86M0 104Q150 65 329 122T583 118T780 120M122 0Q124 139 267 217M324 0Q300 118 412 181M542 0Q461 102 516 161M676 0Q599 103 693 150M42 0Q96 141 62 317M230 0Q219 105 187 257"/>
       <path d="M472 118h90m-94 15h74m-69 17h43m-24-54v59m28-60v65m21-70v69"/>
     </g>
     <text class="bay-label" x="454" y="288" text-anchor="middle" aria-hidden="true">Bahía de Palma</text>
-    {listing ? properties.map((property, index) => {
+    {properties.map((property, index) => {
       const point = stats.find(area => area.id === property.area)!
       return <a class="map-point" href={url(propertyPath(property))} data-pin={property.slug} aria-label={property.name}>
         <title>{property.name}</title>
         <circle cx={point.x + (index === 6 ? 25 : 0)} cy={point.y} r="11" />
       </a>
-    }) : stats.map(area =>
-      <a class="map-point" href={url('mares/propiedades/') + '?' + new URLSearchParams({ barrio: area.id })} data-area={area.id} aria-label={area.name}>
-        <title>{area.name}</title>
-        <circle cx={area.x} cy={area.y} r="10" />
-        <text x={area.x} y={area.y - 18} text-anchor="middle" aria-hidden="true">{area.name}</text>
-      </a>
-    )}
+    })}
   </svg>
-  {!listing && <div class="map-stats">
-    {stats.map((area, index) => <a data-stat={area.id} class:list={[{ active: index === 0 }]} href={url('mares/propiedades/') + '?' + new URLSearchParams({ barrio: area.id })}>
-      <span>{area.name}</span><strong>{euros(area.rate)}/m²</strong><span>{area.count} {area.count === 1 ? 'vivienda' : 'viviendas'} ↗</span>
-    </a>)}
-  </div>}
 </div>

@@ -70,21 +70,46 @@ test('los scripts se inicializan al navegar con ClientRouter y al volver', async
   await expect(page.locator('[data-count]')).toHaveText('1 vivienda')
 })
 
-test('las fotos de la selección se descubren al entrar en pantalla', async ({ page }, testInfo) => {
-  test.skip(testInfo.project.name !== 'chromium', 'La cortinilla requiere animaciones')
-  for (const width of [1440, 375]) {
-    await page.setViewportSize({ width, height: 820 })
-    await page.goto(base)
-    const photo = page.locator('.stack-card .photo').first()
-    await expect(photo).toHaveClass(/armed/)
-    await photo.scrollIntoViewIfNeeded()
-    await page.waitForTimeout(1500)
-    expect(await photo.evaluate(element => {
-      const img = element.querySelector('img')!
-      const shutter = element.querySelector('.shutter')
-      return img.complete && img.naturalWidth > 0 && (!shutter || getComputedStyle(shutter).opacity === '0')
-    })).toBe(true)
+test('la portada muestra cuatro casas y el carrusel admite teclado', async ({ page }) => {
+  await page.goto(base)
+  const carousel = page.locator('[data-carousel]')
+  await expect(carousel.locator('[data-slide] img')).toHaveCount(4)
+  for (const [index, name] of ['Villa de la Cornisa', 'Ático del Molinar', 'Finca del Olivar', 'Mirador de Bendinat'].entries()) {
+    await expect(carousel.locator('[data-slide] img').nth(index)).toHaveAttribute('alt', name)
   }
+  await expect(carousel.locator('[data-caption]:visible')).toContainText('Villa de la Cornisa')
+  await expect(carousel.locator('[data-slide][data-active] img')).toHaveJSProperty('complete', true)
+  const next = carousel.getByRole('button', { name: 'Siguiente' })
+  await next.focus()
+  await page.keyboard.press('Enter')
+  await expect(carousel.locator('[data-caption]:visible')).toContainText('Ático del Molinar')
+  await carousel.getByRole('button', { name: 'Anterior' }).click()
+  await expect(carousel.locator('[data-caption]:visible')).toContainText('Villa de la Cornisa')
+  const pause = carousel.getByRole('button', { name: /Pausar|Reanudar/ })
+  const initialAction = await pause.textContent()
+  await pause.click()
+  await expect(pause).not.toHaveText(initialAction!)
+  await expect(page.locator('[data-index-row]')).toHaveCount(8)
+})
+
+test('la planta responde al foco y el recorrido de luz al teclado', async ({ page }) => {
+  await page.clock.setFixedTime(new Date('2026-06-21T10:00:00Z'))
+  await page.goto(detail)
+  const plan = page.locator('[data-live-plan]')
+  await plan.getByRole('button', { name: 'Paso, 8 metros cuadrados' }).focus()
+  await expect(plan.locator('[data-room-info]')).toContainText('Paso / 8 m² / Fachada 0°')
+  await expect(plan.locator('[data-room-image="b"]')).toHaveAttribute('data-active', '')
+  await plan.getByRole('button', { name: /Dormitorio 02/ }).focus()
+  await expect(plan.locator('[data-room-info]')).toContainText('Dormitorio 02')
+  await expect(plan.locator('[data-room-image][data-active]')).toHaveCount(0)
+  const solar = page.locator('[data-solar]')
+  const slider = solar.getByRole('slider')
+  await expect(slider).toHaveAttribute('aria-valuetext', '10:00')
+  await expect(solar.locator('[data-orientation="90"][data-lit]')).toHaveCount(2)
+  await slider.focus()
+  await page.keyboard.press('End')
+  await expect(slider).toHaveAttribute('aria-valuetext', '21:00')
+  await expect(solar.locator('[data-orientation="270"][data-lit]')).toHaveCount(2)
 })
 
 test('los filtros móviles aplican cambios al confirmar y devuelven el foco', async ({ page }) => {

@@ -10,12 +10,13 @@ const { post } = Astro.props
 const { data } = post
 const { Content, headings } = await render(post)
 const posts = (await getPosts()).filter(other => other.id !== post.id)
-const related = [...posts.filter(other => other.data.category === data.category), ...posts.filter(other => other.data.category !== data.category)].slice(0, 3)
+const related = [...posts.filter(other => other.data.category === data.category), ...posts.filter(other => other.data.category !== data.category)].slice(0, 1)
 const date = new Intl.DateTimeFormat('es-ES', { dateStyle: 'long', timeZone: 'UTC' }).format(data.date)
 ---
 <div class="progress" data-reading-progress aria-hidden="true"></div>
 <article class="shell" data-reading>
   <header class="intro post-intro">
+    <a class="text-link" href={url('ines-arranz/blog/')}>Volver al Cuaderno</a>
     <p class="eyebrow">{data.category} · <time datetime={data.date.toISOString()}>{date}</time> · {readingTime(post.body ?? '')} min</p>
     <h1>{data.title}</h1>
     <p>{data.excerpt}</p>
@@ -26,18 +27,18 @@ const date = new Intl.DateTimeFormat('es-ES', { dateStyle: 'long', timeZone: 'UT
       <p class="eyebrow">En este artículo</p>
       <ul>{headings.filter(heading => heading.depth === 2).map(heading => <li><a href={'#' + heading.slug}>{heading.text}</a></li>)}</ul>
     </nav>
-    <div class="prose"><Content />
-      <aside class="cta niebla">
+    <div class="prose"><div class="reading-copy"><Content /></div>
+      <aside class="cta">
         <h2>¿Te has sentido identificada/o?</h2>
         <p>Podemos hablar de lo que estás viviendo en una primera llamada gratuita de 15 minutos.</p>
-        <a class="button" href={url('ines-arranz/agenda/?modalidad=llamada')}>Reserva una llamada ↗</a>
+        <a class="button" href={url('ines-arranz/agenda/?modalidad=llamada')}>Pedir una primera cita</a>
       </aside>
     </div>
   </div>
 </article>
 <section class="shell section ruled">
-  <div class="section-heading"><h2>También te puede <em>interesar.</em></h2></div>
-  <div class="post-grid">{related.map(post => <PostCard {post} />)}</div>
+  <div class="section-heading"><h2>Otro ensayo</h2></div>
+  <div class="related-essay">{related.map(post => <PostCard {post} />)}</div>
 </section>
 <script>
   import { scroll } from 'motion'

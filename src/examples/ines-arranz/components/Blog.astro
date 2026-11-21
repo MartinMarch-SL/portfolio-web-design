@@ -4,21 +4,19 @@ import { getPosts } from '../data/posts'
 import { categories } from '../lib/blog'
 import PostCard from './PostCard.astro'
 const posts = await getPosts()
-const featured = posts.find(post => post.data.featured) ?? posts[0]
 ---
 <div class="shell">
   <header class="intro section-heading">
-    <div><p class="eyebrow">El blog</p><h1>Leer <em>despacio.</em></h1>
+    <div><p class="eyebrow">Notas de consulta</p><h1>Cuaderno</h1>
     <p>Ideas y preguntas para entender un poco mejor lo que sentimos.</p></div>
-    <a href={url('ines-arranz/rss.xml')}>Suscribirse por RSS ↗</a>
+    <a href={url('ines-arranz/rss.xml')}>Suscribirse por RSS</a>
   </header>
   <div class="filters" aria-label="Filtrar por categoría" role="group" hidden>
     {['', ...categories].map(category => <button class="button secondary" type="button" data-filter={category} aria-pressed={String(!category)}>{category || 'Todas'}</button>)}
   </div>
   <p data-filter-status role="status" hidden></p>
-  <div class="post-grid section" style="padding-top:0" data-post-list>
-    {featured && <PostCard post={featured} featured />}
-    {posts.filter(post => post !== featured).map(post => <PostCard {post} />)}
+  <div class="essay-index" data-post-list>
+    {posts.map((post, index) => <PostCard {post} number={index + 1} />)}
   </div>
 </div>
 <script>

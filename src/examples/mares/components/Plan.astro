@@ -1,0 +1,25 @@
+---
+import type { plans } from '../data/plans'
+const { plan, solar = false } = Astro.props as { plan: typeof plans[string]; solar?: boolean }
+---
+<svg class="plan" viewBox={plan.viewBox} role={solar ? 'img' : 'group'} aria-label={solar ? 'Planta con incidencia solar' : 'Plano interactivo de la vivienda'}>
+  {plan.rooms.map((room, index) => {
+    const shape = Array.isArray(room.shape) ? room.shape : undefined
+    const [x, y] = room.label
+    return <g class="plan-room" data-room={index} data-orientation={room.orientation} data-photo={room.photo} data-name={room.name} data-area={room.area}>
+      {shape ? <rect class="room-wall" x={shape[0]} y={shape[1]} width={shape[2]} height={shape[3]} /> : <polygon class="room-wall" points={room.shape} />}
+      {shape ? <rect class="room-light" x={shape[0]} y={shape[1]} width={shape[2]} height={shape[3]} /> : <polygon class="room-light" points={room.shape} />}
+      {solar ? <text x={x} y={y} text-anchor="middle" dominant-baseline="middle">{room.name}</text> :
+        <foreignObject x={x - 31} y={y - 17} width="62" height="34">
+          <button type="button" aria-label={room.name + ', ' + room.area + ' metros cuadrados'} aria-pressed="false">{room.name}</button>
+        </foreignObject>}
+    </g>
+  })}
+  <g class="doors" aria-hidden="true">
+    {plan.doors.map(([x,y,angle]) => <g transform={`translate(${x} ${y}) rotate(${angle})`}>
+      <path class="door-gap" d="M0 0h17" /><path d="M0 0v-17a17 17 0 0 1 17 17" />
+    </g>)}
+  </g>
+  <g class="north" aria-hidden="true"><text x="413" y="37" text-anchor="middle">N</text><path d="M413 44v19m-4-13 4-6 4 6" /></g>
+  {solar && <g class="shadow-anchor" transform="translate(413 288)" aria-hidden="true"><circle r="20" /><g data-shadow><path d="M0 0V-16m-3 5 3-5 3 5" /><circle r="2" /></g></g>}
+</svg>

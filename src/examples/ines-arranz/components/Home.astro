@@ -1,89 +1,97 @@
 ---
 import { url } from '../../../lib/url'
 import { getPosts } from '../data/posts'
-import Blob from './Blob.astro'
+import Photo from './Photo.astro'
+import Space from './Space.astro'
 import PostCard from './PostCard.astro'
 const posts = (await getPosts()).slice(0, 3)
-const help = [
-  ['Ansiedad y estrés', 'Si la cabeza no para o el cuerpo está siempre en alerta, podemos explorar qué activa esa respuesta y practicar formas de recuperar espacio en tu día.'],
-  ['Autoestima', 'Trabajaremos con la autocrítica y con lo que has aprendido a exigirte, para que puedas tomar decisiones con más confianza y menos dureza.'],
-  ['Duelo y cambios', 'Un espacio para hablar de lo que has perdido, de lo que cambia y de cómo quieres cuidarte mientras encuentras tu ritmo.'],
-  ['Relaciones y pareja', 'Podemos explorar patrones que se repiten, practicar conversaciones difíciles y acordar límites que permitan cuidaros.'],
+const thoughts = [
+  ['Seguro que es culpa mía', 'Puedo revisar qué parte depende de mí'],
+  ['Debería poder con todo', 'Puedo pedir ayuda antes de agotarme'],
+  ['Si digo que no, voy a decepcionar', 'Puedo cuidar el vínculo y poner un límite'],
 ]
-const steps = [
-  ['Una primera llamada', 'Tenemos 15 minutos para conocernos, hablar de lo que buscas y resolver tus dudas.'],
-  ['Una primera sesión', 'Ponemos en palabras lo que te trae aquí y acordamos qué te gustaría trabajar.'],
-  ['Un camino compartido', 'Vamos revisando lo que te ayuda y ajustamos el proceso a tus circunstancias.'],
+const moments = [
+  [0, 'Acogida', 'Nos damos unos minutos para llegar. Te cuento cómo funciona la consulta y puedes preguntarme lo que necesites.'],
+  [8, 'Qué te trae', 'Hablamos de lo que te ha hecho pedir cita ahora. Podemos empezar por algo pequeño, por donde te resulte más fácil.'],
+  [25, 'Tu historia', 'Miramos qué estaba pasando cuando empezaste a sentirte así y qué te ha ayudado hasta hoy.'],
+  [40, 'Objetivos', 'Imaginamos juntas cómo se notaría en tu día a día que algo empieza a cambiar.'],
+  [47, 'Cierre y próximos pasos', 'Recogemos lo hablado y decides con calma si quieres volver y qué te gustaría trabajar.'],
 ]
-const faqs = [
-  ['¿Qué ocurre en la primera sesión?', 'Te escucharé, hablaremos de tu situación y acordaremos un primer objetivo. Puedes contar solo lo que te resulte cómodo.'],
-  ['¿Puedo hacer terapia online?', 'Sí. Necesitarás conexión a internet, un lugar tranquilo y un dispositivo con cámara y micrófono.'],
-  ['¿Cada cuánto nos veremos?', 'Lo decidimos juntas o juntos. Al principio suele ser útil una sesión semanal, y podemos espaciarla según cómo vaya el proceso.'],
-  ['¿Puedo cambiar una cita?', 'Escríbeme para buscar otro hueco. Si puedes, avísame con al menos 24 horas de antelación.'],
+const approach = [
+  ['I', 'Escuchar con tiempo', 'Podemos hablar de ansiedad, duelo, autoestima o de una relación que te preocupa. Tú decides por dónde empezamos.'],
+  ['II', 'Entender lo que se repite', 'Observamos cómo se relacionan lo que piensas, lo que sientes y lo que haces cuando algo te cuesta.'],
+  ['III', 'Probar algo distinto', 'Acordamos cambios pequeños que puedas llevar a tu vida. Revisamos qué te sirve y qué necesita otro ritmo.'],
+]
+const quotes = [
+  ['Me ayudó poder decir en voz alta cosas a las que llevaba tiempo dándoles vueltas.', 'M. A., 34 años'],
+  ['Ahora me doy cuenta antes de cuándo necesito parar y pedir ayuda.', 'L. R., 41 años'],
+  ['Pude hablar de lo que me daba vergüenza sin sentir que tenía que justificarme.', 'C. S., 29 años'],
 ]
 ---
-<section class="hero shell">
-  <div class="hero-copy">
+<section class="hero home-hero shell">
+  <div class="hero-title">
     <p class="eyebrow">Psicología en Valencia y online</p>
-    <h1><span data-title-line>Hablar ayuda.</span><em data-title-line>Empecemos despacio.</em></h1>
-    <p>Un espacio para hablar de lo que te preocupa y encontrar maneras de vivir con más calma y flexibilidad.</p>
-    <a class="button" href={url('ines-arranz/agenda/?modalidad=llamada')}>Reserva una primera llamada gratuita (15 min) <span aria-hidden="true">↗</span></a>
+    <h1><span>Un lugar para hablar.</span><em>Tiempo para entenderte.</em></h1>
   </div>
-  <div class="hero-art"><Blob /><p class="eyebrow">Terapia individual y de pareja</p></div>
+  <figure class="portrait">
+    <Photo name="retrato" eager alt="Retrato de Inés Arranz" sizes="(max-width: 720px) 13rem, 40vw" />
+    <figcaption class="eyebrow"><strong>Inés Arranz</strong><span>Psicóloga General Sanitaria · Col. CV-14872</span></figcaption>
+  </figure>
+  <div class="hero-actions">
+    <div class="thoughts" data-cycle tabindex="0" aria-label="Ejemplos de reestructuración cognitiva">
+      <p class="eyebrow">Una forma de mirar lo que piensas</p>
+      <div class="stack">
+        {thoughts.map(([thought, reframe], index) => <div class:list={['pair', { active: index === 0 }]} aria-hidden={index !== 0}><p><del>{thought}</del></p><p>{reframe}</p></div>)}
+      </div>
+    </div>
+    <a class="text-link" href={url('ines-arranz/agenda/?modalidad=llamada')}>Pedir una primera cita</a>
+    <p class="appointment-note">Primera llamada de 15 min, sin coste</p>
+  </div>
 </section>
 
-<section class="shell section editorial" id="terapia">
-  <div><p class="eyebrow">En consulta</p><h2>En qué te puedo <em>ayudar.</em></h2></div>
-  <div class="help-grid">
-    {help.map(([title, description]) => <details><summary>{title}</summary><p>{description}</p></details>)}
-  </div>
-</section>
-
-<section class="salvia section">
-  <div class="shell editorial" data-process>
-    <div><p class="eyebrow">El proceso</p><h2>Paso a <em>paso.</em></h2></div>
-    <ol class="steps">
-      {steps.map(([title, description]) => <li><h3>{title}</h3><p>{description}</p></li>)}
+<section class="session shell" data-session aria-labelledby="primera-sesion">
+  <div class="session-sticky">
+    <p class="eyebrow">Una sesión de 50 minutos</p>
+    <h2 id="primera-sesion">La primera sesión,<br /><em>minuto a minuto</em></h2>
+    <div class="ruler" aria-hidden="true">
+      <div class="ruler-track">
+        {Array.from({ length: 51 }, (_, index) => <i class:list={{ major: index % 5 === 0 }}></i>)}
+      </div>
+      <div class="needle-track"><i></i></div>
+      <div class="ruler-labels">{[0, 10, 20, 30, 40, 50].map(minute => <span>{minute}′</span>)}</div>
+    </div>
+    <ol class="moments">
+      {moments.map(([minute, title, body], index) => <li class:list={{ active: index === 0 }}><p class="eyebrow">{minute}′</p><h3>{title}</h3><p>{body}</p></li>)}
     </ol>
   </div>
 </section>
 
-<section class="dark section" data-breath-widget>
-  <div class="shell editorial breathing">
-    <div><p class="eyebrow">Una pausa de un minuto</p><h2>Respira <em>conmigo.</em></h2>
-      <p>Si te apetece, apoya los pies en el suelo y acompaña la forma. Respira con suavidad. Puedes volver a tu ritmo habitual en cualquier momento.</p>
-      <button class="button secondary" type="button" data-breath-toggle>Empezar la pausa</button>
-    </div>
-    <div class="breath-art">
-      <Blob guided />
-      <p data-phase role="status">Cuando quieras</p>
-      <span data-clock aria-hidden="true">1:00</span>
-    </div>
+<section class="shell section approach">
+  <h2>Así trabajo</h2>
+  <div class="columns">{approach.map(([numeral, title, body]) => <div><p class="eyebrow">{numeral}</p><h3>{title}</h3><p>{body}</p></div>)}</div>
+  <blockquote class="pull">«Podemos ir despacio. Lo importante es que lo que hagamos aquí tenga sentido para ti.»</blockquote>
+  <a class="text-link" href={url('ines-arranz/sobre-mi/')}>Sobre mí y mi forma de trabajar</a>
+</section>
+<Space />
+
+<section class="shell section testimonials">
+  <h2 class="eyebrow">Testimonios ficticios</h2>
+  <div class="stack" data-cycle tabindex="0" aria-label="Testimonios">
+    {quotes.map(([quote, name], index) => <figure class:list={{ active: index === 0 }} aria-hidden={index !== 0}><blockquote>«{quote}»</blockquote><figcaption class="eyebrow">{name}</figcaption></figure>)}
   </div>
 </section>
 
 <section class="shell section editorial">
-  <div><p class="eyebrow">Testimonios anónimos</p><h2>Lo que se llevan.</h2></div>
-  <div class="quotes">
-    <blockquote>«Me ayudó poder decir en voz alta cosas a las que llevaba tiempo dándoles vueltas.»</blockquote>
-    <blockquote>«Ahora me doy cuenta antes de cuándo necesito parar y pedir ayuda.»</blockquote>
-    <p class="eyebrow">Testimonios ficticios para esta demostración</p>
-  </div>
-</section>
-
-<section class="niebla section">
-  <div class="shell editorial">
-    <div><p class="eyebrow">Tarifas</p><h2>Tu sesión, <em>tu espacio.</em></h2></div>
-    <div class="price"><strong>60 €</strong><p>Por sesión de 50 minutos. La tarifa es la misma online y presencial.</p><p>La primera llamada de 15 minutos es gratuita.</p><a class="button" href={url('ines-arranz/agenda/')}>Ver la agenda <span aria-hidden="true">↗</span></a></div>
+  <h2>Tarifas</h2>
+  <div>
+    <table><thead><tr><th scope="col">Modalidad</th><th scope="col">Duración</th><th scope="col">Precio</th></tr></thead>
+      <tbody><tr><th scope="row">Presencial u online</th><td>50 min</td><td>60 €</td></tr><tr><th scope="row">Primera llamada</th><td>15 min</td><td>Sin coste</td></tr></tbody>
+    </table>
+    <a class="text-link" href={url('ines-arranz/agenda/')}>Consultar la agenda</a>
   </div>
 </section>
 
 <section class="shell section">
-  <div class="section-heading"><div><p class="eyebrow">Blog</p><h2>Lecturas para <em>ir despacio.</em></h2></div><a href={url('ines-arranz/blog/')}>Ver todas las entradas ↗</a></div>
-  <div class="post-grid">{posts.map(post => <PostCard {post} />)}</div>
-</section>
-
-<section class="shell section editorial ruled">
-  <div><p class="eyebrow">Preguntas frecuentes</p><h2>Antes de <em>empezar.</em></h2></div>
-  <div>{faqs.map(([title, answer]) => <details name="faq"><summary>{title}</summary><p>{answer}</p></details>)}</div>
+  <header class="section-heading"><h2>Del cuaderno</h2><a class="text-link" href={url('ines-arranz/blog/')}>Ver todos los ensayos</a></header>
+  {posts.map((post, index) => <PostCard {post} number={index + 1} />)}
 </section>
