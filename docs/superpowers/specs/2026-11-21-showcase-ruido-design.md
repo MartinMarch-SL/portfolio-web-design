@@ -116,6 +116,15 @@ Regla: nada de `examples/ruido` se importa desde el índice ni viceversa. Cada e
 
 **Catálogo**: ~12 productos (hoodies, camisetas heavyweight, cargo, chaqueta work, gorra, tote) con nombres propios, precios en € (35–189 €), tallas XS–XXL, 1–3 colores.
 
+## Despliegue — GitHub Pages
+
+- Repo público `MartinMarch/portfolio-web-design` → URL `https://martinmarch.github.io/portfolio-web-design/`.
+- `astro.config` con `site: 'https://martinmarch.github.io'` y `base: '/portfolio-web-design'`. **Todos** los enlaces internos y rutas de assets deben pasar por `import.meta.env.BASE_URL` (nunca rutas absolutas `/...`), o se rompen en Pages.
+- Workflow `.github/workflows/deploy.yml` con la acción oficial `withastro/action` + `actions/deploy-pages`, disparado en push a `main` y manualmente (`workflow_dispatch`).
+- Paso manual único del usuario: Settings → Pages → Source: «GitHub Actions».
+- Se publica cuando el trabajo de la rama se fusiona en `main`.
+- `noindex` en todas las páginas + `robots.txt` con `Disallow: /`.
+
 ## Proceso de trabajo con Codex
 
 Claude escribe el plan por tareas pequeñas y verificables. Para cada tarea: especificación precisa → `codex exec` dentro del repo → Claude revisa el diff, ejecuta `astro build`, saca capturas con Playwright en móvil y escritorio, y devuelve correcciones a Codex hasta que cumple → commit en `claude/frontend-expert-skills-lnxuoj`.
