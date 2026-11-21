@@ -20,7 +20,7 @@ test('renders the campaign and confirms newsletter signup locally at 375 px', as
   expect(requests).toEqual([])
 })
 
-test('upgrades a hovered shop image and removes the canvas on navigation', async ({ page }) => {
+test('respects motion preferences on hover and clears the canvas on navigation', async ({ page, reducedMotion }) => {
   const errors: string[] = []
   page.on('pageerror', error => errors.push(error.message))
   page.on('console', message => { if (message.type() === 'error') errors.push(message.text()) })
@@ -28,7 +28,11 @@ test('upgrades a hovered shop image and removes the canvas on navigation', async
   const image = page.locator('[data-distort-image]').first()
   await expect(image.locator('img')).toBeVisible()
   await image.hover()
-  await expect(image.locator('canvas')).toBeVisible()
+  if (reducedMotion === 'reduce') {
+    await expect(image.locator('canvas')).toHaveCount(0)
+  } else {
+    await expect(image.locator('canvas')).toBeVisible()
+  }
   await page.getByRole('link', { name: 'RUIDO, inicio' }).click()
   await expect(page.locator('[data-section="hero"]')).toBeVisible()
   await expect(page.locator('[data-distort-image] canvas')).toHaveCount(0)

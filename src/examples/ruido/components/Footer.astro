@@ -8,6 +8,7 @@ import { url } from '../../../lib/url'
       <a href={url('ruido/tienda/')}>Tienda</a>
       <a href={url('ruido/#lookbook')}>Lookbook</a>
       <a href={url('')}>Proyectos <span aria-hidden="true">↗</span></a>
+      <a href={url('ruido/creditos/')}>Créditos de fotografía</a>
     </nav>
   </div>
   <div class="outline" aria-hidden="true"><span data-wordmark>RUIDO</span></div>
@@ -15,7 +16,7 @@ import { url } from '../../../lib/url'
 <style>
   footer.ruido-footer { display: block; padding: 0; overflow: clip; }
   .links { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem 1rem; padding: 1.5rem var(--gutter); }
-  nav { display: flex; gap: clamp(.65rem, 3vw, 2rem); }
+  nav { display: flex; flex-wrap: wrap; gap: .5rem clamp(.65rem, 3vw, 2rem); }
   .outline { display: flex; justify-content: center; height: .69em; color: transparent; -webkit-text-stroke: 1px var(--concrete); font: 900 27vw/.9 var(--display); font-variation-settings: 'wdth' 125; letter-spacing: -.045em; }
   .outline span { flex: none; transform: scaleX(var(--fit, 1)); }
 </style>

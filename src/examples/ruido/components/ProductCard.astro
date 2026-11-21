@@ -1,7 +1,7 @@
 ---
 import { url } from '../../../lib/url'
 import type { Product } from '../data/products'
-import { wholeEuros } from '../lib/price'
+import { euros } from '../lib/price'
 import DistortImage from './DistortImage.astro'
 
 interface Props {
@@ -21,7 +21,7 @@ const soldOut = product.sizes.length > 0 && product.sizes.every(size => product.
     <div class:list={['details', { numbered: index !== undefined }]}>
       {index !== undefined && <span>{String(index).padStart(2, '0')}/{String(total).padStart(2, '0')}</span>}
       <h3>{product.name}</h3>
-      <span>{wholeEuros.format(product.price)}</span>
+      <span>{euros.format(product.price)}</span>
     </div>
     {soldOut ? <s class="tag">Agotado</s> : product.isNew && index === undefined && <span class="tag">Nuevo</span>}
   </a>
@@ -29,12 +29,12 @@ const soldOut = product.sizes.length > 0 && product.sizes.every(size => product.
 <style>
   a { display: block; }
   .card-image { position: relative; }
-  .alternate { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; pointer-events: none; }
+  .alternate { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; visibility: hidden; pointer-events: none; }
   @media (hover: hover) and (pointer: fine) {
-    .card-image:hover .alternate { opacity: 1; }
+    .card-image:hover .alternate { opacity: 1; visibility: visible; }
   }
   @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-    .alternate { transition: opacity .4s var(--ease); }
+    .alternate { transition: opacity .4s var(--ease), visibility .4s; }
   }
   .details { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .4rem; align-items: baseline; padding-top: .65rem; font: .6875rem/1.4 var(--mono); }
   .details.numbered { grid-template-columns: auto minmax(0, 1fr) auto; border-top: 1px solid var(--hairline); padding-block: .85rem; }

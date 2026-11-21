@@ -10,8 +10,8 @@ function update() {
   const listeners = new AbortController()
   const { signal } = listeners
   const restores = Array.from(document.querySelectorAll<HTMLElement>('[data-magnetic]'), (element) => {
-    const x = springValue(0, { stiffness: 340, damping: 26 })
-    const y = springValue(0, { stiffness: 340, damping: 26 })
+    const x = springValue<number>(0, { stiffness: 340, damping: 26 })
+    const y = springValue<number>(0, { stiffness: 340, damping: 26 })
     const previousTranslate = element.style.translate
     function render() {
       element.style.translate = `${x.get()}px ${y.get()}px`

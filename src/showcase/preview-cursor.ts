@@ -6,8 +6,8 @@ const hover = matchMedia('(hover: hover) and (pointer: fine) and (min-width: 701
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)')
 
 if (preview && link?.dataset.preview) {
-  const x = springValue(0, { stiffness: 240, damping: 28 })
-  const y = springValue(0, { stiffness: 240, damping: 28 })
+  const x = springValue<number>(0, { stiffness: 240, damping: 28 })
+  const y = springValue<number>(0, { stiffness: 240, damping: 28 })
   let visible = false
   let navigating = false
   preview.src = link.dataset.preview

@@ -6,13 +6,14 @@ import SizePicker from '../../../examples/ruido/components/SizePicker.astro'
 import SizeGuide from '../../../examples/ruido/components/SizeGuide.astro'
 import ProductCard from '../../../examples/ruido/components/ProductCard.astro'
 import { products, type Product } from '../../../examples/ruido/data/products'
-import { wholeEuros } from '../../../examples/ruido/lib/price'
+import { euros } from '../../../examples/ruido/lib/price'
+import { freeShippingAt, shippingFee } from '../../../examples/ruido/lib/cart'
 
 export function getStaticPaths() {
   return products.map(product => ({ params: { slug: product.slug }, props: { product } }))
 }
 const { product } = Astro.props as { product: Product }
-const price = wholeEuros.format(product.price)
+const price = euros.format(product.price)
 const related = [...new Set(products.filter(piece => piece.category !== product.category).map(piece => piece.category))]
   .slice(0, 3)
   .map(category => products.find(piece => piece.category === category)!)
@@ -41,7 +42,7 @@ const related = [...new Set(products.filter(piece => piece.category !== product.
           <details><summary>Tejido</summary><p>{product.fabric}</p></details>
           <details><summary>Corte</summary><p>{product.fit}</p></details>
           <details><summary>Cuidados</summary><ul>{product.care.map(instruction => <li>{instruction}</li>)}</ul></details>
-          <details><summary>Envío y devoluciones</summary><p>Envío de 4,95 € y gratis a partir de 120 €. Tienes 30 días desde la entrega para devolver la pieza.</p></details>
+          <details><summary>Envío y devoluciones</summary><p>Envío de {euros.format(shippingFee)} y gratis a partir de {euros.format(freeShippingAt)}. Tienes 30 días desde la entrega para devolver la pieza.</p></details>
         </div>
       </section>
     </div>

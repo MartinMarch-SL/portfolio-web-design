@@ -9,6 +9,7 @@ export interface CartLine {
 
 const storageKey = 'ruido-cart-v1'
 export const freeShippingAt = 120
+export const shippingFee = 4.95
 export const maxQty = 9
 let storageWriteFailed = false
 let memory: CartLine[] = []
@@ -37,7 +38,7 @@ export function subtotal(lines: CartLine[], products: Product[]): number {
 }
 
 export function shipping(sub: number): number {
-  return sub > 0 && sub < freeShippingAt ? 4.95 : 0
+  return sub > 0 && sub < freeShippingAt ? shippingFee : 0
 }
 
 export function loadCart(): CartLine[] {

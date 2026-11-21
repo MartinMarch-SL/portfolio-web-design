@@ -51,7 +51,7 @@ function mount(element: HTMLElement, image: HTMLImageElement, ogl: OGL) {
   const canvas = document.createElement('canvas')
   // Probe before constructing OGL's renderer, which logs an error when context creation fails.
   const context = canvas.getContext('webgl', contextOptions)
-  if (!context) return
+  if (!(context instanceof WebGLRenderingContext)) return
   const loseContext = context.getExtension('WEBGL_lose_context')
   const renderer = new ogl.Renderer({ canvas, webgl: 1, ...contextOptions, dpr: Math.min(devicePixelRatio, 1.5) })
   const gl = renderer.gl

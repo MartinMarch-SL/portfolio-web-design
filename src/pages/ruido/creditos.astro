@@ -1,0 +1,27 @@
+---
+import Layout from '../../examples/ruido/Layout.astro'
+import credits from '../../../public/examples/ruido/img/CREDITS.md?raw'
+
+const entries = credits.trim().split(/\r?\n/).slice(1).filter(line => line.trim())
+const attribution = /^(.+) — Photo by (.+) \((https:\/\/[^)]+)\) on Unsplash \((https:\/\/[^)]+)\)$/
+---
+<Layout title="Créditos de fotografía · RUIDO">
+  <main class="credits">
+    <h1>Créditos de fotografía</h1>
+    <ul>
+      {entries.map(entry => {
+        const match = entry.match(attribution)
+        if (!match) return <li>{entry}</li>
+        const [, file, photographer, profile, photo] = match
+        return <li>{file} — Photo by <a href={profile}>{photographer}</a> on <a href={photo}>Unsplash</a></li>
+      })}
+    </ul>
+  </main>
+</Layout>
+<style>
+  .credits { padding: clamp(2rem, 8vw, 7rem) var(--gutter); }
+  h1 { font-size: clamp(2rem, 6vw, 5rem); }
+  ul { padding-inline-start: 1.25rem; font: .85rem/1.6 var(--mono); overflow-wrap: anywhere; }
+  li + li { margin-block-start: .65rem; }
+  a { text-decoration: underline; text-underline-offset: .2em; }
+</style>
