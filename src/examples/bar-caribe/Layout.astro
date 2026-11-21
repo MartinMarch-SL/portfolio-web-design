@@ -14,6 +14,8 @@ const links = [['', 'Inicio'], ['carta/', 'Carta'], ['reservas/', 'Reservas'], [
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#12100E" />
+    <meta name="color-scheme" content="dark" />
     <meta name="robots" content="noindex, nofollow" />
     <title>{title}</title>
   </head>
@@ -27,8 +29,10 @@ const links = [['', 'Inicio'], ['carta/', 'Carta'], ['reservas/', 'Reservas'], [
     <main><slot /></main>
     <footer class="napkin">
       <div class="frieze" aria-hidden="true"></div>
-      <p>Gracias por su visita</p>
-      <a href={url('')}>Volver al catálogo</a>
+      <div class="napkin-paper">
+        <p>Gracias por su visita</p>
+        <a href={url('')}>Volver al catálogo</a>
+      </div>
     </footer>
   </body>
 </html>

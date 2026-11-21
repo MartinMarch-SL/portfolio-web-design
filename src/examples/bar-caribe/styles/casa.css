@@ -1,16 +1,16 @@
 .casa { padding-bottom: clamp(4rem, 9vw, 8rem); }
-.casa h2 { color: var(--azulejo); font-size: clamp(2.4rem, 5.7vw, 6rem); }
+.casa h2 { font-size: clamp(2.4rem, 5.7vw, 6rem); }
 .history, .visit { display: grid; grid-template-columns: 1.15fr 1fr; gap: clamp(1.5rem, 5vw, 6rem); align-items: center; }
 .history > img { aspect-ratio: 1; }
-.timeline { list-style: none; margin: 1.2rem 0 0; padding: 0; border-top: 2px solid var(--azulejo); }
-.timeline li { display: grid; grid-template-columns: 4rem 1fr; gap: 1rem; padding: .8rem 0; border-bottom: 1px solid var(--rule); }
-.timeline strong { font: 900 1.5rem/1 var(--display); color: #ad2317; text-transform: uppercase; }
+.timeline { list-style: none; margin: 1.2rem 0 0; padding: 0; border-top: 1px solid var(--laton); }
+.timeline li { display: grid; grid-template-columns: 4rem 1fr; gap: 1rem; padding: .8rem 0; border-bottom: 1px solid var(--laton); }
+.timeline strong { font: 750 1.5rem/1 var(--display); color: var(--laton); text-transform: uppercase; }
 .regulars > div { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(1rem, 4vw, 4rem); margin-top: 1.4rem; }
 .regulars figure { margin: 0; }
 .regulars img { aspect-ratio: 5/4; }
 .regulars figcaption { padding-top: .7rem; }
-.regulars figcaption strong { font: 900 clamp(1.2rem, 3vw, 2.2rem)/1 var(--display); text-transform: uppercase; }
-.visit { border-top: 2px solid var(--azulejo); padding-top: 1.5rem; }
+.regulars figcaption strong { font: 750 clamp(1.2rem, 3vw, 2.2rem)/1 var(--display); text-transform: uppercase; }
+.visit { border-top: 1px solid var(--laton); padding-top: 1.5rem; }
 .visit p, .visit a.action { margin-top: .8rem; }
 @media (max-width: 710px) {
   .history, .visit { grid-template-columns: 1fr; }

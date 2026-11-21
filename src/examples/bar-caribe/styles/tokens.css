@@ -1,12 +1,12 @@
 :root {
-  --formica: #F3ECDD;
-  --cafe: #1C1511;
-  --azulejo: #0E5E50;
-  --rotulo: #D7301F;
-  --mostaza: #E9B23A;
-  --pizarra: #1F2A25;
-  --paper: #fff9eb;
-  --rule: #1c151144;
+  --noche: #12100E;
+  --madera: #1E1915;
+  --humo: #2A231E;
+  --crema: #EEE4CF;
+  --ceniza: #A89B88;
+  --laton: #C8A05A;
+  --rotulo: #E2472C;
+  --azulejo: #2E8573;
   --display: 'Bricolage Grotesque Variable', sans-serif;
   --hand: 'Caveat', cursive;
   --gutter: clamp(1rem, 5vw, 5.5rem);

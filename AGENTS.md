@@ -47,6 +47,7 @@ Private showcase of fictional client websites, deployed as a static site to GitH
 - Layout must work at 375 px and 1440 px without horizontal page scroll. Keep intended horizontal scrolling inside a sticky container. The full responsive matrix must pass.
 - Use Unsplash License photos under `public/examples/<name>/img/` and `public/showcase/img/`. WebP, max 1600 px wide, under 300 KB each. No AI-generated images.
 - RUIDO tokens `--asphalt:#0E0E0E; --concrete:#C9C6BF; --chalk:#EDEBE6; --signal:#FF4F00`.
+- Bar Caribe tokens `--noche:#12100E`, `--madera:#1E1915`, `--humo:#2A231E`, `--crema:#EEE4CF`, `--ceniza:#A89B88`, `--laton:#C8A05A`, `--rotulo:#E2472C`, `--azulejo:#2E8573`.
 - Index tokens `--paper:#F3F1EC; --ink:#141414; --muted:#8A8780` (inverted in dark mode).
 
 ## Add an example

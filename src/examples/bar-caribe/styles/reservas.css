@@ -1,16 +1,21 @@
 .reservation { padding-bottom: clamp(4rem, 9vw, 8rem); }
 .reservation-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: clamp(2rem, 7vw, 7rem); align-items: start; }
-.reservation-info { border-top: 2px solid var(--azulejo); padding-top: 1.2rem; }
-.reservation-info h2 { color: var(--azulejo); }
+.reservation-info { border-top: 1px solid var(--laton); padding-top: 1.2rem; }
 .reservation-info p { margin-top: .9rem; }
-.reservation-form, .confirmation { border-top: 5px solid var(--azulejo); }
+.reservation-form {
+  padding: clamp(1rem, 3vw, 2.5rem);
+  background: var(--madera);
+  border: 1px solid var(--humo);
+  border-top-color: var(--laton);
+}
+.confirmation { border-top: 1px solid var(--laton); }
 .form-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin-top: 1rem; }
 .form-fields label { display: grid; gap: .2rem; min-width: 0; font-weight: 600; }
-.form-fields input, .form-fields select { width: 100%; min-width: 0; min-height: 2.7rem; border: 1px solid var(--rule); padding: .4rem; background: var(--formica); }
-.reservation-error { color: #ad2317; font-weight: 600; margin-block: 1rem; }
+.form-fields input, .form-fields select { width: 100%; min-width: 0; min-height: 2.7rem; border: 1px solid var(--ceniza); padding: .4rem; background: var(--noche); }
+.reservation-error { color: var(--crema); font-weight: 600; margin-block: 1rem; }
 .reservation-error:empty { margin-bottom: 0; }
-.simulation { font-size: .82rem; margin-top: .6rem; }
-.confirmation h2 { font-size: clamp(2rem, 5vw, 5rem); color: var(--azulejo); margin: .25em 0 .45em; }
+.simulation { color: var(--ceniza); font-size: .82rem; margin-top: .6rem; }
+.confirmation h2 { font-size: clamp(2rem, 5vw, 5rem); margin: .25em 0 .45em; }
 [data-confirmation-name] { overflow-wrap: anywhere; }
 .confirmation .note { margin-block: 1rem; }
 .plain { background: transparent; border: 0; text-decoration: underline; text-underline-offset: .2em; padding: .75rem; }

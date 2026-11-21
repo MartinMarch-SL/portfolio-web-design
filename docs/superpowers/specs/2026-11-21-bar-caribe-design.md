@@ -7,7 +7,7 @@ Bar Caribe, C/ de la Esperanza 12, Lavapiés, Madrid. Abierto desde 1974 por la 
 **"Moderno por fuera, de toda la vida por dentro."** Rejilla y tipografía actuales, mucho aire y ritmo editorial, pero cada pieza sale de los objetos del bar: el rótulo, la pizarra del menú, la vitrina, la comanda de papel, el azulejo y la servilleta de "Gracias por su visita". Nada de estética de restaurante fino ni de plantilla. El humor es castizo y seco, sin forzarlo.
 
 ## Identidad
-- Tokens: `--formica:#F3ECDD` (fondo crema), `--cafe:#1C1511` (tinta), `--azulejo:#0E5E50` (verde), `--rotulo:#D7301F` (rojo), `--mostaza:#E9B23A`, `--pizarra:#1F2A25`.
+- Tokens: `--noche:#12100E`, `--madera:#1E1915`, `--humo:#2A231E`, `--crema:#EEE4CF`, `--ceniza:#A89B88`, `--laton:#C8A05A`, `--rotulo:#E2472C`, `--azulejo:#2E8573`, con fondo oscuro, texto crema y acentos de latón, neón rojo y verde de azulejo.
 - Tipos (Fontsource): **Bricolage Grotesque** (titulares muy gordos, compactos y en mayúsculas, como un rótulo), **Instrument Sans** (texto), **Caveat** (solo para la pizarra y las notas a mano). Los precios van en cifras tabulares.
 - Texturas solo con CSS: un friso de azulejo hecho con gradientes y el borde dentado del ticket. Grano suave reutilizando la técnica de RUIDO, generado propio.
 
