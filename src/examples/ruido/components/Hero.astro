@@ -1,24 +1,61 @@
 ---
 import { responsiveImage } from '../../../lib/responsive-image'
+import { url } from '../../../lib/url'
+
+const landscape = responsiveImage('examples/ruido/img/campaign-01.webp', '100vw', 1600)
+const portraitSrcset = [640, 1080, 1600].map(width =>
+  `${url(`examples/ruido/img/hero-portrait-${width}w.webp`)} ${width}w`,
+).join(', ')
 ---
 <section data-section="hero" class="hero" aria-labelledby="hero-title">
-  <div class="plate">
-    <div class="meta top"><span>Barcelona · L’Hospitalet</span><span>Serie 04 / 2026</span></div>
-    <h1 id="hero-title"><span data-wordmark>RUIDO</span></h1>
-    <div class="meta bottom"><span>41.36°N 2.10°E</span><span>Drop 04 — Viernes 18:00</span></div>
+  <div class="stage" data-hero-stage>
+    <div class="plate">
+      <div class="meta top" data-hero-meta><span>Barcelona · L’Hospitalet</span><span>Serie 04 / 2026</span></div>
+      <h1 id="hero-title"><span data-wordmark>RUIDO</span></h1>
+      <div class="meta bottom"><span data-hero-meta>41.36°N 2.10°E</span><span>Drop 04 — Viernes 18:00 →</span></div>
+    </div>
+    <figure data-hero-photo>
+      <picture>
+        <source media="(orientation: portrait)" srcset={portraitSrcset} sizes="100vw" />
+        <img data-campaign {...landscape} alt="Campaña de la serie 04 de RUIDO" width="1600" height="1000" fetchpriority="high" decoding="async" />
+      </picture>
+      <span class="photo-wordmark" aria-hidden="true">RUIDO</span>
+      <span class="photo-drop" aria-hidden="true">Drop 04 — Viernes 18:00 →</span>
+    </figure>
   </div>
-  <figure>
-    <img data-campaign {...responsiveImage('examples/ruido/img/campaign-01.webp', '100vw', 1600)} alt="Campaña de la serie 04 de RUIDO" width="1600" height="1000" fetchpriority="high" />
-  </figure>
 </section>
 <style>
-  .hero { overflow: clip; }
-  .plate { position: relative; display: grid; padding-block: clamp(2.75rem, 6vw, 6rem); }
-  h1 { margin: 0; display: flex; justify-content: center; min-width: 0; text-align: center; color: var(--signal); font: 900 27vw/.8 var(--display); font-variation-settings: 'wdth' 62; letter-spacing: -.06em; white-space: nowrap; }
-  h1 span { display: flex; flex: none; transform-origin: top; will-change: transform; }
-  .meta { position: absolute; z-index: 1; inset-inline: var(--gutter); display: flex; justify-content: space-between; gap: .6rem; color: var(--concrete); font: clamp(.55rem, 1vw, .75rem)/1.4 var(--mono); text-transform: uppercase; }
-  .top { top: 1rem; }
+  .hero { height: 250svh; }
+  .stage { position: sticky; top: 0; height: 100svh; overflow: hidden; isolation: isolate; }
+  .plate { position: absolute; z-index: 1; inset: 0; display: grid; align-items: center; padding-inline: var(--gutter); pointer-events: none; }
+  h1, .photo-wordmark {
+    margin: 0;
+    color: var(--signal);
+    font: 900 var(--wordmark-size, min(22vw, 55svh))/1 var(--display);
+    font-variation-settings: 'wdth' 62;
+    white-space: nowrap;
+  }
+  h1 { min-width: 0; }
+  [data-wordmark] { display: block; width: max-content; margin-inline: auto; transform-origin: bottom left; will-change: transform; }
+  .meta, .photo-drop { color: #fff; font: clamp(.6875rem, 1vw, .75rem)/1.4 var(--mono); text-transform: uppercase; }
+  .meta { position: absolute; inset-inline: var(--gutter); display: flex; justify-content: space-between; gap: .6rem; }
+  [data-hero-meta] { color: var(--concrete); will-change: opacity; }
+  .top { top: 4.4rem; }
+  .bottom > span:last-child, .top > span:last-child { text-align: right; }
   .bottom { bottom: 1rem; }
-  figure { margin: 0; overflow: hidden; }
-  figure img { width: 100%; height: clamp(19rem, 61vw, 85svh); object-fit: cover; will-change: transform; }
+  figure { position: absolute; inset: 0; margin: 0; clip-path: inset(50%); will-change: clip-path; }
+  figure::after { content: ''; position: absolute; inset: 60% 0 0; background: linear-gradient(transparent, rgb(0 0 0 / .56)); }
+  figure img { width: 100%; height: 100%; object-fit: cover; will-change: transform; }
+  .photo-wordmark, .photo-drop { display: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero, .stage { height: auto; }
+    .stage { position: relative; }
+    .plate, figure { position: relative; height: 100svh; }
+    figure { clip-path: none; will-change: auto; }
+    figure img, [data-wordmark], [data-hero-meta] { will-change: auto; }
+    .photo-wordmark, .photo-drop { position: absolute; z-index: 1; display: block; bottom: 1rem; }
+    .photo-wordmark { left: var(--gutter); font-size: calc(var(--wordmark-size, 22vw) * .22); }
+    .photo-drop { right: var(--gutter); }
+  }
 </style>

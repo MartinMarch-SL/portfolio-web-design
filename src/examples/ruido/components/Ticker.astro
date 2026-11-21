@@ -9,7 +9,7 @@ const announcement = 'Serie 04　/　Tiradas cortas　/　Viernes 18:00　/　Fe
   </div>
 </section>
 <style>
-  .ticker { position: relative; z-index: 2; margin-top: -2.1rem; padding-block: 4vw; overflow: clip; pointer-events: none; }
+  .ticker { position: relative; z-index: 2; padding-block: clamp(1.25rem, 4vw, 4.5rem); overflow: clip; pointer-events: none; }
   .tape { margin-inline: -2%; rotate: -2deg; background: var(--signal); color: var(--asphalt); padding-block: .85rem; }
   .track { display: flex; width: max-content; font: clamp(.7rem, 1.2vw, .95rem)/1 var(--mono); text-transform: uppercase; }
   .track span { white-space: pre; }

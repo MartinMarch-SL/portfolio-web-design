@@ -8,34 +8,68 @@ const desktop = matchMedia('(min-width: 769px)')
 const clamp = (value: number) => Math.max(0, Math.min(1, value))
 
 function hero(section: HTMLElement, reduced: boolean): Cleanup {
+  const stage = section.querySelector<HTMLElement>('[data-hero-stage]')!
   const word = section.querySelector<HTMLElement>('[data-wordmark]')!
   const title = word.parentElement!
-  const campaign = section.querySelector<HTMLElement>('[data-campaign]')!
+  const photo = section.querySelector<HTMLElement>('[data-hero-photo]')!
+  const metadata = section.querySelectorAll<HTMLElement>('[data-hero-meta]')
+  const bottom = section.querySelector<HTMLElement>('.bottom')!
+  const ease = (value: number) => value < .5 ? 4 * value ** 3 : 1 - (-2 * value + 2) ** 3 / 2
+  const size = 100
+  let referenceWidth = 0
+  let wordHeight = 0
+  let leftOffset = 0
+  let pinProgressScale = 1
+  let stageHeight = 0
+  let bottomGap = 0
   let progress = 0
-  let fit = 1
+  let active = true
+
   function render() {
-    word.style.transform = `translateY(${-18 * progress}%) scale(${fit * (1 - .28 * progress)}, ${1 - .12 * progress})`
-    word.style.opacity = String(1 - .22 * progress)
-    campaign.style.transform = `translateY(${65 * (1 - progress)}%)`
+    if (reduced) return
+    const reveal = ease(clamp(progress / .7))
+    const move = ease(clamp((progress - .35) / .5))
+    photo.style.clipPath = `inset(${50 * (1 - reveal)}%)`
+    const travel = (stageHeight - wordHeight) / 2 - bottomGap
+    word.style.transform = `translate(${-leftOffset * move}px, ${travel * move}px) scale(${1 - .78 * move})`
+    metadata.forEach(line => { line.style.opacity = String(1 - move) })
   }
-  function measure() {
-    fit = title.clientWidth / (word.offsetWidth || title.clientWidth || 1)
-    if (reduced) word.style.transform = `scaleX(${fit})`
-    else render()
-  }
-  const observer = new ResizeObserver(measure)
-  observer.observe(title)
-  observer.observe(word)
-  const stop = reduced ? undefined : scroll(value => {
-    progress = value
+
+  function fit() {
+    stageHeight = reduced ? title.parentElement!.clientHeight : stage.clientHeight
+    bottomGap = parseFloat(getComputedStyle(bottom).bottom)
+    const fontSize = Math.min(size * title.clientWidth / referenceWidth, stageHeight * .65)
+    stage.style.setProperty('--wordmark-size', `${fontSize}px`)
+    wordHeight = word.offsetHeight
+    leftOffset = (title.clientWidth - word.offsetWidth) / 2
+    pinProgressScale = section.clientHeight / Math.max(1, section.clientHeight - stageHeight)
     render()
-  }, { target: section, offset: ['start 52px', 'start -260px'] })
+  }
+
+  function measure() {
+    word.style.fontSize = `${size}px`
+    referenceWidth = parseFloat(getComputedStyle(word).width)
+    word.style.removeProperty('font-size')
+    fit()
+  }
+
   measure()
+  void document.fonts.ready.then(() => { if (active) measure() })
+  const observer = new ResizeObserver(fit)
+  observer.observe(stage)
+  const stop = reduced ? undefined : scroll(value => {
+    progress = clamp(value * pinProgressScale)
+    render()
+  }, { target: section, offset: ['start start', 'end start'] })
+
   return () => {
+    active = false
     observer.disconnect()
     stop?.()
-    word.removeAttribute('style')
-    campaign.removeAttribute('style')
+    stage.style.removeProperty('--wordmark-size')
+    word.style.removeProperty('transform')
+    photo.style.removeProperty('clip-path')
+    metadata.forEach(line => line.style.removeProperty('opacity'))
   }
 }
 
@@ -121,7 +155,7 @@ function lookbook(section: HTMLElement): Cleanup {
   const restores = Array.from(section.querySelectorAll<HTMLElement>('[data-parallax]'), photo => {
     const speed = Number(photo.dataset.parallax)
     const stop = scroll(progress => {
-      photo.style.transform = `translateY(${(progress - .5) * speed}px) scale(1.15)`
+      photo.style.transform = `translateY(${(progress - .5) * speed}px)`
     }, { target: photo.closest('figure')!, offset: ['start end', 'end start'] })
     return () => { stop(); photo.removeAttribute('style') }
   })

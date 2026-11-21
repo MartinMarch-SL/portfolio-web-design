@@ -22,7 +22,8 @@ import Newsletter from '../../examples/ruido/components/Newsletter.astro'
   </main>
 </Layout>
 <style is:global>
-  .ruido-home .section-line { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .25rem 1rem; border-top: 1px solid var(--hairline); padding-top: .65rem; font: clamp(.625rem, 1vw, .8rem)/1.5 var(--mono); text-transform: uppercase; }
+  .ruido-header:has(+ .ruido-home) { position: absolute; z-index: 2; inset: 0 0 auto; }
+  .ruido-home .section-line { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .25rem 1rem; border-top: 1px solid var(--hairline); padding-top: .65rem; font: clamp(.6875rem, 1vw, .8rem)/1.5 var(--mono); text-transform: uppercase; }
   .ruido-home .section-line :is(h2, p) { margin: 0; font: inherit; }
   .ruido-home .section-line a:hover { text-decoration: underline; }
 </style>
