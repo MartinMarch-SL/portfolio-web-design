@@ -1,0 +1,12 @@
+.ruido {
+  color-scheme: dark;
+  --asphalt: #0E0E0E;
+  --concrete: #C9C6BF;
+  --chalk: #EDEBE6;
+  --signal: #FF4F00;
+  --display: 'Archivo Variable', sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+  --ease: cubic-bezier(.2,.7,0,1);
+  --gutter: clamp(1rem, 4vw, 4.5rem);
+  --hairline: color-mix(in srgb, var(--concrete) 30%, transparent);
+}

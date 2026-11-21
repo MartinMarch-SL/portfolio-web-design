@@ -1,0 +1,71 @@
+:root {
+  color-scheme: light dark;
+  --paper: #F3F1EC;
+  --ink: #141414;
+  --muted: #8A8780;
+  --ease: cubic-bezier(.2,.7,0,1);
+  --serif: 'Fraunces Variable', Georgia, serif;
+  --sans: 'Inter Tight Variable', sans-serif;
+  --mono: ui-monospace, monospace;
+  --rule: color-mix(in srgb, var(--muted) 60%, transparent);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root { --paper: #141414; --ink: #F3F1EC; --muted: #a6a29b; }
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); }
+a { color: inherit; text-decoration: none; }
+.catalogue { margin-inline: auto; max-width: 112rem; padding-inline: clamp(1.25rem, 4.2vw, 5rem); }
+.catalogue-header,
+.catalogue-footer { font: .6875rem/1.5 var(--mono); letter-spacing: .055em; }
+.catalogue-header { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; padding-block: 1.5rem; border-bottom: 1px solid var(--rule); text-transform: uppercase; }
+.catalogue-header h1, .catalogue-header p { margin: 0; font: inherit; }
+.catalogue-header p { display: flex; flex-wrap: wrap; justify-content: end; column-gap: 2rem; }
+.clock { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.intro { margin: clamp(3.5rem, 8vw, 8rem) 0 clamp(3rem, 6vw, 6.25rem); max-width: 20ch; font: italic 400 clamp(2.15rem, 5.2vw, 5.25rem)/1.02 var(--serif); letter-spacing: -.045em; }
+.projects { padding: 0; margin: 0; list-style: none; border-bottom: 1px solid var(--rule); }
+[data-project] { position: relative; transition: opacity .32s var(--ease); }
+[data-project]::before { content: ''; display: block; height: 1px; background: var(--rule); transform-origin: left; }
+.project { display: grid; grid-template-columns: 3.5rem minmax(0, 1fr) minmax(9rem, 15%); align-items: baseline; gap: clamp(.7rem, 2vw, 2rem); padding-block: 1.25rem 1.5rem; }
+.number { font: .75rem var(--mono); font-variant-numeric: tabular-nums; }
+.name { overflow: hidden; margin: 0; padding-bottom: .08em; font: 400 clamp(2.5rem, 7vw, 6.5rem)/.99 var(--serif); font-optical-sizing: auto; letter-spacing: -.055em; }
+.name > span { display: block; transition: transform .45s var(--ease); }
+.metadata { display: grid; gap: .22rem; font-size: .81rem; letter-spacing: .035em; }
+.status { margin-top: .3rem; font-size: .7rem; text-transform: uppercase; }
+[data-status="soon"] .status { color: color-mix(in srgb, var(--muted) 66%, var(--ink)); }
+.catalogue-footer { padding-block: 1.5rem 2.75rem; }
+.inline-preview { display: none; }
+.floating-preview { position: fixed; z-index: 2; top: 0; left: 0; width: clamp(12rem, 20vw, 20rem); height: auto; aspect-ratio: 4 / 5; object-fit: cover; pointer-events: none; visibility: hidden; clip-path: inset(100% 0 0); transition: clip-path .4s var(--ease), visibility .4s; }
+.floating-preview.is-visible { visibility: visible; clip-path: inset(0); }
+.floating-preview.is-expanding { transition: none; }
+.is-revealing [data-project]::before, .is-revealing .name > span { animation: enter .56s var(--ease) calc(var(--row) * 65ms) both; }
+@keyframes enter { from { clip-path: inset(100% 0 0); translate: 0 .35em; } to { clip-path: inset(0); translate: none; } }
+.is-revealing [data-project]::before { animation-name: draw; }
+@keyframes draw { from { scale: 0 1; } to { scale: 1 1; } }
+
+@media (hover: hover) and (pointer: fine) {
+  .projects:has([data-project]:hover) [data-project]:not(:hover) { opacity: .3; }
+  [data-project]:hover .name > span { transform: translateX(.08em); }
+}
+
+@media (hover: none), (pointer: coarse), (max-width: 700px) {
+  .inline-preview { display: block; grid-column: 2 / -1; width: min(100%, 21rem); height: auto; aspect-ratio: 4 / 5; object-fit: cover; }
+}
+
+@media (max-width: 700px) {
+  .project { grid-template-columns: 1.65rem minmax(0, 1fr); align-items: start; }
+  .number { margin-top: .45rem; }
+  .metadata { grid-column: 2; grid-template-columns: repeat(2, minmax(0, auto)); justify-content: start; column-gap: .8rem; }
+  .status { grid-column: 1 / -1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  [data-project]:hover .name > span { transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .inline-preview { display: block; grid-column: 2 / -1; width: min(100%, 21rem); height: auto; }
+}

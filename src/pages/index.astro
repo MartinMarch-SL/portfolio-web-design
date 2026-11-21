@@ -1,14 +1,45 @@
-<!doctype html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="robots" content="noindex, nofollow">
-    <title>Catálogo de proyectos</title>
-  </head>
-  <body>
-    <main>
+---
+import Layout from '../showcase/Layout.astro'
+import { projects } from '../showcase/projects'
+
+const clock = new Intl.DateTimeFormat('es-ES', {
+  timeZone: 'Europe/Madrid', hour: '2-digit', minute: '2-digit', hourCycle: 'h23',
+})
+---
+<Layout>
+  <div class="catalogue">
+    <header class="catalogue-header">
       <h1>Catálogo de proyectos</h1>
+      <p>Edición 2026 <span class="clock">Madrid <time data-madrid-clock>{clock.format()}</time></span></p>
+    </header>
+    <main>
+      <p class="intro">Webs a medida para negocios que cuidan los detalles.</p>
+      <ol class="projects">
+        {projects.map((project, index) => {
+          const Tag = project.href ? 'a' : 'div'
+          return (
+            <li data-project data-status={project.status} style={`--row: ${index}`}>
+              <Tag class="project" href={project.href} data-preview={project.preview}>
+                <span class="number">{project.n}</span>
+                <h2 class="name"><span>{project.name}</span></h2>
+                <div class="metadata">
+                  <span>{project.sector} <span aria-hidden="true">·</span> {project.year}</span>
+                  <span>{project.tags.join(' / ')}</span>
+                  {project.status === 'soon' && <span class="status">En preparación</span>}
+                  {project.status === 'live' && <span class="status">Ver proyecto <span aria-hidden="true">↗</span></span>}
+                </div>
+                {project.preview && <img class="inline-preview" src={project.preview} alt="" width="1200" height="1500" />}
+              </Tag>
+            </li>
+          )
+        })}
+      </ol>
     </main>
-  </body>
-</html>
+    <footer class="catalogue-footer">Disponible bajo petición · 2026</footer>
+  </div>
+  <img class="floating-preview" data-floating-preview alt="" aria-hidden="true" />
+</Layout>
+<script>
+  import '../showcase/index-reveal'
+  import '../showcase/preview-cursor'
+</script>
