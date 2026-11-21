@@ -4,3 +4,4 @@ dist/
 playwright-report/
 test-results/
 /scripts/photos/candidates/
+/scripts/photos/candidates-mares/

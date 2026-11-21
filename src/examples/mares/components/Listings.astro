@@ -1,0 +1,34 @@
+---
+import Layout from '../Layout.astro'
+import { url } from '../../../lib/url'
+import { properties, propertyPath } from '../data/properties'
+import Filters from './Filters.astro'
+import Card from './Card.astro'
+import BayMap from './BayMap.astro'
+---
+<Layout title="Propiedades">
+  <section class="section page-intro"><p class="kicker">Venta y alquiler · Mallorca</p><h1>Las <em>propiedades</em></h1><p>Pisos, casas y villas entre el centro de Palma y la bahía.</p></section>
+  <section class="section listing" data-listing aria-label="Listado de propiedades">
+    <button class="button" type="button" data-filter-open aria-haspopup="dialog" aria-controls="listing-filters" hidden><span>Filtros (<span data-filter-count>0</span>)</span></button>
+    <div data-filter-inline><Filters /></div>
+    <dialog id="listing-filters" class="filter-sheet" aria-labelledby="listing-filters-title">
+      <div class="filter-sheet-head">
+        <h2 id="listing-filters-title">Filtros</h2>
+        <button class="text-button" type="button" data-filter-close autofocus>Cerrar</button>
+      </div>
+    </dialog>
+    <div class="listing-bar">
+      <p data-count aria-live="polite">{properties.length} viviendas</p>
+      <div class="view-switch" aria-label="Vista de resultados">
+        <button type="button" data-view="lista" aria-pressed="true">Lista</button>
+        <button type="button" data-view="mapa" aria-pressed="false">Mapa</button>
+      </div>
+    </div>
+    <div class="card-grid" data-results>{properties.map(property => <Card {property} />)}</div>
+    <div class="dark map-results" data-map-results hidden>
+      <BayMap listing />
+      <ul class="pin-links">{properties.map(property => <li data-pin={property.slug}><a href={url(propertyPath(property))}>{property.name}</a></li>)}</ul>
+    </div>
+    <p data-empty hidden>No hay viviendas con estos filtros. Prueba a ampliar el precio o cambiar de barrio.</p>
+  </section>
+</Layout>

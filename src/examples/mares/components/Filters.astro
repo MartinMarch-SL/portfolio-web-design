@@ -1,0 +1,18 @@
+---
+import { areas, features } from '../data/properties'
+import { url } from '../../../lib/url'
+const { quick = false } = Astro.props
+---
+<form class:list={['filters', { quick }]} action={url('mares/propiedades/')} data-list-filters={!quick || undefined}>
+  <label>Operación<select name="operacion"><option value="">Todas</option><option value="venta">Venta</option><option value="alquiler">Alquiler</option></select></label>
+  <label>Barrio<select name="barrio"><option value="">Todos los barrios</option>{areas.map(area => <option value={area.id}>{area.name}</option>)}</select></label>
+  <label>Precio máximo (€)<input name="precio" type="number" min="1" step="1" placeholder="Sin límite" /></label>
+  {quick ? <button class="button">Buscar vivienda ↗</button> : <>
+    <label>Habitaciones<select name="habitaciones"><option value="">Todas</option>{[1, 2, 3, 4, 5].map(count => <option value={count}>{count} o más</option>)}</select></label>
+    <fieldset class="extras"><legend>Características</legend>{Object.entries(features).map(([key, label]) => <label><input type="checkbox" name="extras" value={key} /> {label}</label>)}</fieldset>
+    <button class="button list-submit">Aplicar</button>
+    <button class="text-button" type="reset">Limpiar</button>
+    <label class="sort">Orden<select name="orden"><option value="seleccion">Selección Marès</option><option value="precio-asc">Menor precio</option><option value="precio-desc">Mayor precio</option><option value="superficie">Mayor superficie</option></select></label>
+    <input type="hidden" name="vista" value="lista" />
+  </>}
+</form>

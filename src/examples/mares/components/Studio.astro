@@ -1,0 +1,25 @@
+---
+import Layout from '../Layout.astro'
+import { url } from '../../../lib/url'
+import Photo from './Photo.astro'
+const team = [
+  { name: 'Clara Ferrer', role: 'Dirección y compraventa', detail: 'Coordina la búsqueda y la negociación, desde la primera visita hasta la firma.' },
+  { name: 'Joan Vidal', role: 'Valoración y captación', detail: 'Estudia cada vivienda sobre el terreno y explica qué factores influyen en su precio.' },
+  { name: 'Nora Klein', role: 'Alquiler y atención internacional', detail: 'Acompaña a quienes llegan a la isla y coordina la entrega de cada vivienda.' },
+]
+---
+<Layout title="Estudio">
+  <section class="section page-intro"><p class="kicker">Una inmobiliaria de Palma</p><h1>El <em>estudio</em></h1><p>Trabajamos desde Santa Catalina y conocemos Palma a pie, de portal en portal.</p></section>
+  <section class="section split studio-story">
+    <Photo path="examples/mares/img/palma-01.webp" reveal parallax />
+    <div><p class="kicker">Cómo trabajamos</p><h2>Mirar <em>de cerca</em></h2><p>Antes de incorporar una vivienda, la recorremos a distintas horas y revisamos su documentación. En las visitas hablamos de la orientación, el estado de la finca y la vida diaria en la calle.</p><p>Atendemos en español, catalán, inglés y alemán (ES/CA/EN/DE).</p><a class="arrow-link" href={url('mares/propiedades/')}>Conoce nuestras viviendas ↗</a></div>
+  </section>
+  <section class="section"><h2>El <em>equipo</em></h2><div class="team">{team.map((person, index) => <article>
+    <Photo path={`examples/mares/img/equipo-0${index + 1}.webp`} width={1080} height={1350} sizes="(max-width: 720px) 100vw, 32vw" />
+    <h3>{person.name}</h3><p class="kicker">{person.role}</p><p>{person.detail}</p>
+  </article>)}</div></section>
+  <section class="section split dark office">
+    <div><p class="kicker">Contacto</p><h2>En <em>Santa Catalina</em></h2><address>C/ de Sant Magí 41<br />07013 Palma de Mallorca<br />Lunes a viernes, de 9:30 a 18:00</address><p><a href="tel:+34871010404">+34 871 010 404</a><br /><a href="mailto:hola@mares-propietats.example">hola@mares-propietats.example</a></p></div>
+    <Photo path="examples/mares/img/oficina.webp" reveal />
+  </section>
+</Layout>

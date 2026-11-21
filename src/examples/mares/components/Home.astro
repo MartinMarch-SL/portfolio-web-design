@@ -1,0 +1,45 @@
+---
+import Layout from '../Layout.astro'
+import { url } from '../../../lib/url'
+import { areas, properties } from '../data/properties'
+import Photo from './Photo.astro'
+import Filters from './Filters.astro'
+import Card from './Card.astro'
+import BayMap from './BayMap.astro'
+---
+<Layout>
+  <section class="hero">
+    <Photo path="examples/mares/img/hero.webp" eager height={1000} sizes="100vw" parallax />
+    <div class="hero-inner">
+      <p class="kicker">PALMA DE MALLORCA <span>39° 34′ N · 2° 39′ E</span></p>
+      <h1><span data-line>Casas con</span> <em data-line>luz propia</em></h1>
+      <p class="hero-end"><span>Venta y alquiler de viviendas con carácter</span><a href="#buscar">Explorar ↓</a></p>
+    </div>
+  </section>
+  <section class="search section" id="buscar">
+    <p class="kicker">Encuentra tu lugar en Palma</p>
+    <Filters quick />
+  </section>
+  <section class="section selection">
+    <div class="section-head"><div><p class="kicker">En cartera</p><h2>La <em>selección</em></h2></div><a class="arrow-link" href={url('mares/propiedades/')}>Ver todas las propiedades ↗</a></div>
+    <div class="stack" data-reveal-stack>{properties.slice(0, 3).map((property, index) => <Card {property} stack {index} />)}</div>
+  </section>
+  <section class="section dark">
+    <div class="section-head"><div><p class="kicker">De poniente a levante</p><h2>Palma, <em>barrio a barrio</em></h2></div><p>Recorre la bahía y descubre las viviendas de cada barrio.</p></div>
+    <BayMap />
+    <div class="counters">
+      <div><strong data-counter={properties.length}>{properties.length}</strong><span>Viviendas en cartera</span></div>
+      <div><strong data-counter={areas.length}>{areas.length}</strong><span>Barrios junto a la bahía</span></div>
+      <div><strong data-counter="4">4</strong><span>Idiomas en el estudio</span></div>
+    </div>
+  </section>
+  <div class="marquee" data-section="ticker" aria-hidden="true"><div>{[0, 1].map(() => <span>{areas.map(area => area.name).join('　·　')}　·　</span>)}</div></div>
+  <section class="section services">
+    <Photo path="examples/mares/img/palma-02.webp" width={1080} height={1350} reveal parallax />
+    <div><p class="kicker">Marès Propietats</p><h2>Una casa.<br /><em>Muchas decisiones.</em></h2>
+      <dl><dt>Comprar</dt><dd>Buscamos contigo y revisamos la vivienda, su finca y lo que supone vivir allí.</dd><dt>Alquilar</dt><dd>Coordinamos las visitas y te acompañamos desde la primera consulta hasta la entrega de llaves.</dd><dt>Vender</dt><dd>Valoramos la vivienda y preparamos su presentación, las visitas y la negociación.</dd></dl>
+      <a class="arrow-link" href={url('mares/estudio/')}>Conoce el estudio ↗</a>
+    </div>
+  </section>
+  <section class="section valuation-cta"><div><p class="kicker">Valoración de vivienda</p><h2>¿Cuánto vale <em>tu casa?</em></h2></div><a class="button" href={url('mares/vender/')}>Calcular una estimación ↗</a></section>
+</Layout>

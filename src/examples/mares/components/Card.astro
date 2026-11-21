@@ -1,0 +1,17 @@
+---
+import { url } from '../../../lib/url'
+import { areaName, propertyImage, propertyPath, propertyPrice, type Property } from '../data/properties'
+import Photo from './Photo.astro'
+interface Props { property: Property; stack?: boolean; index?: number }
+const { property, stack = false, index = 0 } = Astro.props
+---
+<article class:list={['property-card', { 'stack-card': stack }]} data-property={property.slug} style={stack ? `--stack:${index};z-index:${index + 1}` : undefined}>
+  <a href={url(propertyPath(property))}>
+    <Photo path={propertyImage(property)} reveal={stack} />
+    <div class="card-content">
+      <p class="kicker">{areaName(property.area)} · {property.operation}</p>
+      <h3>{property.name}</h3>
+      <div class="card-data"><span>{property.size} m² · {property.rooms} hab.</span><strong>{propertyPrice(property)}</strong><span aria-hidden="true">↗</span></div>
+    </div>
+  </a>
+</article>

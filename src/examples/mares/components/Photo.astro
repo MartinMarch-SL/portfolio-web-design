@@ -1,0 +1,10 @@
+---
+import { responsiveImage } from '../../../lib/responsive-image'
+const { path, alt = '', width = 1600, height = 1067, sizes = '(max-width: 720px) 100vw, 60vw', eager = false, reveal = false, parallax = false } = Astro.props
+---
+<div class="photo" data-reveal={reveal || undefined}>
+  <div class="photo-plane" data-parallax={parallax || undefined}>
+    <img {...responsiveImage(path, sizes, width)} {alt} {width} {height} loading={eager ? 'eager' : 'lazy'} fetchpriority={eager ? 'high' : undefined} decoding="async" />
+  </div>
+  {reveal && <div class="shutter" aria-hidden="true">{Array.from({ length: 14 }, (_, index) => <i style={`--slat:${index}`}></i>)}</div>}
+</div>

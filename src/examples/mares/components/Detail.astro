@@ -1,0 +1,54 @@
+---
+import Layout from '../Layout.astro'
+import { url } from '../../../lib/url'
+import { areaName, features, propertyImage, propertyPrice, properties, euros, type Property } from '../data/properties'
+import { maxLtv, mortgage } from '../lib/finance'
+import Photo from './Photo.astro'
+import Card from './Card.astro'
+import Contact from './Contact.astro'
+const { property } = Astro.props as { property: Property }
+const frames = ['a', 'b', 'c']
+const similar = properties.filter(item => item.slug !== property.slug && item.operation === property.operation)
+  .sort((a, b) => Number(b.area === property.area) - Number(a.area === property.area) || Math.abs(a.price - property.price) - Math.abs(b.price - property.price)).slice(0, 2)
+const deposit = Math.ceil(property.price * (100 - maxLtv * 100) / 100)
+---
+<Layout title={property.name} description={property.description.split('. ')[0] + '.'}>
+  <section class="section page-intro detail-intro">
+    <a class="arrow-link" href={url('mares/propiedades/')}>← Propiedades</a>
+    <p class="kicker">{areaName(property.area)} · {property.type} en {property.operation}</p>
+    <h1>{property.name}</h1><p class="detail-price">{propertyPrice(property)}</p>
+  </section>
+  <section class="section detail-gallery" data-gallery aria-label="Galería de la vivienda">
+    <div class="gallery">
+      {frames.map((frame, index) => <button type="button" data-frame={index} data-src={url(propertyImage(property, frame))} aria-label={`Ampliar imagen ${index + 1}`}>
+        <Photo path={propertyImage(property, frame)} width={index === 2 ? 1080 : 1600} height={index === 2 ? 1350 : 1067} eager={index === 0} />
+        <span aria-hidden="true">{`0${index + 1} ↗`}</span>
+      </button>)}
+    </div>
+    <dialog class="lightbox" aria-label="Galería ampliada">
+      <div class="lightbox-top"><p aria-live="polite" data-frame-count></p><button type="button" data-close autofocus>Cerrar <span aria-hidden="true">×</span></button></div>
+      <img alt="" data-lightbox-img />
+      <div class="lightbox-nav"><button type="button" data-prev aria-label="Imagen anterior">← Anterior</button><button type="button" data-next aria-label="Imagen siguiente">Siguiente →</button></div>
+    </dialog>
+  </section>
+  <section class="section detail-copy">
+    <dl class="facts">
+      {[['Superficie', property.size + ' m²'], ['Habitaciones', property.rooms], ['Baños', property.baths], ['Planta', property.floor], ['Año', property.year], ['Energía', property.energy]].map(([key, value]) => <div><dt>{key}</dt><dd>{value}</dd></div>)}
+    </dl>
+    <div><h2>La <em>vivienda</em></h2><p>{property.description}</p><ul class="feature-list">{property.features.map(feature => <li>{features[feature]}</li>)}</ul></div>
+  </section>
+  <section class="section detail-actions dark">
+    {property.operation === 'venta' && <div>
+      <p class="kicker">Financiación</p><h2>Calcula tu <em>hipoteca</em></h2>
+      <form data-mortgage data-price={property.price}>
+        <label>Entrada (€)<input name="entrada" type="number" min={deposit} max={property.price} value={deposit} required /></label>
+        <label>Plazo (años)<input name="plazo" type="number" min="1" max="40" value="25" required /></label>
+        <label>Interés anual (%)<input name="interes" type="number" min="0" max="25" step=".01" value="3" required /></label>
+        <output data-payment aria-live="polite">{euros(mortgage(property.price, deposit, 25, 3))}/mes</output>
+        <p class="note" data-mortgage-note>Simulación con financiación máxima del 80 %. Cuota sin impuestos ni gastos.</p>
+      </form>
+    </div>}
+    <div><p class="kicker">Visitas</p><h2>Ven a <em>verla</em></h2><Contact visit /></div>
+  </section>
+  <section class="section"><h2>También en <em>cartera</em></h2><div class="card-grid similar">{similar.map(item => <Card property={item} />)}</div></section>
+</Layout>

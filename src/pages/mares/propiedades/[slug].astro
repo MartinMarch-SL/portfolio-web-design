@@ -1,0 +1,9 @@
+---
+import Detail from '../../../examples/mares/components/Detail.astro'
+import { properties } from '../../../examples/mares/data/properties'
+export function getStaticPaths() {
+  return properties.map(property => ({ params: { slug: property.slug }, props: { property } }))
+}
+const { property } = Astro.props
+---
+<Detail {property} />

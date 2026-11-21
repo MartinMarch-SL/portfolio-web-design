@@ -1,0 +1,42 @@
+---
+import { ClientRouter } from 'astro:transitions'
+import PortfolioIcons from '../../lib/PortfolioIcons.astro'
+import { url } from '../../lib/url'
+import '@fontsource/instrument-serif/400.css'
+import '@fontsource/instrument-serif/400-italic.css'
+import '@fontsource-variable/geist'
+import './styles/base.css'
+
+const { title, description = 'Viviendas con carácter en Palma de Mallorca. Venta, alquiler y valoraciones.' } = Astro.props
+const links = [['propiedades/', 'Propiedades'], ['vender/', 'Vender'], ['estudio/', 'Estudio']]
+---
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#F6F2EA" />
+    <meta name="description" content={description} />
+    <PortfolioIcons />
+    <ClientRouter />
+    <title>{title ? title + ' · Marès Propietats' : 'Marès Propietats · Palma de Mallorca'}</title>
+  </head>
+  <body data-mares>
+    <a class="skip" href="#contenido">Saltar al contenido</a>
+    <header class="mast">
+      <a class="mark" href={url('mares/')} aria-label="Marès Propietats, inicio">MARÈS<span>· PROPIETATS</span></a>
+      <nav aria-label="Principal">
+        {links.map(([path, label]) => <a href={url('mares/' + path)} aria-current={Astro.url.pathname === url('mares/' + path) ? 'page' : undefined}>{label}</a>)}
+      </nav>
+      <span class="mast-place">PALMA DE MALLORCA</span>
+    </header>
+    <main id="contenido"><slot /></main>
+    <footer class="footer dark">
+      <div><a class="mark" href={url('mares/')}>MARÈS<span>· PROPIETATS</span></a><p>La luz de Palma, en piedra.</p></div>
+      <address>C/ de Sant Magí 41, Santa Catalina<br />07013 Palma de Mallorca<br />API 07184 · Identificación ficticia</address>
+      <div><a href="tel:+34871010404">+34 871 010 404</a><br /><a href="mailto:hola@mares-propietats.example">hola@mares-propietats.example</a><p><a href={url('')} data-astro-reload>Volver al catálogo ↗</a></p></div>
+    </footer>
+    <script>import './scripts/main'</script>
+  </body>
+</html>

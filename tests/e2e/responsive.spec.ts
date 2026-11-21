@@ -21,6 +21,11 @@ const pages = {
   blog: 'ines-arranz/blog/',
   articulo: 'ines-arranz/blog/cuando-la-mente-se-adelanta/',
   sobreMi: 'ines-arranz/sobre-mi/',
+  mares: 'mares/',
+  propiedades: 'mares/propiedades/',
+  ficha: 'mares/propiedades/patio-de-sant-jaume/',
+  vender: 'mares/vender/',
+  estudio: 'mares/estudio/',
 }
 
 for (const [width, height] of viewports) {

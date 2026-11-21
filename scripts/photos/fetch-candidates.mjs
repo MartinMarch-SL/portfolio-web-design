@@ -3,8 +3,19 @@ import { mkdir, readdir, unlink, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
 
-const directory = new URL('./candidates/', import.meta.url);
-const queries = [
+const example = process.argv[2] ?? 'ruido';
+if (!['ruido', 'mares'].includes(example)) throw new Error(`Unknown example: ${example}`);
+const directory = new URL(example === 'mares' ? './candidates-mares/' : './candidates/', import.meta.url);
+const queries = example === 'mares' ? [
+  ['Palma cathedral Mallorca bay', 'landscape'],
+  ['Palma old town Mallorca sandstone', 'portrait'],
+  ['Mallorca villa pool mediterranean', 'landscape'],
+  ['Mallorca stone house shutters', 'landscape'],
+  ['mediterranean living room terrace', 'landscape'],
+  ['mediterranean interior detail', 'portrait'],
+  ['architecture studio interior', 'landscape'],
+  ['natural light professional portrait', 'portrait'],
+] : [
   ['streetwear portrait', 'portrait'],
   ['hoodie street fashion', 'portrait'],
   ['urban fashion editorial', 'portrait'],
