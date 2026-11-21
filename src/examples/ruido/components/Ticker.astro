@@ -1,0 +1,16 @@
+---
+const announcement = 'Serie 04　/　Tiradas cortas　/　Viernes 18:00　/　Fet a Barcelona　/'
+---
+<section class="ticker" data-section="ticker" aria-label={announcement}>
+  <div class="tape" aria-hidden="true">
+    <div class="track" data-ticker-track>
+      {Array.from({ length: 12 }, () => <span>{announcement}　</span>)}
+    </div>
+  </div>
+</section>
+<style>
+  .ticker { position: relative; z-index: 2; margin-top: -2.1rem; padding-block: 4vw; overflow: clip; pointer-events: none; }
+  .tape { margin-inline: -2%; rotate: -2deg; background: var(--signal); color: var(--asphalt); padding-block: .85rem; }
+  .track { display: flex; width: max-content; font: clamp(.7rem, 1.2vw, .95rem)/1 var(--mono); text-transform: uppercase; }
+  .track span { white-space: pre; }
+</style>

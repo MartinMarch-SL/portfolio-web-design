@@ -1,0 +1,28 @@
+---
+const units = ['Días', 'Horas', 'Minutos', 'Segundos']
+---
+<section data-section="countdown" class="countdown" aria-labelledby="countdown-title">
+  <div class="section-line">
+    <h2 id="countdown-title">Próxima salida</h2>
+    <p>Viernes / 18:00 · Barcelona</p>
+  </div>
+  <div class="clock" role="timer" aria-label="Tiempo hasta la próxima salida">
+    {units.map(unit => (
+      <div class="unit">
+        <div class="digits" aria-hidden="true">
+          {[0, 1].map(() => <span class="digit" data-digit><span>–</span></span>)}
+        </div>
+        <span>{unit}</span>
+      </div>
+    ))}
+  </div>
+</section>
+<style>
+  .countdown { padding: clamp(2rem, 5vw, 5rem) var(--gutter) clamp(4rem, 10vw, 10rem); }
+  .clock { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: clamp(1rem, 3vw, 3rem); }
+  .unit { display: grid; gap: .7rem; justify-items: center; font: clamp(.55rem, 1vw, .75rem)/1.4 var(--mono); text-transform: uppercase; }
+  .unit + .unit { border-left: 1px solid var(--hairline); }
+  .digits { display: flex; font: 900 clamp(2rem, 15vw, 15rem)/.88 var(--display); font-variation-settings: 'wdth' 62; font-variant-numeric: tabular-nums; }
+  .digit { display: inline-grid; overflow: hidden; }
+  .digit > :global(span) { grid-area: 1 / 1; }
+</style>

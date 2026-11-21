@@ -1,0 +1,20 @@
+---
+import Layout from '../../examples/ruido/Layout.astro'
+import ProductCard from '../../examples/ruido/components/ProductCard.astro'
+import { products } from '../../examples/ruido/data/products'
+---
+<Layout title="Tienda · RUIDO">
+  <main>
+    <p>Series 03–04 / {products.length} referencias</p>
+    <h1>Catálogo.</h1>
+    <ul>
+      {products.map((product, index) => <li><ProductCard product={product} index={index + 1} total={products.length} /></li>)}
+    </ul>
+  </main>
+</Layout>
+<style>
+  main { padding: 3rem var(--gutter) 5rem; background: var(--chalk); color: var(--asphalt); --hairline: #0e0e0e40; }
+  p { font: .75rem/1.4 var(--mono); text-transform: uppercase; border-top: 1px solid var(--hairline); padding-top: .6rem; }
+  h1 { margin: .15em 0 .3em; font: 900 clamp(3.6rem, 13vw, 12rem)/.85 var(--display); font-variation-settings: 'wdth' 72; letter-spacing: -.065em; }
+  ul { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); gap: 2rem 1.25rem; list-style: none; margin: 0; padding: 0; }
+</style>

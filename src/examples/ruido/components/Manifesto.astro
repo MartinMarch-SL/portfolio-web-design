@@ -1,0 +1,19 @@
+---
+const sentences = [
+  'Cortamos ancho para que puedas moverte.',
+  'Cosemos el algodón pesado en L’Hospitalet.',
+  'De cada modelo salen doscientas piezas.',
+  'Cuando se acaban, cambiamos el patrón.',
+]
+---
+<section class="manifesto" data-section="manifesto" aria-labelledby="manifesto-title">
+  <div class="section-line"><h2 id="manifesto-title">Manifiesto</h2><p>Barcelona · L’Hospitalet</p></div>
+  <div class="text">
+    {sentences.map(sentence => <p>{sentence.split(' ').map(word => <><span data-word>{word}</span>{' '}</>)}</p>)}
+  </div>
+</section>
+<style>
+  .manifesto { padding: clamp(3rem, 8vw, 9rem) var(--gutter); }
+  .text { margin: clamp(2rem, 5vw, 5rem) 0 0 auto; max-width: 16ch; font: 790 clamp(2.3rem, 7vw, 7.4rem)/.96 var(--display); font-variation-settings: 'wdth' 84; letter-spacing: -.055em; }
+  .text p { margin: 0 0 .22em; }
+</style>

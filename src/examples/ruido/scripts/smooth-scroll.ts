@@ -2,6 +2,9 @@ import Lenis from 'lenis'
 import { canHover, onMotionPreferencesChange, prefersReducedMotion } from './motion-prefs'
 
 let lenis: Lenis | undefined
+export function scrollVelocity() {
+  return lenis?.velocity
+}
 
 function stop() {
   lenis?.destroy()

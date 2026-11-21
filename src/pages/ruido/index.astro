@@ -1,57 +1,32 @@
 ---
 import Layout from '../../examples/ruido/Layout.astro'
-import { products } from '../../examples/ruido/data/products'
-import { url } from '../../lib/url'
-
-const price = new Intl.NumberFormat('es-ES', {
-  style: 'currency',
-  currency: 'EUR',
-  maximumFractionDigits: 0,
-})
+import Hero from '../../examples/ruido/components/Hero.astro'
+import Ticker from '../../examples/ruido/components/Ticker.astro'
+import Countdown from '../../examples/ruido/components/Countdown.astro'
+import DropRail from '../../examples/ruido/components/DropRail.astro'
+import Manifesto from '../../examples/ruido/components/Manifesto.astro'
+import Lookbook from '../../examples/ruido/components/Lookbook.astro'
+import Workshop from '../../examples/ruido/components/Workshop.astro'
+import Newsletter from '../../examples/ruido/components/Newsletter.astro'
 ---
 <Layout>
-  <main>
-    <section class="drop" id="lookbook" aria-labelledby="drop-title">
-      <p class="drop-meta"><span>Barcelona · L’Hospitalet</span><span>Serie 04 / 2026</span></p>
-      <h1 id="drop-title">RUIDO</h1>
-      <figure>
-        <img src={url('examples/ruido/img/campaign-01.webp')} alt="Marcador de posición de la campaña" width="1600" height="1000" />
-        <figcaption>Campaña 01 · Serie 04</figcaption>
-      </figure>
-    </section>
-    <section class="stock" id="tienda" aria-labelledby="stock-title">
-      <div class="stock-heading">
-        <h2 id="stock-title">Catálogo</h2>
-        <p>{products.length} referencias / Series 03–04</p>
-      </div>
-      <ul>
-        {products.map((product) => (
-          <li>
-            <span class="reference">Serie {product.drop}</span>
-            <span class="product-name">{product.name}</span>
-            <span class="product-price">{price.format(product.price)}</span>
-          </li>
-        ))}
-      </ul>
-    </section>
+  <main class="ruido-home" id="inicio">
+    <Hero />
+    <Ticker />
+    <Countdown />
+    <DropRail />
+    <Manifesto />
+    <Lookbook />
+    <Workshop />
+    <Newsletter />
   </main>
 </Layout>
-<style>
-  .drop, .stock { padding-inline: var(--gutter); }
-  .drop { padding-top: clamp(1.5rem, 4vw, 4rem); }
-  .drop-meta, figcaption, .stock-heading p, .reference, .product-price { font: .6875rem/1.5 var(--mono); letter-spacing: .06em; text-transform: uppercase; }
-  .drop-meta { display: flex; justify-content: space-between; gap: .5rem; margin: 0; }
-  h1 { margin: .08em 0 .1em; color: var(--signal); font-size: clamp(4.65rem, 20vw, 20rem); font-stretch: 125%; font-weight: 800; line-height: .86; letter-spacing: -.075em; }
-  figure { width: min(100%, 62rem); margin: 0 0 0 auto; }
-  figure img { width: 100%; aspect-ratio: 8 / 5; }
-  figcaption { margin-top: .6rem; color: var(--concrete); }
-  .stock { padding-block: clamp(4rem, 9vw, 9rem); }
-  .stock-heading { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .5rem 2rem; }
-  .stock-heading p, h2 { margin: 0; }
-  h2 { font-size: clamp(2.5rem, 6vw, 5rem); line-height: 1; letter-spacing: -.06em; }
-  ul { margin: 1.5rem 0 0; list-style: none; padding: 0; border-bottom: 1px solid var(--hairline); }
-  li { display: grid; grid-template-columns: minmax(4.5rem, 1fr) minmax(0, 7fr) auto; align-items: baseline; column-gap: .7rem; padding-block: .85rem; border-top: 1px solid var(--hairline); }
-  .reference { color: var(--concrete); }
-  .product-name { font-size: clamp(1rem, 2.3vw, 2rem); font-weight: 650; letter-spacing: -.03em; }
-  .product-price { font-variant-numeric: tabular-nums; }
+<style is:global>
+  .ruido-home .section-line { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .25rem 1rem; border-top: 1px solid var(--hairline); padding-top: .65rem; font: clamp(.625rem, 1vw, .8rem)/1.5 var(--mono); text-transform: uppercase; }
+  .ruido-home .section-line :is(h2, p) { margin: 0; font: inherit; }
+  .ruido-home .section-line a:hover { text-decoration: underline; }
 </style>
+<script>
+  import '../../examples/ruido/scripts/home'
+  import '../../examples/ruido/scripts/countdown'
+</script>

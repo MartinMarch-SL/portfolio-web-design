@@ -1,0 +1,20 @@
+<section data-section="newsletter" class="newsletter" aria-labelledby="newsletter-title">
+  <div class="section-line"><h2 id="newsletter-title">Aviso de la próxima tirada</h2></div>
+  <form data-newsletter-form>
+    <input type="email" aria-label="Tu email" placeholder="TU EMAIL" autocomplete="email" required />
+    <button type="submit" data-magnetic>Avísame <span aria-hidden="true">↗</span></button>
+  </form>
+  <p role="status" tabindex="-1"></p>
+</section>
+<style>
+  .newsletter { background: var(--signal); color: var(--asphalt); --hairline: #0e0e0e60; padding: clamp(2rem, 5vw, 5rem) var(--gutter); }
+  form { display: flex; align-items: center; gap: 1rem; margin-block: clamp(1rem, 3vw, 2rem); border-bottom: 2px solid currentColor; padding-bottom: .5rem; }
+  form[hidden] { display: none; }
+  input, button { background: none; border: 0; color: inherit; }
+  input { width: 100%; min-width: 0; padding: .15em 0; font: 860 clamp(1.8rem, 7vw, 7rem)/1 var(--display); font-variation-settings: 'wdth' 75; letter-spacing: -.04em; }
+  input::placeholder { color: currentColor; opacity: 1; }
+  form button { flex: none; padding: .8rem; font: clamp(.65rem, 1.1vw, .85rem)/1 var(--mono); text-transform: uppercase; background: var(--asphalt); color: var(--chalk); }
+  .newsletter :is(input, button, p):focus-visible { outline-color: var(--asphalt); }
+  p { margin: 0; font: .86rem/1.5 var(--mono); }
+  p:not(:empty) { padding-block: 2rem; }
+</style>

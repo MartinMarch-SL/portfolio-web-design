@@ -1,0 +1,28 @@
+---
+import { url } from '../../../lib/url'
+---
+<section data-section="workshop" class="workshop" aria-labelledby="workshop-title">
+  <div class="section-line"><h2 id="workshop-title">En el taller</h2><p>L’Hospitalet de Llobregat</p></div>
+  <div class="photos">
+    <figure><img src={url('examples/ruido/img/workshop-01.webp')} alt="Mesa de trabajo del taller" loading="lazy" /><figcaption>01 / Corte</figcaption></figure>
+    <figure><img src={url('examples/ruido/img/workshop-02.webp')} alt="Puesto de confección del taller" loading="lazy" /><figcaption>02 / Confección</figcaption></figure>
+  </div>
+  <dl data-workshop-stats>
+    <div><dt>Talleres</dt><dd data-count="3">3</dd></div>
+    <div><dt>Gramaje de la Bloc</dt><dd><span data-count="380">380</span><small>g/m²</small></dd></div>
+    <div><dt>Piezas por modelo</dt><dd data-count="200">200</dd></div>
+  </dl>
+</section>
+<style>
+  .workshop { padding: clamp(3rem, 7vw, 8rem) var(--gutter); }
+  .photos { display: grid; grid-template-columns: 7fr 4fr; gap: clamp(.75rem, 4vw, 4rem); margin-top: 1.5rem; align-items: end; }
+  figure { margin: 0; }
+  figure img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+  figure:nth-child(2) img { aspect-ratio: 4 / 5; }
+  figcaption, dt { font: clamp(.55rem, 1vw, .75rem)/1.4 var(--mono); text-transform: uppercase; color: var(--concrete); }
+  figcaption { margin-top: .5rem; }
+  dl { display: grid; grid-template-columns: repeat(3, 1fr); margin: clamp(2rem, 5vw, 5rem) 0 0; border-top: 1px solid var(--hairline); }
+  dl div { display: flex; flex-direction: column-reverse; padding-top: 1rem; gap: .55rem; }
+  dd { margin: 0; color: var(--signal); font: 870 clamp(2rem, 10vw, 10rem)/.86 var(--display); font-variation-settings: 'wdth' 62; font-variant-numeric: tabular-nums; letter-spacing: -.055em; }
+  small { margin-left: .25rem; font: clamp(.55rem, 1.25vw, 1rem)/1 var(--mono); letter-spacing: 0; }
+</style>

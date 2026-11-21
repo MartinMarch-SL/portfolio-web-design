@@ -1,0 +1,25 @@
+---
+import type { Product } from '../data/products'
+import DistortImage from './DistortImage.astro'
+
+interface Props {
+  product: Product
+  index: number
+  total: number
+}
+const { product, index, total } = Astro.props
+const price = new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 })
+---
+<article class="product-card">
+  <DistortImage src={product.images[0]} alt={product.name} />
+  <div class="details">
+    <span>{String(index).padStart(2, '0')}/{String(total).padStart(2, '0')}</span>
+    <h3>{product.name}</h3>
+    <span>{price.format(product.price)}</span>
+  </div>
+</article>
+<style>
+  .details { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: .6rem; align-items: baseline; border-top: 1px solid var(--hairline); padding-block: .85rem; font: .6875rem/1.4 var(--mono); }
+  .details h3 { font: 700 clamp(.95rem, 1.4vw, 1.4rem)/1.1 var(--display); letter-spacing: -.025em; margin: 0; }
+  .details span { white-space: nowrap; }
+</style>

@@ -1,0 +1,42 @@
+---
+import { url } from '../../../lib/url'
+const looks = [
+  ['01', 'Chaqueta Taller / Pantalón Sants', 22],
+  ['02', 'Camiseta Entrevías / Gorra Dársena', -16],
+  ['03', 'Sudadera Bloc 380 / Cargo Zona Franca', 30],
+  ['04', 'Sudadera Ronda / Bolsa Mercat', -24],
+  ['05', 'Camiseta Moll / Chaqueta Llindar', 17],
+  ['06', 'Sudadera Meridiana / Pantalón Sants', -20],
+] as const
+---
+<section data-section="lookbook" id="lookbook" aria-labelledby="lookbook-title">
+  <div class="heading"><div class="section-line"><p>Serie 04</p><p>Barcelona / 2026</p></div><h2 id="lookbook-title">Lookbook.</h2></div>
+  <div class="looks">
+    {looks.map(([number, pieces, speed]) => (
+      <figure>
+        <div class="frame"><img data-parallax={speed} src={url(`examples/ruido/img/look-${number}.webp`)} alt={pieces} loading="lazy" decoding="async" /></div>
+        <figcaption>Look {number} — {pieces}</figcaption>
+      </figure>
+    ))}
+  </div>
+</section>
+<style>
+  section { background: var(--concrete); color: var(--asphalt); --hairline: #0e0e0e40; padding-block: clamp(2rem, 5vw, 5rem) clamp(3rem, 9vw, 10rem); }
+  .heading { margin-inline: var(--gutter); }
+  h2 { font: 900 clamp(3.4rem, 14vw, 13rem)/.83 var(--display); font-variation-settings: 'wdth' 73; letter-spacing: -.075em; margin: .2em 0; }
+  .looks { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: clamp(2rem, 6vw, 6rem) clamp(.5rem, 2vw, 2rem); align-items: start; }
+  figure { margin: 0; grid-column: span 7; }
+  figure:nth-child(2) { grid-column: 9 / 13; margin-top: 12vw; }
+  figure:nth-child(3) { grid-column: 2 / 12; --ratio: 16 / 10; }
+  figure:nth-child(4) { grid-column: 2 / 6; margin-top: 8vw; }
+  figure:nth-child(5) { grid-column: 7 / 13; }
+  figure:nth-child(6) { grid-column: 1 / 11; --ratio: 16 / 10; }
+  .frame { overflow: hidden; aspect-ratio: var(--ratio, 4 / 5); background: var(--asphalt); }
+  img { width: 100%; height: 100%; object-fit: cover; transform: translateY(var(--photo-y, 0px)) scale(var(--photo-scale, 1)); }
+  figcaption { padding: .6rem var(--gutter) 0; font: .6875rem/1.5 var(--mono); text-transform: uppercase; }
+  @media (max-width: 600px) {
+    figure { grid-column: 1 / 12; }
+    figure:nth-child(even) { grid-column: 3 / 13; margin-top: 0; }
+    figure:nth-child(5) { grid-column: 1 / 11; }
+  }
+</style>
