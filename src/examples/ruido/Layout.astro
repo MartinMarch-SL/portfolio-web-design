@@ -6,6 +6,7 @@ import './styles/tokens.css'
 import './styles/base.css'
 import Header from './components/Header.astro'
 import Footer from './components/Footer.astro'
+import CartDrawer from './components/CartDrawer.astro'
 import Grain from './components/Grain.astro'
 
 const { title = 'RUIDO · Fet a Barcelona' } = Astro.props
@@ -23,6 +24,7 @@ const { title = 'RUIDO · Fet a Barcelona' } = Astro.props
     <Header />
     <slot />
     <Footer />
+    <CartDrawer />
     <Grain />
     <div class="ruido-cursor" data-ruido-cursor aria-hidden="true"></div>
   </body>
@@ -33,4 +35,5 @@ const { title = 'RUIDO · Fet a Barcelona' } = Astro.props
   import './scripts/magnetic'
   import './scripts/wordmark'
   import './scripts/distort'
+  import './scripts/cart-ui'
 </script>

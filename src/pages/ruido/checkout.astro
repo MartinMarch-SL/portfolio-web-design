@@ -1,0 +1,93 @@
+---
+import { url } from '../../lib/url'
+import Layout from '../../examples/ruido/Layout.astro'
+---
+<Layout title="Finalizar compra · RUIDO">
+  <main data-checkout>
+    <p class="banner">Demostración — no se realiza ningún cobro</p>
+    <section data-checkout-empty hidden>
+      <h1>Tu carrito está vacío.</h1>
+      <a class="shop-link" href={url('ruido/tienda/')}>Volver a la tienda <span aria-hidden="true">↗</span></a>
+    </section>
+    <section data-checkout-active hidden>
+      <h1>Finalizar compra</h1>
+      <div class="checkout-grid">
+        <form method="dialog">
+          <h2>Datos de envío</h2>
+          <label>Nombre completo <input required autocomplete="shipping name" /></label>
+          <label>Correo electrónico <input type="email" required autocomplete="email" /></label>
+          <label>Dirección <input required autocomplete="shipping street-address" /></label>
+          <div class="address-row">
+            <label>Código postal <input required inputmode="numeric" pattern="[0-9]{5}" autocomplete="shipping postal-code" /></label>
+            <label>Ciudad <input required autocomplete="shipping address-level2" /></label>
+          </div>
+          <div class="submit" data-submit>
+            <button type="submit">Confirmar pedido</button>
+            <div class="processing" data-processing hidden role="status">
+              Preparando confirmación
+              <span aria-hidden="true"></span>
+            </div>
+          </div>
+        </form>
+        <aside aria-labelledby="summary-title">
+          <h2 id="summary-title">Tu pedido</h2>
+          <ul data-summary-lines></ul>
+          <dl>
+            <div><dt>Subtotal</dt><dd data-summary-subtotal></dd></div>
+            <div><dt>Envío</dt><dd data-summary-shipping></dd></div>
+            <div class="total"><dt>Total</dt><dd data-summary-total></dd></div>
+          </dl>
+        </aside>
+      </div>
+    </section>
+    <section data-checkout-complete hidden>
+      <p class="eyebrow">Pedido confirmado</p>
+      <h1 data-order-number tabindex="-1"></h1>
+      <p class="thanks">Gracias. Tu pedido sale del taller en 48 h.</p>
+      <a class="shop-link" href={url('ruido/tienda/')}>Volver a la tienda <span aria-hidden="true">↗</span></a>
+    </section>
+    <template>
+      <li><div><strong data-name></strong><span data-variant></span></div><span data-price></span></li>
+    </template>
+  </main>
+</Layout>
+<script>
+  import '../../examples/ruido/scripts/checkout'
+</script>
+<style>
+  main { min-height: 75svh; padding: 1.4rem var(--gutter) 5rem; color: var(--asphalt); background: var(--chalk); color-scheme: light; --hairline: #0e0e0e40; }
+  .banner { margin: 0 0 2.5rem; padding: .75rem .9rem; background: var(--signal); font: .75rem/1.4 var(--mono); text-transform: uppercase; }
+  h1 { margin: 0 0 .35em; font: 900 clamp(3.2rem, 9vw, 9rem)/.84 var(--display); font-variation-settings: 'wdth' 76; letter-spacing: -.065em; overflow-wrap: anywhere; }
+  h2 { margin: 0 0 1.2rem; font: 750 1.7rem/1 var(--display); letter-spacing: -.04em; }
+  .checkout-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: clamp(1.5rem, 7vw, 8rem); align-items: start; }
+  form, aside { border-top: 1px solid var(--asphalt); padding-top: 1rem; }
+  aside { position: sticky; top: 1.5rem; }
+  label { display: grid; gap: .4rem; min-width: 0; font: .75rem/1.4 var(--mono); text-transform: uppercase; }
+  input { width: 100%; min-width: 0; padding: .65rem; background: transparent; border: 1px solid var(--hairline); border-radius: 0; color: inherit; font: 1rem var(--display); }
+  form { display: grid; gap: 1rem; }
+  form h2 { margin-bottom: .15rem; }
+  .address-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: .8rem; }
+  .submit { min-height: 3rem; }
+  .submit button { width: 100%; min-height: 3rem; border: 0; padding: .75rem; background: var(--asphalt); color: var(--chalk); font: .8rem var(--mono); text-transform: uppercase; }
+  @media (hover: hover) and (pointer: fine) {
+    .submit button:hover { background: var(--signal); color: var(--asphalt); }
+  }
+  .processing { padding-top: .65rem; font: .75rem/1.4 var(--mono); text-transform: uppercase; }
+  .processing span { display: block; height: 2px; margin-top: .5rem; background: var(--signal); transform-origin: left; }
+  ul { padding: 0; margin: 0; list-style: none; }
+  dl { margin: 1rem 0 0; }
+  dl div, :global([data-summary-lines] li) { display: flex; justify-content: space-between; gap: .75rem; padding: .55rem 0; border-top: 1px solid var(--hairline); }
+  dl div { font: .8rem/1.4 var(--mono); }
+  dd { margin: 0; white-space: nowrap; }
+  .total { font-weight: bold; }
+  :global([data-summary-lines] [data-variant]), :global([data-summary-lines] [data-price]) { display: block; font: .75rem/1.45 var(--mono); }
+  :global([data-summary-lines] [data-price]) { white-space: nowrap; }
+  [data-checkout-complete] { margin-top: clamp(2rem, 10vw, 9rem); }
+  .eyebrow, .shop-link { font: .8rem/1.4 var(--mono); text-transform: uppercase; }
+  .thanks { font-size: clamp(1rem, 2vw, 1.4rem); }
+  .shop-link { text-decoration: underline; text-underline-offset: .3em; }
+  @media (max-width: 768px) {
+    .checkout-grid { grid-template-columns: minmax(0, 1fr); }
+    aside { position: static; }
+  }
+</style>

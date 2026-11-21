@@ -1,0 +1,20 @@
+---
+import type { Product } from '../data/products'
+const { product } = Astro.props as { product: Product }
+---
+<fieldset class="sizes">
+  <legend>Talla</legend>
+  <div>
+    {product.sizes.length ? product.sizes.map(size => (
+      <button type="button" data-size={size} aria-pressed="false" disabled={product.soldOut.includes(size)}
+        title={product.soldOut.includes(size) ? 'Agotada' : undefined}>{size}</button>
+    )) : <button type="button" data-size="M" aria-pressed="false">Única</button>}
+  </div>
+</fieldset>
+<style>
+  .sizes { min-width: 0; margin: 0; padding: 0; border: 0; font: .75rem var(--mono); text-transform: uppercase; }
+  div { display: flex; flex-wrap: wrap; gap: .35rem; margin-top: .5rem; }
+  button { min-width: 2.55rem; min-height: 2.55rem; padding: .35rem; background: transparent; border: 1px solid var(--hairline); font: inherit; }
+  button[aria-pressed="true"] { background: var(--asphalt); color: var(--chalk); border-color: var(--asphalt); }
+  button:disabled { color: #6b6862; text-decoration: line-through; cursor: default; }
+</style>

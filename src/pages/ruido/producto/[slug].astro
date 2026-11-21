@@ -1,0 +1,95 @@
+---
+import { url } from '../../../lib/url'
+import Layout from '../../../examples/ruido/Layout.astro'
+import Gallery from '../../../examples/ruido/components/Gallery.astro'
+import SizePicker from '../../../examples/ruido/components/SizePicker.astro'
+import SizeGuide from '../../../examples/ruido/components/SizeGuide.astro'
+import ProductCard from '../../../examples/ruido/components/ProductCard.astro'
+import { products, type Product } from '../../../examples/ruido/data/products'
+import { wholeEuros } from '../../../examples/ruido/lib/price'
+
+export function getStaticPaths() {
+  return products.map(product => ({ params: { slug: product.slug }, props: { product } }))
+}
+const { product } = Astro.props as { product: Product }
+const price = wholeEuros.format(product.price)
+const related = [...new Set(products.filter(piece => piece.category !== product.category).map(piece => piece.category))]
+  .slice(0, 3)
+  .map(category => products.find(piece => piece.category === category)!)
+---
+<Layout title={`${product.name} · RUIDO`}>
+  <main data-product={product.slug}>
+    <div class="product">
+      <Gallery product={product} />
+      <section class="info" aria-labelledby="product-title">
+        <nav aria-label="Ruta de navegación"><a href={url('ruido/tienda/')}>Tienda</a> / <span>{product.category}</span></nav>
+        <h1 id="product-title">{product.name}</h1>
+        <p class="price">{price}</p>
+        <p class="description">{product.description}</p>
+        <fieldset class="colors">
+          <legend>Color / <span data-current-color>{product.colors[0].name}</span></legend>
+          <div>
+            {product.colors.map(({ name, hex }, index) => (
+              <button type="button" data-color={name} aria-label={name} aria-pressed={index === 0} title={name} style={`--swatch:${hex}`}></button>
+            ))}
+          </div>
+        </fieldset>
+        <SizePicker product={product} />
+        <SizeGuide product={product} />
+        <button class="add" type="button" data-add data-cursor="AÑADIR" disabled>Añadir al carrito — {price}</button>
+        <div class="details">
+          <details><summary>Tejido</summary><p>{product.fabric}</p></details>
+          <details><summary>Corte</summary><p>{product.fit}</p></details>
+          <details><summary>Cuidados</summary><ul>{product.care.map(instruction => <li>{instruction}</li>)}</ul></details>
+          <details><summary>Envío y devoluciones</summary><p>Envío de 4,95 € y gratis a partir de 120 €. Tienes 30 días desde la entrega para devolver la pieza.</p></details>
+        </div>
+      </section>
+    </div>
+    <section class="related" aria-labelledby="related-title">
+      <h2 id="related-title">Completa el look</h2>
+      <ul>{related.map(piece => <li><ProductCard product={piece} /></li>)}</ul>
+    </section>
+  </main>
+</Layout>
+<script>
+  import '../../../examples/ruido/scripts/product'
+</script>
+<style>
+  main { background: var(--chalk); color: var(--asphalt); color-scheme: light; --hairline: #0e0e0e40; padding: clamp(1rem, 3vw, 3rem) var(--gutter) 4rem; }
+  .product { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: clamp(1.5rem, 6vw, 8rem); }
+  .info { position: sticky; top: 1.5rem; align-self: start; min-width: 0; }
+  nav, .price, legend, summary { font: .78rem/1.4 var(--mono); text-transform: uppercase; }
+  nav a { text-decoration: underline; text-underline-offset: .25em; }
+  h1 { margin: .26em 0 .18em; font: 900 clamp(3rem, 6.4vw, 7.5rem)/.86 var(--display); font-variation-settings: 'wdth' 76; letter-spacing: -.065em; overflow-wrap: anywhere; }
+  .price { margin: 0; font-size: 1rem; }
+  .description { max-width: 36ch; margin: 1.15rem 0; }
+  .colors { border: 0; padding: 0; margin: 0 0 1rem; min-width: 0; }
+  .colors div { display: flex; gap: .55rem; padding-top: .5rem; }
+  .colors button { width: 2.3rem; height: 2.3rem; padding: 0; background: var(--swatch); border: 1px solid var(--hairline); }
+  .colors button[aria-pressed="true"] { outline: 1px solid var(--asphalt); outline-offset: 2px; }
+  .colors button:focus-visible { outline: 2px solid var(--signal); }
+  .add { display: block; width: 100%; padding: 1rem .6rem; border: 0; background: linear-gradient(var(--signal), var(--signal)) left / 0% 100% no-repeat var(--asphalt); color: var(--chalk); font: .8rem/1.3 var(--mono); text-transform: uppercase; }
+  .add:disabled { background: #d4d1ca; color: #55514c; cursor: default; }
+  .add:enabled:focus-visible { background-size: 100% 100%; color: var(--asphalt); }
+  @media (hover: hover) and (pointer: fine) {
+    .add:enabled:hover { background-size: 100% 100%; color: var(--asphalt); }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .add { transition: background-size .3s var(--ease), color .2s; }
+  }
+  .details { margin-top: 1.25rem; }
+  details { border-top: 1px solid var(--hairline); }
+  details:last-child { border-bottom: 1px solid var(--hairline); }
+  summary { cursor: pointer; list-style: none; padding: .75rem 0; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: '+'; float: right; }
+  details[open] summary::after { content: '−'; }
+  details p, details ul { margin: 0 0 .8rem; }
+  .related { margin-top: clamp(3rem, 7vw, 7rem); border-top: 1px solid var(--hairline); }
+  .related h2 { margin: .4em 0; font: 850 clamp(2rem, 5vw, 5rem)/.95 var(--display); letter-spacing: -.055em; }
+  .related ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(.5rem, 1.5vw, 1.5rem); }
+  @media (max-width: 768px) {
+    .product { grid-template-columns: minmax(0, 1fr); }
+    .info { position: static; }
+  }
+</style>

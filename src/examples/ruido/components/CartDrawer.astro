@@ -1,0 +1,59 @@
+---
+import { url } from '../../../lib/url'
+import { freeShippingAt } from '../lib/cart'
+---
+<dialog id="ruido-cart" class="ruido-cart-drawer" aria-labelledby="cart-title" data-lenis-prevent>
+  <header>
+    <h2 id="cart-title">Carrito</h2>
+    <form method="dialog"><button autofocus>Cerrar <span aria-hidden="true">×</span></button></form>
+  </header>
+  <p data-cart-empty>El carrito está vacío.</p>
+  <ul data-cart-lines></ul>
+  <footer data-cart-totals hidden>
+    <p id="cart-shipping" data-cart-shipping></p>
+    <progress max={freeShippingAt} value="0" aria-labelledby="cart-shipping"></progress>
+    <p class="cart-subtotal"><span>Subtotal</span><strong data-cart-subtotal></strong></p>
+    <a href={url('ruido/checkout/')}>Finalizar compra</a>
+  </footer>
+  <template>
+    <li>
+      <img alt="" width="64" height="80" />
+      <div>
+        <strong data-name></strong>
+        <span data-variant></span>
+        <div class="cart-stepper">
+          <button type="button" data-delta="-1" aria-label="Reducir cantidad">−</button>
+          <span data-qty></span>
+          <button type="button" data-delta="1" aria-label="Aumentar cantidad">+</button>
+          <button type="button" data-remove>Quitar</button>
+        </div>
+      </div>
+      <span data-price></span>
+    </li>
+  </template>
+</dialog>
+<style is:global>
+  .ruido-cart-drawer { position: fixed; inset: 0 0 0 auto; margin: 0; width: min(420px, 100%); max-width: none; height: 100%; max-height: none; padding: 1.25rem; color: var(--chalk); background: var(--asphalt); border: 0; border-left: 1px solid var(--hairline); overscroll-behavior: contain; }
+  .ruido-cart-drawer[open] { display: flex; flex-direction: column; }
+  .ruido-cart-drawer::backdrop { background: rgb(0 0 0 / .6); }
+  .ruido-cart-drawer header, .cart-subtotal { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+  .ruido-cart-drawer h2 { font-size: 2.5rem; letter-spacing: -.06em; margin: 0; }
+  .ruido-cart-drawer button { cursor: pointer !important; background: none; border: 0; padding: .5rem; font: .75rem var(--mono); }
+  .ruido-cart-drawer ul { list-style: none; padding: 0; margin: 1rem 0; }
+  .ruido-cart-drawer li { display: grid; grid-template-columns: 64px 1fr auto; align-items: start; gap: .65rem; padding: .8rem 0; border-top: 1px solid var(--hairline); }
+  .ruido-cart-drawer li img { aspect-ratio: 4 / 5; object-fit: cover; }
+  .ruido-cart-drawer li [data-variant] { display: block; }
+  .ruido-cart-drawer :is([data-variant], [data-price], [data-cart-shipping], .cart-stepper, .cart-subtotal) { font: .75rem/1.5 var(--mono); }
+  .ruido-cart-drawer .cart-stepper { display: flex; align-items: center; flex-wrap: wrap; }
+  .ruido-cart-drawer footer { margin-top: auto; }
+  .ruido-cart-drawer [data-cart-shipping] { text-transform: uppercase; margin-bottom: .5rem; }
+  .ruido-cart-drawer progress { display: block; appearance: none; width: 100%; height: 2px; border: 0; background: var(--hairline); }
+  .ruido-cart-drawer progress::-webkit-progress-bar { background: var(--hairline); }
+  .ruido-cart-drawer progress::-webkit-progress-value { background: var(--signal); }
+  .ruido-cart-drawer progress::-moz-progress-bar { background: var(--signal); }
+  .ruido-cart-drawer footer a { display: block; padding: 1rem; background: var(--signal); color: var(--asphalt); text-align: center; font: .8rem var(--mono); text-transform: uppercase; cursor: pointer !important; }
+  @media (prefers-reduced-motion: no-preference) {
+    .ruido-cart-drawer[open] { animation: ruido-cart-enter .3s var(--ease); }
+    @keyframes ruido-cart-enter { from { transform: translateX(100%); } }
+  }
+</style>

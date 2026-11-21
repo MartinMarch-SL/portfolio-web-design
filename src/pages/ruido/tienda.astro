@@ -1,20 +1,37 @@
 ---
 import Layout from '../../examples/ruido/Layout.astro'
+import Filters from '../../examples/ruido/components/Filters.astro'
 import ProductCard from '../../examples/ruido/components/ProductCard.astro'
 import { products } from '../../examples/ruido/data/products'
+import { sortProducts } from '../../examples/ruido/lib/filter'
 ---
 <Layout title="Tienda · RUIDO">
-  <main>
-    <p>Series 03–04 / {products.length} referencias</p>
-    <h1>Catálogo.</h1>
-    <ul>
-      {products.map((product, index) => <li><ProductCard product={product} index={index + 1} total={products.length} /></li>)}
+  <main data-shop>
+    <div class="title">
+      <h1>Tienda</h1>
+      <p data-shop-count role="status">{products.length} piezas</p>
+    </div>
+    <Filters />
+    <p data-shop-empty hidden>No hay piezas con estos filtros.</p>
+    <ul data-shop-grid>
+      {sortProducts(products, 'nuevo').map(product => (
+        <li data-slug={product.slug} data-category={product.category}><ProductCard product={product} /></li>
+      ))}
     </ul>
   </main>
 </Layout>
+<script>
+  import '../../examples/ruido/scripts/shop'
+</script>
 <style>
-  main { padding: 3rem var(--gutter) 5rem; background: var(--chalk); color: var(--asphalt); --hairline: #0e0e0e40; }
-  p { font: .75rem/1.4 var(--mono); text-transform: uppercase; border-top: 1px solid var(--hairline); padding-top: .6rem; }
-  h1 { margin: .15em 0 .3em; font: 900 clamp(3.6rem, 13vw, 12rem)/.85 var(--display); font-variation-settings: 'wdth' 72; letter-spacing: -.065em; }
-  ul { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); gap: 2rem 1.25rem; list-style: none; margin: 0; padding: 0; }
+  main { padding: clamp(2rem, 5vw, 5rem) var(--gutter) 5rem; background: var(--chalk); color: var(--asphalt); color-scheme: light; --hairline: #0e0e0e40; }
+  .title { display: flex; justify-content: space-between; align-items: baseline; gap: .5rem; }
+  p { font: .75rem/1.4 var(--mono); text-transform: uppercase; }
+  h1 { margin: 0 0 .2em; font: 900 clamp(4.2rem, 14vw, 13rem)/.85 var(--display); font-variation-settings: 'wdth' 78; letter-spacing: -.075em; }
+  ul { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2.25rem clamp(.6rem, 1.4vw, 1.5rem); list-style: none; margin: 1.2rem 0 0; padding: 0; }
+  ul[data-view="dense"] { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  @media (max-width: 768px) {
+    ul { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    ul[data-view="dense"] { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
 </style>

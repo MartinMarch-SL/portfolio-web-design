@@ -1,0 +1,34 @@
+---
+import { url } from '../../../lib/url'
+import type { Product } from '../data/products'
+
+const { product } = Astro.props as { product: Product }
+---
+<section class="gallery" aria-label="Fotos del producto" data-gallery>
+  <div class="track" data-gallery-track data-lenis-prevent data-cursor="ARRASTRA" tabindex="0" aria-label="Desliza para ver las fotos">
+    {product.images.map((image, index) => (
+      <figure transition:name={index === 0 ? `ruido-img-${product.slug}` : undefined}>
+        <img src={url(image)} alt={`${product.name} · Vista ${index + 1}`} draggable="false" loading={index ? 'lazy' : 'eager'} />
+      </figure>
+    ))}
+  </div>
+  <div class="gallery-nav">
+    <button type="button" data-gallery-step="-1" aria-label="Foto anterior" disabled>←</button>
+    <span data-gallery-count aria-live="polite">1/{product.images.length}</span>
+    <button type="button" data-gallery-step="1" aria-label="Foto siguiente" disabled={product.images.length < 2}>→</button>
+  </div>
+</section>
+<style>
+  .track { display: grid; gap: .5rem; }
+  figure { margin: 0; aspect-ratio: 4 / 5; background: var(--concrete); }
+  img { width: 100%; height: 100%; object-fit: cover; user-select: none; }
+  .gallery-nav { display: none; }
+  @media (max-width: 768px) {
+    .track { display: flex; gap: 0; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+    .track[data-dragging] { scroll-snap-type: none; }
+    figure { flex: 0 0 100%; scroll-snap-align: start; min-width: 0; }
+    .gallery-nav { display: flex; align-items: center; justify-content: space-between; font: .75rem var(--mono); border-bottom: 1px solid var(--hairline); }
+    button { background: none; border: 0; padding: .65rem .15rem; }
+    button:disabled { opacity: .45; cursor: default; }
+  }
+</style>

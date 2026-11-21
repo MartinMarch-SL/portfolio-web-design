@@ -1,25 +1,45 @@
 ---
+import { url } from '../../../lib/url'
 import type { Product } from '../data/products'
+import { wholeEuros } from '../lib/price'
 import DistortImage from './DistortImage.astro'
 
 interface Props {
   product: Product
-  index: number
-  total: number
+  index?: number
+  total?: number
 }
 const { product, index, total } = Astro.props
-const price = new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 })
+const soldOut = product.sizes.length > 0 && product.sizes.every(size => product.soldOut.includes(size))
 ---
 <article class="product-card">
-  <DistortImage src={product.images[0]} alt={product.name} />
-  <div class="details">
-    <span>{String(index).padStart(2, '0')}/{String(total).padStart(2, '0')}</span>
-    <h3>{product.name}</h3>
-    <span>{price.format(product.price)}</span>
-  </div>
+  <a href={url(`ruido/producto/${product.slug}/`)} data-cursor="VER">
+    <div class="card-image" transition:name={`ruido-img-${product.slug}`}>
+      <DistortImage src={product.images[0]} alt="" />
+      {index === undefined && product.images[1] && <img class="alternate" src={url(product.images[1])} alt="" loading="lazy" decoding="async" />}
+    </div>
+    <div class:list={['details', { numbered: index !== undefined }]}>
+      {index !== undefined && <span>{String(index).padStart(2, '0')}/{String(total).padStart(2, '0')}</span>}
+      <h3>{product.name}</h3>
+      <span>{wholeEuros.format(product.price)}</span>
+    </div>
+    {soldOut ? <s class="tag">Agotado</s> : product.isNew && index === undefined && <span class="tag">Nuevo</span>}
+  </a>
 </article>
 <style>
-  .details { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: .6rem; align-items: baseline; border-top: 1px solid var(--hairline); padding-block: .85rem; font: .6875rem/1.4 var(--mono); }
-  .details h3 { font: 700 clamp(.95rem, 1.4vw, 1.4rem)/1.1 var(--display); letter-spacing: -.025em; margin: 0; }
+  a { display: block; }
+  .card-image { position: relative; }
+  .alternate { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; pointer-events: none; }
+  @media (hover: hover) and (pointer: fine) {
+    .card-image:hover .alternate { opacity: 1; }
+  }
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    .alternate { transition: opacity .4s var(--ease); }
+  }
+  .details { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .4rem; align-items: baseline; padding-top: .65rem; font: .6875rem/1.4 var(--mono); }
+  .details.numbered { grid-template-columns: auto minmax(0, 1fr) auto; border-top: 1px solid var(--hairline); padding-block: .85rem; }
+  .details h3 { font: 700 clamp(.86rem, 1.4vw, 1.4rem)/1.12 var(--display); letter-spacing: -.025em; margin: 0; overflow-wrap: anywhere; }
   .details span { white-space: nowrap; }
+  .tag { display: inline-block; padding: .14rem .28rem; margin-top: .35rem; color: var(--asphalt); background: var(--signal); font: .625rem var(--mono); text-transform: uppercase; }
+  s.tag { background: none; color: inherit; padding-inline: 0; }
 </style>

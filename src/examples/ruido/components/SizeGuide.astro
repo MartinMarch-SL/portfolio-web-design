@@ -1,0 +1,53 @@
+---
+import type { Product } from '../data/products'
+
+const { product } = Astro.props as { product: Product }
+const sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL']
+// Widths are measured with the garment laid flat.
+const firstSize: Record<string, [number, number, number]> = {
+  'bloc-380': [56, 64, 57], ronda: [54, 62, 56], meridiana: [55, 64, 70],
+  taller: [55, 65, 59], llindar: [54, 64, 58],
+  entrevias: [53, 63, 24], moll: [51, 62, 22], 'paral-lel': [51, 64, 57],
+  'zona-franca': [36, 100, 73], sants: [34, 99, 72],
+}
+const pants = product.category === 'pantalones'
+const columns = pants ? ['Cintura', 'Largo', 'Entrepierna'] : ['Pecho', 'Largo', 'Manga']
+const measures = firstSize[product.slug]
+const accessory = product.slug === 'darsena'
+  ? { labels: ['Contorno', 'Visera'], values: ['54–62', '7'] }
+  : { labels: ['Ancho', 'Alto', 'Fondo'], values: [42, 38, 12] }
+---
+<button type="button" class="guide-trigger" data-guide-open aria-haspopup="dialog" aria-controls="size-guide">Guía de tallas <span aria-hidden="true">↗</span></button>
+<dialog id="size-guide" class="guide" data-size-guide aria-labelledby="guide-title" data-lenis-prevent>
+  <header>
+    <h2 id="guide-title">Guía de tallas</h2>
+    <form method="dialog"><button autofocus>Cerrar <span aria-hidden="true">×</span></button></form>
+  </header>
+  <p>{product.name}</p>
+  <table>
+    <caption>Medidas de la pieza en centímetros{measures ? ', en plano' : ''}</caption>
+    <thead><tr><th scope="col">Talla</th>{(measures ? columns : accessory.labels).map(label => <th scope="col">{label}</th>)}</tr></thead>
+    <tbody>
+      {measures ? product.sizes.map(size => {
+        const step = sizes.indexOf(size)
+        return <tr><th scope="row">{size}</th><td>{measures[0] + step * 2}</td><td>{measures[1] + step * (pants ? 1 : 2)}</td><td>{measures[2] + step}</td></tr>
+      }) : <tr><th scope="row">Única</th>{accessory.values.map(value => <td>{value}</td>)}</tr>}
+    </tbody>
+  </table>
+</dialog>
+<style>
+  button { border: 0; background: none; font: .75rem var(--mono); }
+  .guide-trigger { padding: .7rem 0; text-transform: uppercase; text-decoration: underline; text-underline-offset: .25em; }
+  .guide { position: fixed; inset: 0 0 0 auto; margin: 0; width: min(460px, 100%); max-width: none; height: 100%; max-height: none; background: var(--chalk); color: var(--asphalt); border: 0; padding: 1.25rem; overscroll-behavior: contain; }
+  .guide::backdrop { background: rgb(0 0 0 / .6); }
+  header { display: flex; justify-content: space-between; align-items: center; gap: .65rem; }
+  header button { padding: .5rem 0 .5rem .5rem; cursor: pointer !important; }
+  h2 { margin: 0; font-size: clamp(1.5rem, 6vw, 2.4rem); letter-spacing: -.045em; }
+  table { width: 100%; border-collapse: collapse; text-align: left; font: .72rem/1.5 var(--mono); }
+  caption { text-align: left; padding: 1rem 0; }
+  th, td { padding: .7rem .2rem; border-top: 1px solid var(--hairline); }
+  @media (prefers-reduced-motion: no-preference) {
+    .guide[open] { animation: guide-enter .3s var(--ease); }
+    @keyframes guide-enter { from { transform: translateX(100%); } }
+  }
+</style>

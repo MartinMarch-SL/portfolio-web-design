@@ -7,9 +7,5 @@ import { url } from '../../../lib/url'
     <a href={url('ruido/tienda/')}>Tienda</a>
     <a href={url('ruido/#lookbook')} data-cursor="VER">Lookbook</a>
   </nav>
-  <button class="ruido-cart" type="button" id="ruido-cart-button" popovertarget="ruido-cart" data-magnetic>Carrito (<span data-cart-count>0</span>)</button>
-  <div id="ruido-cart" class="ruido-cart-panel" popover>
-    <p>El carrito está vacío.</p>
-    <button type="button" popovertarget="ruido-cart" popovertargetaction="hide">Cerrar</button>
-  </div>
+  <button class="ruido-cart" type="button" id="ruido-cart-button" aria-haspopup="dialog" aria-controls="ruido-cart" data-magnetic>Carrito (<span data-cart-count>0</span>)</button>
 </header>
