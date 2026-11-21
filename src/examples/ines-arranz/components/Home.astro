@@ -1,0 +1,89 @@
+---
+import { url } from '../../../lib/url'
+import { getPosts } from '../data/posts'
+import Blob from './Blob.astro'
+import PostCard from './PostCard.astro'
+const posts = (await getPosts()).slice(0, 3)
+const help = [
+  ['Ansiedad y estrés', 'Si la cabeza no para o el cuerpo está siempre en alerta, podemos explorar qué activa esa respuesta y practicar formas de recuperar espacio en tu día.'],
+  ['Autoestima', 'Trabajaremos con la autocrítica y con lo que has aprendido a exigirte, para que puedas tomar decisiones con más confianza y menos dureza.'],
+  ['Duelo y cambios', 'Un espacio para hablar de lo que has perdido, de lo que cambia y de cómo quieres cuidarte mientras encuentras tu ritmo.'],
+  ['Relaciones y pareja', 'Podemos explorar patrones que se repiten, practicar conversaciones difíciles y acordar límites que permitan cuidaros.'],
+]
+const steps = [
+  ['Una primera llamada', 'Tenemos 15 minutos para conocernos, hablar de lo que buscas y resolver tus dudas.'],
+  ['Una primera sesión', 'Ponemos en palabras lo que te trae aquí y acordamos qué te gustaría trabajar.'],
+  ['Un camino compartido', 'Vamos revisando lo que te ayuda y ajustamos el proceso a tus circunstancias.'],
+]
+const faqs = [
+  ['¿Qué ocurre en la primera sesión?', 'Te escucharé, hablaremos de tu situación y acordaremos un primer objetivo. Puedes contar solo lo que te resulte cómodo.'],
+  ['¿Puedo hacer terapia online?', 'Sí. Necesitarás conexión a internet, un lugar tranquilo y un dispositivo con cámara y micrófono.'],
+  ['¿Cada cuánto nos veremos?', 'Lo decidimos juntas o juntos. Al principio suele ser útil una sesión semanal, y podemos espaciarla según cómo vaya el proceso.'],
+  ['¿Puedo cambiar una cita?', 'Escríbeme para buscar otro hueco. Si puedes, avísame con al menos 24 horas de antelación.'],
+]
+---
+<section class="hero shell">
+  <div class="hero-copy">
+    <p class="eyebrow">Psicología en Valencia y online</p>
+    <h1><span data-title-line>Hablar ayuda.</span><em data-title-line>Empecemos despacio.</em></h1>
+    <p>Un espacio para hablar de lo que te preocupa y encontrar maneras de vivir con más calma y flexibilidad.</p>
+    <a class="button" href={url('ines-arranz/agenda/?modalidad=llamada')}>Reserva una primera llamada gratuita (15 min) <span aria-hidden="true">↗</span></a>
+  </div>
+  <div class="hero-art"><Blob /><p class="eyebrow">Terapia individual y de pareja</p></div>
+</section>
+
+<section class="shell section editorial" id="terapia">
+  <div><p class="eyebrow">En consulta</p><h2>En qué te puedo <em>ayudar.</em></h2></div>
+  <div class="help-grid">
+    {help.map(([title, description]) => <details><summary>{title}</summary><p>{description}</p></details>)}
+  </div>
+</section>
+
+<section class="salvia section">
+  <div class="shell editorial" data-process>
+    <div><p class="eyebrow">El proceso</p><h2>Paso a <em>paso.</em></h2></div>
+    <ol class="steps">
+      {steps.map(([title, description]) => <li><h3>{title}</h3><p>{description}</p></li>)}
+    </ol>
+  </div>
+</section>
+
+<section class="dark section" data-breath-widget>
+  <div class="shell editorial breathing">
+    <div><p class="eyebrow">Una pausa de un minuto</p><h2>Respira <em>conmigo.</em></h2>
+      <p>Si te apetece, apoya los pies en el suelo y acompaña la forma. Respira con suavidad. Puedes volver a tu ritmo habitual en cualquier momento.</p>
+      <button class="button secondary" type="button" data-breath-toggle>Empezar la pausa</button>
+    </div>
+    <div class="breath-art">
+      <Blob guided />
+      <p data-phase role="status">Cuando quieras</p>
+      <span data-clock aria-hidden="true">1:00</span>
+    </div>
+  </div>
+</section>
+
+<section class="shell section editorial">
+  <div><p class="eyebrow">Testimonios anónimos</p><h2>Lo que se llevan.</h2></div>
+  <div class="quotes">
+    <blockquote>«Me ayudó poder decir en voz alta cosas a las que llevaba tiempo dándoles vueltas.»</blockquote>
+    <blockquote>«Ahora me doy cuenta antes de cuándo necesito parar y pedir ayuda.»</blockquote>
+    <p class="eyebrow">Testimonios ficticios para esta demostración</p>
+  </div>
+</section>
+
+<section class="niebla section">
+  <div class="shell editorial">
+    <div><p class="eyebrow">Tarifas</p><h2>Tu sesión, <em>tu espacio.</em></h2></div>
+    <div class="price"><strong>60 €</strong><p>Por sesión de 50 minutos. La tarifa es la misma online y presencial.</p><p>La primera llamada de 15 minutos es gratuita.</p><a class="button" href={url('ines-arranz/agenda/')}>Ver la agenda <span aria-hidden="true">↗</span></a></div>
+  </div>
+</section>
+
+<section class="shell section">
+  <div class="section-heading"><div><p class="eyebrow">Blog</p><h2>Lecturas para <em>ir despacio.</em></h2></div><a href={url('ines-arranz/blog/')}>Ver todas las entradas ↗</a></div>
+  <div class="post-grid">{posts.map(post => <PostCard {post} />)}</div>
+</section>
+
+<section class="shell section editorial ruled">
+  <div><p class="eyebrow">Preguntas frecuentes</p><h2>Antes de <em>empezar.</em></h2></div>
+  <div>{faqs.map(([title, answer]) => <details name="faq"><summary>{title}</summary><p>{answer}</p></details>)}</div>
+</section>

@@ -1,11 +1,12 @@
 import { expect, test } from '@playwright/test'
 
-test('el catálogo muestra seis proyectos y RUIDO y Bar Caribe están disponibles', async ({ page }) => {
+test('el catálogo muestra siete proyectos y tres están disponibles', async ({ page }) => {
   await page.goto('/portfolio-web-design/')
   const rows = page.locator('[data-project]')
-  await expect(rows).toHaveCount(6)
+  await expect(rows).toHaveCount(7)
   await expect(page.locator('a[href$="/ruido/"]')).toHaveCount(1)
   await expect(page.locator('a[href$="/bar-caribe/"]')).toHaveCount(1)
+  await expect(page.locator('a[href$="/ines-arranz/"]')).toHaveCount(1)
   const pending = rows.filter({ hasText: 'En preparación' })
   await expect(pending).toHaveCount(4)
   await expect(pending.locator('a')).toHaveCount(0)

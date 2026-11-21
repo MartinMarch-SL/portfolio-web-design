@@ -1,0 +1,51 @@
+---
+import { render, type CollectionEntry } from 'astro:content'
+import { url } from '../../../lib/url'
+import { getPosts } from '../data/posts'
+import { readingTime } from '../lib/blog'
+import Photo from './Photo.astro'
+import PostCard from './PostCard.astro'
+interface Props { post: CollectionEntry<'inesPosts'> }
+const { post } = Astro.props
+const { data } = post
+const { Content, headings } = await render(post)
+const posts = (await getPosts()).filter(other => other.id !== post.id)
+const related = [...posts.filter(other => other.data.category === data.category), ...posts.filter(other => other.data.category !== data.category)].slice(0, 3)
+const date = new Intl.DateTimeFormat('es-ES', { dateStyle: 'long', timeZone: 'UTC' }).format(data.date)
+---
+<div class="progress" data-reading-progress aria-hidden="true"></div>
+<article class="shell" data-reading>
+  <header class="intro post-intro">
+    <p class="eyebrow">{data.category} · <time datetime={data.date.toISOString()}>{date}</time> · {readingTime(post.body ?? '')} min</p>
+    <h1>{data.title}</h1>
+    <p>{data.excerpt}</p>
+  </header>
+  <Photo name={data.cover} width={1600} height={1000} sizes="(max-width: 1360px) 100vw, 1312px" eager />
+  <div class="section post-layout">
+    <nav class="toc" aria-label="En este artículo">
+      <p class="eyebrow">En este artículo</p>
+      <ul>{headings.filter(heading => heading.depth === 2).map(heading => <li><a href={'#' + heading.slug}>{heading.text}</a></li>)}</ul>
+    </nav>
+    <div class="prose"><Content />
+      <aside class="cta niebla">
+        <h2>¿Te has sentido identificada/o?</h2>
+        <p>Podemos hablar de lo que estás viviendo en una primera llamada gratuita de 15 minutos.</p>
+        <a class="button" href={url('ines-arranz/agenda/?modalidad=llamada')}>Reserva una llamada ↗</a>
+      </aside>
+    </div>
+  </div>
+</article>
+<section class="shell section ruled">
+  <div class="section-heading"><h2>También te puede <em>interesar.</em></h2></div>
+  <div class="post-grid">{related.map(post => <PostCard {post} />)}</div>
+</section>
+<script>
+  import { scroll } from 'motion'
+  const article = document.querySelector<HTMLElement>('[data-reading]')!
+  const progress = document.querySelector<HTMLElement>('[data-reading-progress]')!
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    scroll(value => { progress.style.transform = 'scaleX(' + value + ')' }, {
+      target: article, offset: ['start start', 'end end'],
+    })
+  }
+</script>

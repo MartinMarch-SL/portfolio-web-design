@@ -31,7 +31,17 @@ const bar = 'examples/bar-caribe/img'
 const barPortraits = ['vermut', 'gente-01', 'gente-02', ...Array.from({ length: 8 }, (_, index) => `tapa-0${index + 1}`)]
 const barPalette = ['#b28b4a', '#705441', '#875a43', '#bc985e', '#c9a759', '#b77146', '#66776b', '#baa582', '#b78960', '#87614e', '#8b9058']
 
+const ines = 'examples/ines-arranz/img'
+const inesPortraits = ['retrato', 'consulta-02', 'detalle-01', 'detalle-02']
+const inesPalette = ['#CFC8E8', '#B9C6B5', '#D6A98F', '#D9C8B6', '#AABDAF']
+
 const batches = {
+  'ines-arranz': () => Promise.all([
+    ...inesPortraits.map((name, index) => placeholder(`${ines}/${name}.webp`, 1080, 1350, inesPalette[index], '#1F1D2B')),
+    placeholder(`${ines}/consulta-01.webp`, 1600, 1067, '#D9C8B6', '#1F1D2B'),
+    ...inesPalette.map((color, index) => placeholder(`${ines}/blog-0${index + 1}.webp`, 1600, 1000, color, '#1F1D2B')),
+    placeholder('showcase/img/ines-arranz-preview.webp', 1200, 1500, '#CFC8E8', '#1F1D2B'),
+  ]),
   ruido: () => Promise.all([
     ...portraits.map((path) => placeholder(path, 1200, 1600)),
     ...landscapes.map((path) => placeholder(path, 1600, 1000)),

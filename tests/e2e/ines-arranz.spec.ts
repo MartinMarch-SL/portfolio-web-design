@@ -1,0 +1,52 @@
+import { expect, test } from '@playwright/test'
+
+const base = '/portfolio-web-design/ines-arranz/'
+
+test('la agenda completa la reserva y descarga el calendario', async ({ page }) => {
+  await page.clock.setFixedTime(new Date('2026-07-20T08:00:00Z'))
+  await page.goto(base + 'agenda/?modalidad=llamada')
+  await page.getByRole('button', { name: 'Continuar' }).click()
+  await expect(page.getByRole('radio', { name: /Llamada gratuita/ })).toBeChecked()
+  await page.getByRole('button', { name: 'Continuar' }).click()
+  await page.locator('[data-slot]').first().focus()
+  await page.keyboard.press('Enter')
+  await page.getByRole('button', { name: 'Continuar' }).click()
+  await page.getByRole('button', { name: 'Confirmar reserva de demostración' }).click()
+  await expect(page.getByLabel('Nombre', { exact: true })).toBeFocused()
+  await page.getByLabel('Nombre', { exact: true }).fill('Ana Ejemplo')
+  await page.getByLabel('Correo electrónico').fill('ana@example.com')
+  await page.getByLabel('Teléfono').fill('612345678')
+  await page.getByRole('checkbox').check()
+  await page.getByRole('button', { name: 'Confirmar reserva de demostración' }).click()
+  await expect(page.getByRole('heading', { name: 'Reserva de demostración completada' })).toBeFocused()
+  await expect(page.getByText('Ana Ejemplo')).toBeVisible()
+  const downloadLink = page.getByRole('link', { name: /Añadir al calendario/ })
+  const download = page.waitForEvent('download')
+  await downloadLink.click()
+  expect((await download).suggestedFilename()).toBe('cita-ines-arranz.ics')
+})
+
+test('la agenda no ofrece huecos con menos de 24 horas', async ({ page }) => {
+  await page.clock.setFixedTime(new Date('2026-07-20T09:30:00Z'))
+  await page.goto(base + 'agenda/')
+  await page.getByRole('button', { name: 'Continuar' }).click()
+  await page.getByRole('button', { name: 'Continuar' }).click()
+  await expect(page.locator('[data-slot]').first()).toBeVisible()
+  const slots = await page.locator('[data-slot]').evaluateAll(elements => elements.map(element => element.getAttribute('data-slot')!))
+  expect(slots).not.toContain('2026-07-21T08:00:00.000Z')
+  expect(slots).toContain('2026-07-21T10:00:00.000Z')
+  expect(slots.every(slot => Date.parse(slot) >= Date.parse('2026-07-21T09:30:00Z'))).toBe(true)
+})
+
+test('el blog filtra por categoría y el índice enlaza a las secciones', async ({ page }) => {
+  await page.goto(base + 'blog/')
+  const posts = page.locator('[data-post-list] article:visible')
+  await expect(posts).toHaveCount(5)
+  await page.getByRole('button', { name: 'Relaciones' }).click()
+  await expect(posts).toHaveCount(1)
+  await posts.getByRole('link', { name: 'Hablar de lo que necesitas' }).click()
+  const toc = page.getByRole('navigation', { name: 'En este artículo' })
+  await expect(toc.getByRole('link')).toHaveCount(3)
+  await toc.getByRole('link', { name: 'Escuchar la respuesta y hacer sitio a la tuya' }).click()
+  await expect(page).toHaveURL(/#escuchar-la-respuesta-y-hacer-sitio-a-la-tuya$/)
+})

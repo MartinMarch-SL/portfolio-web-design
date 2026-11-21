@@ -1,0 +1,10 @@
+---
+import Layout from '../../../examples/ines-arranz/Layout.astro'
+import Post from '../../../examples/ines-arranz/components/Post.astro'
+import { getPosts } from '../../../examples/ines-arranz/data/posts'
+export async function getStaticPaths() {
+  return (await getPosts()).map(post => ({ params: { slug: post.id }, props: { post } }))
+}
+const { post } = Astro.props
+---
+<Layout title={post.data.title} description={post.data.excerpt}><Post {post} /></Layout>

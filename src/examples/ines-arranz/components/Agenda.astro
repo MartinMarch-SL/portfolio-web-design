@@ -1,0 +1,62 @@
+---
+import { url } from '../../../lib/url'
+import { modes } from '../lib/agenda'
+const reasons = ['Ansiedad o estrés', 'Autoestima', 'Duelo o cambios', 'Relaciones o pareja', 'Otro motivo']
+---
+<section class="shell booking" data-booking>
+  <div class="intro"><p class="eyebrow">Agenda</p><h1>Tu primera <em>cita.</em></h1>
+    <p>Esta agenda es una demostración. Usa datos ficticios. La información se queda en esta página y ningún hueco se reserva de verdad.</p></div>
+  <noscript><p>Activa JavaScript para probar la agenda.</p></noscript>
+  <form novalidate hidden>
+    <p class="eyebrow" data-step-number>Paso 1 de 4</p>
+    <section data-step>
+      <h2 tabindex="-1">¿Qué te trae por aquí?</h2>
+      <fieldset><legend>Elige un motivo</legend><div class="choices">
+        {reasons.map((reason, index) => <label class="choice"><input type="radio" name="reason" value={reason} checked={index === 0} />{reason}</label>)}
+      </div></fieldset>
+    </section>
+    <section data-step hidden>
+      <h2 tabindex="-1">¿Cómo prefieres vernos?</h2>
+      <fieldset><legend>Elige la modalidad</legend><div class="choices">
+        {modes.map((mode, index) => <label class="choice"><input type="radio" name="mode" value={mode} checked={index === 0} />{mode}{mode === 'Llamada gratuita' ? ' · 15 min' : ' · 50 min'}</label>)}
+      </div></fieldset>
+    </section>
+    <section data-step hidden>
+      <h2 tabindex="-1">Elige día y hora</h2>
+      <p>Hora de Valencia. Los huecos se pueden elegir con al menos 24 horas de antelación.</p>
+      <div class="choices">
+        <button class="button secondary" type="button" data-prev-week>Semana anterior</button>
+        <button class="button secondary" type="button" data-next-week>Semana siguiente</button>
+      </div>
+      <p data-week role="status"></p>
+      <div class="calendar-days" data-days></div>
+    </section>
+    <section class="fields" data-step hidden>
+      <h2 tabindex="-1">Tus datos</h2>
+      <label>Nombre<input name="name" autocomplete="name" required aria-describedby="error-name" /></label>
+      <span class="error" id="error-name"></span>
+      <label>Correo electrónico<input name="email" type="email" autocomplete="email" required aria-describedby="error-email" /></label>
+      <span class="error" id="error-email"></span>
+      <label>Teléfono<input name="phone" type="tel" autocomplete="tel" required aria-describedby="error-phone" /></label>
+      <span class="error" id="error-phone"></span>
+      <label>Nota (opcional)<textarea name="note" rows="3"></textarea></label>
+      <label class="check"><input type="checkbox" name="privacy" required aria-describedby="error-privacy" /> He leído y acepto la política de privacidad.</label>
+      <a href={url('ines-arranz/privacidad/')} target="_blank" rel="noopener">Leer la política de privacidad (abre otra pestaña)</a>
+      <div class="error" id="error-privacy"></div>
+    </section>
+    <section data-step hidden>
+      <h2 tabindex="-1">Reserva de demostración completada</h2>
+      <p>Este es el resumen para tu calendario. La cita es simulada.</p>
+      <dl data-summary></dl>
+      <a class="button secondary" download="cita-ines-arranz.ics" data-calendar>Añadir al calendario (.ics)</a>
+    </section>
+    <p class="error" data-booking-error role="alert" hidden></p>
+    <div class="booking-nav">
+      <button class="button secondary" type="button" data-back hidden>Volver</button>
+      <button class="button" type="submit" data-next>Continuar</button>
+    </div>
+  </form>
+</section>
+<script>
+  import '../scripts/agenda'
+</script>

@@ -16,6 +16,11 @@ const pages = {
   carta: 'bar-caribe/carta/',
   reservas: 'bar-caribe/reservas/',
   casa: 'bar-caribe/casa/',
+  ines: 'ines-arranz/',
+  agenda: 'ines-arranz/agenda/',
+  blog: 'ines-arranz/blog/',
+  articulo: 'ines-arranz/blog/cuando-la-mente-se-adelanta/',
+  sobreMi: 'ines-arranz/sobre-mi/',
 }
 
 for (const [width, height] of viewports) {

@@ -1,0 +1,29 @@
+---
+import { url } from '../../../lib/url'
+import Photo from './Photo.astro'
+---
+<section class="shell editorial intro">
+  <div>
+    <p class="eyebrow">Sobre mí · Col. CV-14872</p>
+    <h1>Soy Inés <em>Arranz.</em></h1>
+    <p>Psicóloga general sanitaria. Acompaño a personas que atraviesan momentos de ansiedad, pérdida o cambio y a parejas que quieren entenderse mejor.</p>
+    <p>En consulta podemos hablar de lo que te pasa con palabras sencillas y a tu ritmo.</p>
+  </div>
+  <Photo name="retrato" eager />
+</section>
+<section class="section salvia">
+  <div class="shell editorial">
+    <div><p class="eyebrow">Trayectoria y enfoque</p><h2>Escuchar, <em>preguntar, acompañar.</em></h2></div>
+    <div>
+      <p>Me gradué en Psicología y cursé el Máster en Psicología General Sanitaria. Desde entonces he seguido formándome en ansiedad, duelo y terapia de pareja. Estoy colegiada en la Comunitat Valenciana con el número CV-14872.</p>
+      <p>Trabajo desde un enfoque integrador. De la terapia cognitivo-conductual (TCC) tomo herramientas para observar cómo se relacionan los pensamientos, las emociones y las conductas. La Terapia de Aceptación y Compromiso (ACT) nos ayuda a explorar qué te importa y qué puedes hacer para acercarte a ello, incluso en días difíciles.</p>
+      <p>En sesión intento que tengas espacio para elegir. Acordamos los objetivos, revisamos si lo que hacemos te sirve y podemos cambiar el rumbo cuando lo necesites.</p>
+    </div>
+  </div>
+</section>
+<section class="shell section">
+  <div class="section-heading"><div><p class="eyebrow">Ruzafa, Valencia</p><h2>El espacio <em>de consulta.</em></h2>
+    <p>Un lugar tranquilo para hablar. También podemos encontrarnos online.</p></div><a class="button" href={url('ines-arranz/agenda/')}>Ver la agenda ↗</a></div>
+  <div class="consultation"><Photo name="consulta-01" width={1600} height={1067} /><Photo name="consulta-02" /></div>
+  <div class="details-photos"><Photo name="detalle-01" /><Photo name="detalle-02" /></div>
+</section>
