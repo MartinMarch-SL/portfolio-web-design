@@ -13,23 +13,23 @@ prop-01-a.webp — Photo by David Marquez (https://unsplash.com/@mark_ez_estudio
 prop-01-b.webp — Photo by Kamilla Isalieva (https://unsplash.com/@kamillaisalieva) on Unsplash (https://unsplash.com/photos/arched-wooden-doors-in-stone-wall-Lj8V6FEikNU)
 prop-01-c.webp — Photo by Jamie Kettle (https://unsplash.com/@jamiekettle10) on Unsplash (https://unsplash.com/photos/three-windows-with-green-shutters-on-a-building-FJXr4-AUXRM)
 prop-02-a.webp — Photo by Ramiro Pianarosa (https://unsplash.com/@rpianarosa) on Unsplash (https://unsplash.com/photos/white-building-overlooks-turquoise-ocean-and-distant-coastline-DpksmhYhbpw)
-prop-02-b.webp — Pendiente de selección en Unsplash
-prop-02-c.webp — Pendiente de selección en Unsplash
-prop-03-a.webp — Pendiente de selección en Unsplash
-prop-03-b.webp — Pendiente de selección en Unsplash
-prop-03-c.webp — Pendiente de selección en Unsplash
-prop-04-a.webp — Pendiente de selección en Unsplash
-prop-04-b.webp — Pendiente de selección en Unsplash
-prop-04-c.webp — Pendiente de selección en Unsplash
-prop-05-a.webp — Pendiente de selección en Unsplash
-prop-05-b.webp — Pendiente de selección en Unsplash
-prop-05-c.webp — Pendiente de selección en Unsplash
-prop-06-a.webp — Pendiente de selección en Unsplash
-prop-06-b.webp — Pendiente de selección en Unsplash
-prop-06-c.webp — Pendiente de selección en Unsplash
-prop-07-a.webp — Pendiente de selección en Unsplash
-prop-07-b.webp — Pendiente de selección en Unsplash
-prop-07-c.webp — Pendiente de selección en Unsplash
-prop-08-a.webp — Pendiente de selección en Unsplash
-prop-08-b.webp — Pendiente de selección en Unsplash
-prop-08-c.webp — Pendiente de selección en Unsplash
+prop-02-b.webp — Photo by Caroline Badran (https://unsplash.com/@___atmos) on Unsplash (https://unsplash.com/photos/modern-white-kitchen-island-with-chairs-and-chairs-bmgF8O95BuU)
+prop-02-c.webp — Photo by Liz Vo (https://unsplash.com/@lvphotos) on Unsplash (https://unsplash.com/photos/a-bed-with-white-sheets-and-white-pillows-pl3sj3DigxM)
+prop-03-a.webp — Photo by Kristina Kutleša (https://unsplash.com/@kristina001) on Unsplash (https://unsplash.com/photos/a-stone-building-with-a-blue-door-and-steps-6MT7r3WU67M)
+prop-03-b.webp — Photo by Cat Han (https://unsplash.com/@figmentprints) on Unsplash (https://unsplash.com/photos/modern-kitchen-with-island-and-large-window-VgyN_CWXQVM)
+prop-03-c.webp — Photo by Ксения Лапшина (https://unsplash.com/@nekandinskaya) on Unsplash (https://unsplash.com/photos/a-white-bed-and-floor-lamp-bathed-in-morning-sunlight-CREKZID5kbw)
+prop-04-a.webp — Photo by Azzedine Rouichi (https://unsplash.com/@rouichi) on Unsplash (https://unsplash.com/photos/a-living-room-filled-with-furniture-and-a-fire-place-5gSH9lETetU)
+prop-04-b.webp — Photo by Annie Spratt (https://unsplash.com/@anniespratt) on Unsplash (https://unsplash.com/photos/a-bright-kitchen-with-a-wooden-island-and-large-window-7VySSM7nJIo)
+prop-04-c.webp — Photo by Barney Goodman (https://unsplash.com/@bgoodpic) on Unsplash (https://unsplash.com/photos/a-window-with-closed-green-shutters-on-a-yellow-wall-JjReMKQE8f0)
+prop-05-a.webp — Photo by Gábor Szűts (https://unsplash.com/@szutsi) on Unsplash (https://unsplash.com/photos/balcony-overlooking-the-sea-and-coastal-town-N1DlQkl2V2c)
+prop-05-b.webp — Photo by Maverick Frame (https://unsplash.com/@maverickframe) on Unsplash (https://unsplash.com/photos/modern-dining-room-with-large-windows-and-wooden-floor-UdyudMCujag)
+prop-05-c.webp — Photo by Peter Muniz (https://unsplash.com/@petepxl) on Unsplash (https://unsplash.com/photos/modern-bathroom-with-wood-vanity-and-stone-tiles-asgkXxIQrPU)
+prop-06-a.webp — Photo by Tim Schmidbauer (https://unsplash.com/@timschmidbauer) on Unsplash (https://unsplash.com/photos/luxury-modern-home-overlooks-the-ocean-dtTlZ4DwjgA)
+prop-06-b.webp — Photo by Romina Denti (https://unsplash.com/@sistalisca) on Unsplash (https://unsplash.com/photos/a-table-and-chairs-on-a-balcony-overlooking-the-ocean-CU96aTBRQIg)
+prop-06-c.webp — Photo by Maverick Frame (https://unsplash.com/@maverickframe) on Unsplash (https://unsplash.com/photos/a-luxurious-bathroom-with-a-copper-bathtub-and-stone-architecture-_EienJTUSWI)
+prop-07-a.webp — Photo by Eve Ji (https://unsplash.com/@eveji) on Unsplash (https://unsplash.com/photos/swimming-pool-4Ysx7HlgLJw)
+prop-07-b.webp — Photo by Howard Walsh (https://unsplash.com/@hswalsh) on Unsplash (https://unsplash.com/photos/old-wooden-barn-doors-next-to-a-tall-cypress-tree-T5QmuZAEHj4)
+prop-07-c.webp — Photo by Trnava University (https://unsplash.com/@trnavskauni) on Unsplash (https://unsplash.com/photos/green-palm-plant-beside-brown-wooden-framed-glass-window-i8Yt9MucChM)
+prop-08-a.webp — Photo by Max Harlynking (https://unsplash.com/@harlynkingm) on Unsplash (https://unsplash.com/photos/a-house-with-a-pool-in-the-middle-of-it-Irn0tSJPPWY)
+prop-08-b.webp — Photo by taufiq triadi (https://unsplash.com/@mochamadtaufiq23) on Unsplash (https://unsplash.com/photos/a-kitchen-with-a-palm-tree-uTmnKQ8sCxA)
+prop-08-c.webp — Photo by Jonathan Falcon (https://unsplash.com/@jonathanfalcon) on Unsplash (https://unsplash.com/photos/white-pillow-fBZRDxotSd4)
