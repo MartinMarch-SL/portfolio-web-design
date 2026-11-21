@@ -25,3 +25,11 @@ Lenis y Motion; OGL para la forma que respira, con un fallback de CSS (radial-gr
 
 ## Fotos (Unsplash)
 Retrato de mujer profesional (cálido, natural), espacio de consulta (sillón, plantas, luz natural), detalles (taza, libreta, ventana), naturaleza calmada para portadas del blog. Sin logos.
+
+---
+## Rediseño v2 (sustituye identidad, home y agenda)
+Feedback del dueño: poco elegante, colores planos, emojis, "parece IA". Nuevo concepto: **monografía editorial / carta personal**. Sobrio, con profundidad por fotografía (serie de retratos de la misma mujer en su consulta), grano de papel, tipografía de libro.
+- Tokens: `--marfil:#F3EFE7`, `--tinta:#1C1B19`, `--ciruela:#4A2C3A` (único acento), `--piedra:#9C9388` (secundario), `--sombra:#2A2622` (secciones oscuras).
+- Tipos: **Newsreader** (display y lectura, ópticos), **Inter Tight** (etiquetas pequeñas en versalitas espaciadas).
+- Fuera: el blob OGL, las tarjetas de color, las píldoras, los emojis/pictogramas, los fondos planos de lavanda o salvia.
+- Artefactos: (1) **Reestructuración cognitiva** en el hero: un pensamiento automático se tacha con una línea fina y se reescribe en una versión más amable; hay 3 pares en ciclo. (2) **La primera sesión, minuto a minuto**: una regla de 0' a 50' en una sección sticky, con una aguja que avanza con el scroll y explica cada momento. (3) **Agenda de papel**: una doble página con el calendario del mes y las horas como renglones. (4) Blog como **Cuaderno** (ensayos Nº 01…), con notas al margen (sidenotes) en desktop.

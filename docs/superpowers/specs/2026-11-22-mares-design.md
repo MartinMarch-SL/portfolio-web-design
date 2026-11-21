@@ -31,3 +31,11 @@ Lenis y Motion. La persiana que se abre, titulares que entran por líneas, stack
 
 ## Fotos (Unsplash)
 Palma (catedral, casco antiguo, bahía), Santa Catalina y calles, exteriores mediterráneos (villas, piscinas, terrazas con vistas), interiores luminosos (salón, cocina, dormitorio, baño), detalles (persianas, piedra, patios) y retratos del equipo. Sin logos ni rótulos de agencias reales.
+
+---
+## Rediseño v2 (sustituye identidad y home)
+Feedback del dueño: poco elegante, colores planos, "parece IA"; el eje deben ser **las casas**, no la ciudad. Nuevo concepto: **dossier de arquitectura**. Fotografía de casas a sangre, datos técnicos en mono, como un cajetín de plano.
+- Tokens: `--cal:#EEEAE3`, `--carbon:#1A1A18`, `--grafito:#5B5A55`, `--olivo:#5E6146` (acento mínimo).
+- Tipos: **Geist** y **Geist Mono** (datos, cotas, cajetín). Sin serif.
+- Fuera: la persiana, el mapa de la bahía en la home, la foto de la catedral, los emojis y las flechas pictográficas.
+- Artefactos: (1) un hero que va pasando **una casa cada vez** a sangre, con el cajetín técnico cuyas cifras ruedan. (2) un **índice tipográfico de casas** en el que la foto sigue al cursor. (3) en la ficha, un **plano vivo**: una planta SVG de trazo fino en la que, al pasar por una estancia, se ve su foto. (4) **El recorrido de la luz**: un slider de horas en el que el sol se mueve en arco y se iluminan las estancias que reciben sol según su orientación (cálculo solar para la latitud de Palma).
