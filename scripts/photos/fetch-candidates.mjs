@@ -5,10 +5,19 @@ import sharp from 'sharp';
 import { buildGroupedSheets } from './grouped-sheets.mjs';
 
 const example = process.argv[2] ?? 'ruido';
-if (!['ruido', 'mares', 'simon-lera', 'lia-ferro', 'los-almendros'].includes(example)) throw new Error(`Unknown example: ${example}`);
-const grouped = ['simon-lera', 'lia-ferro', 'los-almendros'].includes(example);
+if (!['ruido', 'mares', 'simon-lera', 'lia-ferro', 'los-almendros', 'pinar-alto'].includes(example)) throw new Error(`Unknown example: ${example}`);
+const grouped = ['simon-lera', 'lia-ferro', 'los-almendros', 'pinar-alto'].includes(example);
 const directory = new URL(example === 'ruido' ? './candidates/' : `./candidates-${example}/`, import.meta.url);
-const queries = example === 'los-almendros' ? [
+const queries = example === 'pinar-alto' ? [
+  ['kids basketball practice', 'landscape'],
+  ['youth basketball game', 'landscape'],
+  ['girls basketball', 'landscape'],
+  ['basketball court wood floor', 'landscape'],
+  ['basketball hoop indoor gym', 'portrait'],
+  ['basketball ball court', 'landscape'],
+  ['basketball coach team huddle', 'landscape'],
+  ['empty sports hall basketball', 'landscape'],
+] : example === 'los-almendros' ? [
   ['kids football training', 'landscape'],
   ['youth soccer match', 'landscape'],
   ['children soccer team', 'landscape'],
