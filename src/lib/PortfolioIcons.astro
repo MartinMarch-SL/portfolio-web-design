@@ -1,6 +1,14 @@
 ---
 import { url } from './url'
+
+interface Props {
+  name?: string
+}
+
+const { name } = Astro.props
+const directory = name ? `examples/${name}/icons/` : ''
 ---
-<link rel="icon" href={url('favicon.ico')} type="image/x-icon" sizes="16x16 32x32 48x48" />
-<link rel="icon" href={url('favicon.svg')} type="image/svg+xml" sizes="any" />
-<link rel="apple-touch-icon" href={url('apple-touch-icon.png')} sizes="180x180" />
+<link rel="icon" href={url(`${directory}favicon.ico`)} type="image/x-icon" sizes="16x16 32x32 48x48" />
+{name && <link rel="icon" href={url(`${directory}icon-512.png`)} type="image/png" sizes="512x512" />}
+<link rel="icon" href={url(`${directory}favicon.svg`)} type="image/svg+xml" sizes="any" />
+<link rel="apple-touch-icon" href={url(`${directory}apple-touch-icon.png`)} sizes="180x180" />
