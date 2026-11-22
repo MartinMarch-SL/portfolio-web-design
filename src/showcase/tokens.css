@@ -1,3 +1,8 @@
+@property --orbit {
+  syntax: '<angle>';
+  inherits: true;
+  initial-value: 0deg;
+}
 :root {
   color-scheme: dark;
   --paper: #141414;
@@ -60,7 +65,7 @@ h1.display { margin-block: clamp(2rem, 5vw, 4rem) 1.5rem; font-size: clamp(3.1re
 [data-ready] [data-project] {
   position: absolute; inset: 50% auto auto 50%; width: min(56%, 62rem); backface-visibility: hidden;
   transform: translate(-50%, -50%) translate3d(0, var(--sink, 0px), calc(-1 * var(--radius)))
-    rotateY(var(--angle, 0deg)) translateZ(var(--radius));
+    rotateY(var(--rotation, var(--angle, 0deg))) translateZ(var(--radius));
   opacity: var(--light, 0); pointer-events: auto; transition: transform .72s var(--ease), opacity .62s ease;
 }
 [data-ready]:not([data-animated]) [data-project] { transition: none; }
@@ -121,12 +126,23 @@ h1.display { margin-block: clamp(2rem, 5vw, 4rem) 1.5rem; font-size: clamp(3.1re
     font-size: clamp(3.1rem, 21vw, 5.5rem);
     font-stretch: 85%;
   }
-  [data-ready] .stage { margin-block-start: .75rem; }
+  [data-ready] .stage { margin-block-start: .75rem; perspective: 90vw; }
   [data-ready] .screens {
     --card-height: min(52svh, 440px);
+    --radius: var(--mobile-radius, 67cqw);
     height: calc(var(--card-height) + 8px);
   }
-  [data-ready] [data-project] { width: 87%; }
+  @media (prefers-reduced-motion: no-preference) {
+    [data-ready][data-animated]:not([data-recomposing]) .screens {
+      transition: --orbit .72s var(--ease);
+    }
+  }
+  [data-ready] [data-project] {
+    --rotation: calc(var(--slot, 0deg) + var(--orbit));
+    width: 87%;
+    transition-property: opacity;
+  }
+  [data-ready] [data-project][inert] { transition: none; }
   [data-ready] .screen {
     height: var(--card-height);
     padding: 3px;

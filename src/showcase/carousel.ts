@@ -3,6 +3,7 @@ export {}
 const carousel = document.querySelector<HTMLElement>('[data-carousel]')!
 const mobileCards = matchMedia('(max-width: 600px)')
 const stage = carousel.querySelector<HTMLElement>('[data-stage]')!
+const screens = stage.querySelector<HTMLElement>('.screens')!
 const projects = [...carousel.querySelectorAll<HTMLLIElement>('[data-project]')]
 const links = projects.map(project => project.querySelector<HTMLAnchorElement>('a')!)
 const filters = [...carousel.querySelectorAll<HTMLButtonElement>('[data-filter]')]
@@ -12,24 +13,41 @@ const details = carousel.querySelector<HTMLElement>('[data-details]')!
 let visible = projects
 let current = projects[0]
 const angles = new Map<HTMLLIElement, number>()
+const pairStep = 57
+let orbit = 0
+
+function sizeRing() {
+  if (!mobileCards.matches || visible.length < 2) return
+  const width = Math.max(...visible.map(card => parseFloat(getComputedStyle(card).width)))
+  const halfStep = visible.length === 2 ? pairStep * Math.PI / 360 : Math.PI / visible.length
+  const radius = width / (2 * Math.tan(halfStep)) + 4
+  stage.style.setProperty('--mobile-radius', `${radius}px`)
+}
 
 function show(project: HTMLLIElement, recomposing = false) {
   if (carousel.hasAttribute('data-ready')) carousel.setAttribute('data-animated', '')
+  carousel.toggleAttribute('data-recomposing', recomposing)
+  if (recomposing) sizeRing()
   current.removeAttribute('data-held')
   current = project
   const front = visible.indexOf(project)
+  const count = visible.length
+  const step = count === 2 ? pairStep : 360 / count
+  const target = -front * step
+  orbit = recomposing || count === 2 ? target : target + 360 * Math.round((orbit - target) / 360)
+  screens.style.setProperty('--orbit', `${orbit}deg`)
 
   for (const screen of projects) {
     const index = visible.indexOf(screen)
-    const count = visible.length
     const offset = index - front
     const distance = Math.abs(offset) > count / 2 ? offset - Math.sign(offset) * count : offset
-    const angle = count === 2 ? distance * 57 : distance * 360 / count
+    const angle = distance * step
     const previous = angles.get(screen) ?? angle
     const rotation = recomposing || count === 2 ? angle : angle + 360 * Math.round((previous - angle) / 360)
     if (index >= 0) {
       angles.set(screen, rotation)
       screen.style.setProperty('--angle', `${rotation}deg`)
+      screen.style.setProperty('--slot', `${index * step}deg`)
     }
     const light = Math.abs(distance) === 1 ? .54 : .22
     screen.style.setProperty('--light', index < 0 ? '0' : screen === project ? '1' : String(light))
@@ -140,3 +158,7 @@ show(current)
 carousel.querySelector<HTMLElement>('.filters')!.hidden = false
 carousel.querySelector<HTMLElement>('[data-selection]')!.hidden = false
 carousel.setAttribute('data-ready', '')
+sizeRing()
+const cardResize = new ResizeObserver(sizeRing)
+for (const project of projects) cardResize.observe(project, { box: 'border-box' })
+mobileCards.addEventListener('change', sizeRing)

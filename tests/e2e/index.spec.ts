@@ -143,3 +143,89 @@ test('el catálogo móvil deja ver todos los filtros y ajusta el carrusel a la p
     expect(Math.abs(leftPeek - rightPeek)).toBeLessThanOrEqual(1)
   }
 })
+
+test('el carrusel móvil mantiene separadas las seis pantallas al girar', async ({ page, reducedMotion }) => {
+  test.skip(reducedMotion === 'reduce', 'El carrusel no gira con movimiento reducido')
+  const stage = page.locator('[data-stage]')
+  const touch = await page.context().newCDPSession(page)
+  await stage.locator('[data-current] a').focus()
+
+  async function checkRing() {
+    const result = await stage.evaluate(async element => {
+      const cards = [...element.querySelectorAll<HTMLElement>('[data-project]')]
+      const screens = cards[0].parentElement!
+      const step = 2 * Math.PI / cards.length
+      let clearance = Infinity
+      let spacingError = 0
+      let frames = 0
+      do {
+        await new Promise(requestAnimationFrame)
+        const transforms = cards.map(card => new DOMMatrixReadOnly(getComputedStyle(card).transform))
+        const widest = Math.max(...cards.map(card => parseFloat(getComputedStyle(card).width)))
+        const minimum = widest / (2 * Math.tan(step / 2))
+        for (const [index, matrix] of transforms.entries()) {
+          const next = transforms[(index + 1) % transforms.length]
+          // The ring moves each card by R × (cos(angle) − 1) in depth.
+          if (matrix.m11 < .9) clearance = Math.min(clearance, matrix.m43 / (matrix.m11 - 1) - minimum)
+          const cosine = matrix.m11 * next.m11 + matrix.m13 * next.m13
+          spacingError = Math.max(spacingError, Math.abs(cosine - Math.cos(step)))
+        }
+        frames++
+      } while (screens.getAnimations().some(animation => animation.playState === 'running'))
+
+      const front = element.querySelector('[data-current]')!
+      const card = front.getBoundingClientRect()
+      const bounds = element.getBoundingClientRect()
+      const y = card.top + card.height / 2
+      const hits = Array.from({ length: bounds.width }, (_, x) => x + .5 + bounds.left)
+        .map(x => document.elementFromPoint(x, y)?.closest('[data-project]'))
+      const index = cards.indexOf(front as HTMLElement)
+      const left = cards[(index + cards.length - 1) % cards.length]
+      const right = cards[(index + 1) % cards.length]
+      return {
+        clearance, spacingError, frames,
+        centerError: Math.abs((card.left + card.right - bounds.left - bounds.right) / 2),
+        inset: Math.min(card.left - bounds.left, bounds.right - card.right, card.top - bounds.top, bounds.bottom - card.bottom),
+        frontOccluded: hits.slice(Math.ceil(card.left - bounds.left), Math.floor(card.right - bounds.left)).filter(hit => hit !== front).length,
+        leftPeek: hits.filter((hit, x) => x + .5 + bounds.left < card.left && hit === left).length,
+        rightPeek: hits.filter((hit, x) => x + .5 + bounds.left > card.right && hit === right).length,
+      }
+    })
+    expect(result.clearance).toBeGreaterThan(3)
+    expect(result.spacingError).toBeLessThan(.001)
+    expect(result.centerError).toBeLessThan(1)
+    expect(result.inset).toBeGreaterThan(0)
+    expect(result.frontOccluded).toBeLessThanOrEqual(2)
+    expect(result.leftPeek).toBeGreaterThan(0)
+    expect(result.rightPeek).toBeGreaterThan(0)
+    expect(Math.abs(result.leftPeek - result.rightPeek)).toBeLessThanOrEqual(1)
+    return result.frames
+  }
+
+  for (const width of [390, 375]) {
+    await page.setViewportSize({ width, height: 844 })
+    await stage.scrollIntoViewIfNeeded()
+    await checkRing()
+    for (const [index, [name]] of examples.slice(1).entries()) {
+      if (index % 2 === 0) await page.keyboard.press('ArrowRight')
+      else {
+        const box = (await stage.boundingBox())!
+        const y = Math.round(box.y + box.height / 2)
+        await touch.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: 250, y }] })
+        await touch.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: 140, y }] })
+        await touch.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] })
+      }
+      await expect(page.locator('[data-name]')).toHaveText(name)
+      expect(await checkRing()).toBeGreaterThan(1)
+    }
+    await page.keyboard.press('ArrowRight')
+    await expect(page.locator('[data-name]')).toHaveText('RUIDO')
+    await checkRing()
+    await page.keyboard.press('ArrowLeft')
+    await expect(page.locator('[data-name]')).toHaveText('Lía Ferro')
+    expect(await checkRing()).toBeGreaterThan(1)
+    await page.keyboard.press('ArrowRight')
+    await expect(page.locator('[data-name]')).toHaveText('RUIDO')
+    await checkRing()
+  }
+})
