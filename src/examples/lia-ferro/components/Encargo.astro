@@ -1,0 +1,63 @@
+---
+import Layout from '../Layout.astro'
+import Scan from './Scan.astro'
+import { flash, styles } from '../data/flash'
+import { zones } from '../data/zones'
+const steps = ['Zona', 'Diseño', 'Tamaño', 'Presupuesto', 'Cita', 'Señal', 'Confirmación']
+---
+<Layout title="Encargo" section="encargo">
+  <section class="wrap page" data-booking>
+    <p class="eyebrow">Consulta y reserva</p><h1>Tu encargo</h1>
+    <p class="intro">Prueba la colocación y calcula el presupuesto antes de elegir cita.</p>
+    <ol class="booking-steps" aria-label="Pasos del encargo">
+      {steps.map((step, i) => <li data-progress={i}><span>0{i + 1}</span> {step}</li>)}
+    </ol>
+    <div class="booking-grid">
+      <Scan />
+      <form data-booking-form>
+        <div data-step="0">
+          <h2 tabindex="-1">Zona del cuerpo</h2>
+          <p>Selecciona una zona en el escáner o en la lista.</p>
+          <div class="zone-list">{zones.map(zone => <button type="button" data-zone={zone.id} aria-pressed="false"><span>{zone.name}</span><span>{zone.max} cm</span></button>)}</div>
+        </div>
+        <div data-step="1" hidden>
+          <h2 tabindex="-1">Diseño</h2>
+          <label>Flash <select name="design"><option value="">Pieza a medida</option>{flash.map(design => <option value={design.id}>{design.name}</option>)}</select></label>
+          <label>Referencia propia <input name="file" type="file" accept="image/png,image/jpeg,image/webp,image/gif,image/avif,image/svg+xml" /></label>
+          <p>La imagen se abre en este navegador y permanece en tu dispositivo.</p>
+          <label>Estilo <select name="style">{styles.map(style => <option>{style}</option>)}</select></label>
+          <label>Nivel de detalle <select name="detail"><option value="1">Medio</option><option value="0.8">Ligero</option><option value="1.3">Alto</option></select></label>
+          <label>Tinta <select name="ink"><option value="black">Negro</option><option value="color">Color</option></select></label>
+        </div>
+        <div data-step="2" hidden>
+          <h2 tabindex="-1">Tamaño y colocación</h2>
+          <label>Lado mayor (cm) <input name="size" type="number" min="2" step="0.1" required /></label>
+          <p class="mono" data-dimensions></p>
+          <label>Rotación <input name="rotation" type="range" min="-180" max="180" /></label>
+          <label>Desplazamiento horizontal <input name="x" type="range" min="-6" max="6" step="0.5" /></label>
+          <label>Desplazamiento vertical <input name="y" type="range" min="-6" max="6" step="0.5" /></label>
+        </div>
+        <div data-step="3" hidden><h2 tabindex="-1">Presupuesto estimado</h2><dl class="estimate mono"></dl><p>La señal se descuenta del precio final. Revisaremos las medidas y el dibujo en el estudio.</p></div>
+        <div data-step="4" hidden>
+          <h2 tabindex="-1">Elige tu cita</h2>
+          <p>Si la pieza requiere varias sesiones, aquí reservas la primera.</p>
+          <label>Semana <select name="week"></select></label>
+          <div class="slots" aria-label="Horarios disponibles"></div>
+          <label>Nombre <input name="customer" autocomplete="name" required maxlength="100" /></label>
+          <label>Correo electrónico <input name="email" type="email" autocomplete="email" required maxlength="150" /></label>
+        </div>
+        <div data-step="5" hidden>
+          <h2 tabindex="-1">Señal</h2><p class="mono" data-deposit></p>
+          <p id="ferro-demo">Demo de pago. Usa la tarjeta de prueba indicada. No se cobra nada.</p>
+          <label>Tarjeta de prueba <input name="card" inputmode="numeric" autocomplete="off" required maxlength="19" placeholder="4242 4242 4242 4242" aria-describedby="ferro-demo" /></label>
+        </div>
+        <div data-step="6" hidden>
+          <h2 tabindex="-1">Cita confirmada</h2><p>Tu reserva de demostración está registrada.</p><p class="confirmation-code mono" data-code></p><p data-appointment></p>
+          <div class="actions"><button type="button" class="button" data-summary>Descargar resumen</button><button type="button" class="text-link" data-reset>Nuevo encargo</button></div>
+        </div>
+        <p role="status" class="message"></p>
+        <div class="actions form-nav"><button type="button" class="text-link" data-back hidden>Atrás</button><button class="button" data-next>Continuar</button></div>
+      </form>
+    </div>
+  </section>
+</Layout>

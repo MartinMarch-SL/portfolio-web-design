@@ -1,0 +1,18 @@
+# Créditos de fotografía
+
+trabajo-01.webp — Foto de Sincerely Media en Unsplash (https://unsplash.com/photos/person-showing-arm-and-wrist-tattoo-CjHJbp3zInA)
+trabajo-02.webp — Foto de Sincerely Media en Unsplash (https://unsplash.com/photos/black-and-white-floral-tattoo-AO17FV322ys)
+trabajo-03.webp — Foto de Raspopova Marina en Unsplash (https://unsplash.com/photos/woman-in-orange-button-up-shirt-with-black-floral-tattoo-on-her-back-Rfp27flla_I)
+trabajo-04.webp — Foto de LOGAN WEAVER | @LGNWVR en Unsplash (https://unsplash.com/photos/a-woman-with-a-tattoo-on-her-back-CeofJKf8OlI)
+trabajo-05.webp — Foto de Karabo Mdluli en Unsplash (https://unsplash.com/photos/man-with-a-rose-tattoo-on-his-neck-huLvGx05v9Y)
+trabajo-06.webp — Foto de Eugene Chystiakov en Unsplash (https://unsplash.com/photos/person-wearing-full-body-tattoo-art-pMr5oZJmLpE)
+trabajo-07.webp — Foto de Darya G en Unsplash (https://unsplash.com/photos/a-person-with-a-tattoo-on-their-arm-9WdJOHSvD9s)
+trabajo-08.webp — Foto de Thamara Maura en Unsplash (https://unsplash.com/photos/person-with-black-tattoo-on-wrist-jLHHWhwpB2s)
+trabajo-09.webp — Foto de JJ Jordan en Unsplash (https://unsplash.com/photos/woman-in-black-long-sleeve-shirt-eenumTwM6Ec)
+trabajo-10.webp — Foto de Eduardo Vaccari en Unsplash (https://unsplash.com/photos/grayscale-photo-of-floral-arm-tattoo-pIltvcnqsfU)
+trabajo-11.webp — Foto de GRAHAM MANSFIELD en Unsplash (https://unsplash.com/photos/a-person-with-tattoos-on-their-arm-w-yKyCMPw-I)
+trabajo-12.webp — Foto de Khachik Simonian en Unsplash (https://unsplash.com/photos/black-and-red-floral-tattoo-on-persons-hand-8ih9K9-R7qE)
+estudio-01.webp — Foto de Tom PREJEANT en Unsplash (https://unsplash.com/photos/man-in-black-and-white-long-sleeve-shirt-holding-black-smartphone-fg7Ut9CmBtk)
+estudio-02.webp — Foto de Thomas Despeyroux en Unsplash (https://unsplash.com/photos/woman-holding-brown-tattoo-machine-879s_FY4254)
+estudio-03.webp — Foto de Aykan Nakus en Unsplash (https://unsplash.com/photos/tattoo-artist-applying-ink-to-a-clients-leg-1GkrGVoFuWA)
+retrato-01.webp — Foto de Salvador Gómez Arellano en Unsplash (https://unsplash.com/photos/a-tattoo-artist-is-inking-a-design-7DqlkBfddC4)

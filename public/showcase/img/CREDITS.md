@@ -9,3 +9,5 @@ ines-arranz-preview.webp — Captura de la portada «Cambiar de perspectiva» en
 mares-preview.webp — Photo by Tim Schmidbauer (https://unsplash.com/@timschmidbauer) on Unsplash (https://unsplash.com/photos/luxury-modern-home-overlooks-the-ocean-dtTlZ4DwjgA)
 
 simon-lera-preview.webp — Foto de Laura Cleffmann en Unsplash (https://unsplash.com/photos/two-men-standing-in-an-art-gallery-looking-at-paintings-7PyXLYLtvI8)
+
+lia-ferro-preview.webp — Captura del escáner corporal de la portada.

@@ -18,7 +18,9 @@ if (!selection || typeof selection !== 'object' || Array.isArray(selection)) {
 }
 const candidates = JSON.parse(await readFile(new URL('index.json', candidatesDir), 'utf8'));
 const simonLera = batch === 'candidates-simon-lera';
-const byNumber = new Map(simonLera ? Object.entries(candidates) : candidates.map(photo => [photo.n, photo]));
+const liaFerro = batch === 'candidates-lia-ferro';
+const grouped = simonLera || liaFerro;
+const byNumber = new Map(grouped ? Object.entries(candidates) : candidates.map(photo => [photo.n, photo]));
 const photos = new Map();
 
 function download(url) {
@@ -27,7 +29,7 @@ function download(url) {
   });
 }
 
-function loadSimonPhoto(candidate) {
+function loadGroupedPhoto(candidate) {
   const id = candidate.unsplashId;
   if (!/^[A-Za-z0-9_-]+$/.test(id)) throw new Error('Invalid Unsplash photo ID');
   if (!photos.has(id)) {
@@ -50,8 +52,11 @@ for (const [key, number] of Object.entries(selection)) {
   if (simonLera && !/^(?:obra-0[1-9]|detalle-0[1-3]|estudio-0[1-3]|sala-01)$/.test(key)) {
     throw new Error(`Invalid Simón Lera target: ${key}`);
   }
-  const requestedPath = path.resolve(publicDir, simonLera
-    ? `examples/simon-lera/img/${key}.webp`
+  if (liaFerro && !/^(?:trabajo-(?:0[1-9]|1[0-2])|estudio-0[1-3]|retrato-01)$/.test(key)) {
+    throw new Error(`Invalid Lía Ferro target: ${key}`);
+  }
+  const requestedPath = path.resolve(publicDir, grouped
+    ? `examples/${batch.slice(11)}/img/${key}.webp`
     : key.replace(/^public\//, ''));
   if (!requestedPath.startsWith(publicDir + path.sep)) throw new Error(`Invalid target: ${key}`);
   const target = await realpath(requestedPath);
@@ -60,12 +65,18 @@ for (const [key, number] of Object.entries(selection)) {
   }
   targets.add(target);
 
-  const photo = simonLera ? loadSimonPhoto(candidate) : candidate;
-  const source = simonLera ? photo.source
+  const photo = grouped ? loadGroupedPhoto(candidate) : candidate;
+  const source = grouped ? photo.source
     : fileURLToPath(new URL(`${String(number).padStart(3, '0')}.webp`, candidatesDir));
   const crop = sharp(source).autoOrient();
   let { width, height } = await sharp(target).metadata();
-  if (simonLera && key.startsWith('obra-')) {
+  if (liaFerro) {
+    if (key.startsWith('trabajo-')) [width, height] = [1120, 1400];
+    if (key === 'retrato-01') [width, height] = [1080, 1440];
+    crop.resize(width, height, { fit: 'cover', position: sharp.strategy.attention })
+      .modulate({ saturation: 0.85 })
+      .linear([1.04, 1.03, 1.01], [-5, -6, -7]);
+  } else if (simonLera && key.startsWith('obra-')) {
     const { autoOrient: original } = await crop.metadata();
     const scale = 1200 / Math.max(original.width, original.height);
     width = Math.round(original.width * scale);
@@ -94,10 +105,10 @@ for (const [key, number] of Object.entries(selection)) {
   }
   const creditsDir = path.join(publicDir, directory);
   const file = path.relative(creditsDir, target);
-  const credit = simonLera
+  const credit = grouped
     ? `${file} — Foto de ${candidate.photographer.replace(/[\r\n]+/g, ' ')} en Unsplash (${candidate.url})`
     : `${file} — Photo by ${candidate.author.replace(/[\r\n]+/g, ' ')} (${candidate.authorUrl}) on Unsplash (${candidate.page})`;
-  replacements.push({ target, image, downloadUrl, downloadId: simonLera ? candidate.unsplashId : undefined, creditsPath: path.join(creditsDir, 'CREDITS.md'), file, credit });
+  replacements.push({ target, image, downloadUrl, downloadId: grouped ? candidate.unsplashId : undefined, creditsPath: path.join(creditsDir, 'CREDITS.md'), file, credit });
 }
 
 async function replaceFile(file, contents) {
@@ -117,7 +128,9 @@ for (const { target, image, downloadUrl, downloadId, creditsPath, file, credit }
     throw error;
   });
   const lines = credits.trimEnd().split(/\r?\n/)
+    .filter(line => !liaFerro || !line.startsWith('Ilustraciones tipográficas y de línea originales'))
     .filter(line => !simonLera || !line.startsWith('Las imágenes de obra, detalle, estudio y sala son marcadores de posición'));
+  if (liaFerro && lines[0] === '# Imágenes provisionales') lines[0] = '# Créditos de fotografía';
   if (simonLera && !lines.includes('La trama de lino se genera mediante código.')) {
     lines.splice(1, 0, '', 'La trama de lino se genera mediante código.');
   }

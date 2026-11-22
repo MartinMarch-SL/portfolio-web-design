@@ -2,13 +2,22 @@ import { execFileSync } from 'node:child_process';
 import { mkdir, readdir, unlink, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
-import { buildSimonLeraSheets } from './simon-lera-sheets.mjs';
+import { buildGroupedSheets } from './grouped-sheets.mjs';
 
 const example = process.argv[2] ?? 'ruido';
-if (!['ruido', 'mares', 'simon-lera'].includes(example)) throw new Error(`Unknown example: ${example}`);
-const simonLera = example === 'simon-lera';
+if (!['ruido', 'mares', 'simon-lera', 'lia-ferro'].includes(example)) throw new Error(`Unknown example: ${example}`);
+const grouped = ['simon-lera', 'lia-ferro'].includes(example);
 const directory = new URL(example === 'ruido' ? './candidates/' : `./candidates-${example}/`, import.meta.url);
-const queries = simonLera ? [
+const queries = example === 'lia-ferro' ? [
+  ['fine line tattoo', 'portrait'],
+  ['blackwork tattoo', 'portrait'],
+  ['ornamental tattoo', 'portrait'],
+  ['black and white tattoo arm', 'portrait'],
+  ['tattoo artist working', 'landscape'],
+  ['tattoo studio interior dark', 'landscape'],
+  ['tattoo machine closeup', 'landscape'],
+  ['tattooed woman portrait black and white', 'portrait'],
+] : example === 'simon-lera' ? [
   ['abstract oil painting texture', 'squarish'],
   ['impasto painting abstract', 'squarish'],
   ['abstract painting canvas ochre', 'portrait'],
@@ -45,14 +54,14 @@ const photos = new Map();
 const errors = [];
 const groups = queries.map(() => []);
 for (const [queryIndex, [query, orientation]] of queries.entries()) {
-  const params = new URLSearchParams({ query, per_page: simonLera ? '20' : '12', orientation, content_filter: 'high' });
+  const params = new URLSearchParams({ query, per_page: grouped ? '20' : '12', orientation, content_filter: 'high' });
   try {
     const response = execFileSync('curl', [
       '-sS', '--fail', '--max-time', '30', '--url', `https://api.unsplash.com/search/photos?${params}`,
     ], { encoding: 'utf8', maxBuffer: 4 * 1024 * 1024 });
     for (const photo of JSON.parse(response).results) {
       if (photo.premium === true || photo.plus === true) continue;
-      if (simonLera) {
+      if (grouped) {
         groups[queryIndex].push({
           unsplashId: photo.id,
           photographer: photo.user.name,
@@ -81,9 +90,9 @@ for (const [queryIndex, [query, orientation]] of queries.entries()) {
   }
 }
 if (errors.length) console.error(errors.join('\n'));
-if (simonLera) {
+if (grouped) {
   console.log(`${queries.length} Unsplash search requests used`);
-  await buildSimonLeraSheets(directory, groups);
+  await buildGroupedSheets(directory, groups);
   if (errors.length) process.exitCode = 1;
 } else {
   await buildOriginalSheets();

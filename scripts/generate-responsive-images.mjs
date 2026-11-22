@@ -2,7 +2,7 @@ import { readdir } from 'node:fs/promises';
 import { join } from 'node:path';
 import sharp from 'sharp';
 
-const directories = ['public/examples/ruido/img', 'public/examples/bar-caribe/img', 'public/examples/ines-arranz/img', 'public/examples/mares/img', 'public/examples/simon-lera/img', 'public/showcase/img'];
+const directories = ['public/examples/ruido/img', 'public/examples/bar-caribe/img', 'public/examples/ines-arranz/img', 'public/examples/mares/img', 'public/examples/simon-lera/img', 'public/examples/lia-ferro/img', 'public/showcase/img'];
 const selected = process.argv.slice(2);
 for (const directory of directories.filter(directory => !selected.length || selected.includes(directory))) {
   for (const name of await readdir(directory)) {

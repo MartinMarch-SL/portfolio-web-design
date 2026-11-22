@@ -1,0 +1,46 @@
+---
+import { zones } from '../data/zones'
+const { hero = false } = Astro.props
+const callouts = [
+  ['antebrazo-interior', 'polilla', 12, 76, 'Antebrazo int.', 'Ornamental'],
+  ['clavicula', 'rama', 12, 53, 'Clavícula', 'Línea fina'],
+  ['gemelo', 'serpiente', 17, 6, 'Gemelo', 'Línea fina'],
+] as const
+const outline = 'M100 9C91 9 88 17 89 25Q89 34 95 38L95 44Q92 49 80 50Q71 52 69 62L65 89 62 109 57 126Q55 133 61 134Q65 134 67 128L74 111 80 86 83 77Q86 89 83 99Q77 115 81 135L86 162Q84 175 89 191L89 200Q83 203 85 207L96 207Q100 205 98 200L98 175 99 154 100 131 101 154 102 175 102 200Q100 205 104 207L115 207Q117 203 111 200L111 191Q116 175 114 162L119 135Q123 115 117 99Q114 89 117 77L120 86 126 111 133 128Q135 134 139 134Q145 133 143 126L138 109 135 89 131 62Q129 52 120 50Q108 49 105 44L105 38Q111 34 111 25C112 17 109 9 100 9Z'
+---
+<div class:list={['scan', hero && 'scan-hero']} data-scan data-hero={hero ? 'true' : undefined}>
+  <div class="scan-grid"></div>
+  <div class="scan-heading mono"><span class="indicator"></span> Escáner corporal<span class="scan-scale">ESC 1:1</span></div>
+  <div class="scan-stage">
+    <canvas aria-label="Maniquí tridimensional" hidden></canvas>
+    {hero && callouts.map(([zone, design, size, rotation, name, style]) =>
+      <div class="scan-callout mono" data-callout={zone} data-design={design} data-size={size} data-rotation={rotation} hidden>
+        <i aria-hidden="true"></i><span>{name} · {size} cm · {style}</span>
+      </div>)}
+    {!hero && <div class="scan-markers" data-markers hidden>
+      {zones.map(zone => <button type="button" class="hotspot" data-zone={zone.id} aria-label={zone.name} title={zone.name} hidden></button>)}
+    </div>}
+    <div class="scan-fallback" data-fallback>
+      <div class="silhouettes">
+        {['Frente', 'Espalda'].map((side, i) => <div class="silhouette">
+          <svg viewBox="48 4 104 208" preserveAspectRatio="none" aria-hidden="true">
+            <path d={outline} class="silhouette-outline" />
+            <path d="M100 10V205 M73 60H127 M81 112h38 M87 162h26" class="silhouette-grid" />
+          </svg>
+          {!hero && zones.filter(zone => (zone.normal[2] < 0) === Boolean(i)).map(zone =>
+            <button type="button" class="hotspot" aria-label={zone.name} title={zone.name} data-zone={zone.id}
+              style={`--x:${50 + zone.center[0] * 1.39}%;--y:${(171 - zone.center[1]) / 1.68}%`}></button>
+          )}
+          <span class="mono">{side}</span>
+        </div>)}
+        <img class="fallback-decal" alt="" hidden />
+      </div>
+    </div>
+    <div class="scan-sweep" aria-hidden="true"></div>
+    <output class="scan-label mono" hidden></output>
+  </div>
+  <div class="scan-foot mono"><span data-scan-mode>Vista frontal / dorsal</span>{!hero && <span class="zoom" data-zoom hidden>
+      <button type="button" data-delta="-1" aria-label="Acercar">+</button>
+      <button type="button" data-delta="1" aria-label="Alejar">−</button>
+    </span>}<span>170 cm</span></div>
+</div>

@@ -15,4 +15,5 @@ export const projects: Project[] = [
   { n: '03', name: 'Inés Arranz', sector: 'Psicología', href: url('ines-arranz/'), preview: 'showcase/img/ines-arranz-preview.webp', status: 'live' },
   { n: '04', name: 'Marès', sector: 'Inmobiliaria', href: url('mares/'), preview: 'showcase/img/mares-preview.webp', status: 'live' },
   { n: '05', name: 'Simón Lera', sector: 'Pintura', href: url('simon-lera/'), preview: 'showcase/img/simon-lera-preview.webp', status: 'live' },
+  { n: '06', name: 'Lía Ferro', sector: 'Tatuaje', href: url('lia-ferro/'), preview: 'showcase/img/lia-ferro-preview.webp', status: 'live' },
 ]

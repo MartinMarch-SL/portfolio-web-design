@@ -1,0 +1,36 @@
+---
+import { url } from '../../../lib/url'
+import { responsiveImage } from '../../../lib/responsive-image'
+import Layout from '../Layout.astro'
+import Scan from './Scan.astro'
+import { works } from '../data/works'
+const steps = [
+  ['Elige la zona', 'Explora el cuerpo y encuentra el lugar donde quieres llevar la pieza.'],
+  ['Prueba el diseño', 'Elige un flash o trae una referencia. Ajusta el tamaño y la posición.'],
+  ['Calcula el presupuesto', 'Consulta el rango de precio y el tiempo estimado de trabajo.'],
+  ['Reserva tu cita', 'Elige un hueco y confirma la reserva con la señal.'],
+]
+---
+<Layout>
+  <section class="hero wrap">
+    <div class="hero-copy">
+      <p class="eyebrow">Estudio privado · Malasaña</p>
+      <h1>Tinta<br />sobre piel<span>.</span></h1>
+      <p class="intro">Tatuaje de línea fina, blackwork y ornamental. Piezas dibujadas para el lugar del cuerpo que van a ocupar.</p>
+      <div class="actions"><a class="button" href={url('lia-ferro/encargo/')}>Diseñar mi encargo</a><a class="text-link" href={url('lia-ferro/trabajos/')}>Ver trabajos</a></div>
+    </div>
+    <Scan hero />
+  </section>
+  <section class="wrap section">
+    <div class="section-heading"><div><p class="eyebrow">Portfolio</p><h2>Trabajos seleccionados</h2></div><a class="text-link" href={url('lia-ferro/trabajos/')}>Ver todos</a></div>
+    <div class="work-grid">{[works[0], works[4], works[6]].map(work => <figure><img {...work.photo} alt="" loading="lazy" /><figcaption><strong>{work.name}</strong><span class="mono">{work.style}</span></figcaption></figure>)}</div>
+  </section>
+  <section class="wrap section">
+    <p class="eyebrow">De la idea a la cita</p><h2>Cómo funciona el encargo</h2>
+    <ol class="process">{steps.map(([name, text], i) => <li><span class="mono">0{i + 1}</span><h3>{name}</h3><p>{text}</p></li>)}</ol>
+  </section>
+  <section class="wrap section studio" id="contacto">
+    <img {...responsiveImage('examples/lia-ferro/img/estudio-01.webp', '(max-width: 800px) 100vw, 50vw', 1140)} alt="" loading="lazy" />
+    <div><p class="eyebrow">Madrid / Malasaña</p><h2>El estudio</h2><p>Trabajo en un espacio privado, con una cita cada vez. Antes de empezar revisamos el dibujo sobre la piel y ajustamos la colocación.</p><p>Si tienes dudas sobre una pieza o quieres hablar de una idea, escríbeme.</p><a class="text-link" href="mailto:hola@lia-ferro.example">hola@lia-ferro.example</a></div>
+  </section>
+</Layout>

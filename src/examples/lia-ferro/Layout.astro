@@ -1,0 +1,39 @@
+---
+import { ClientRouter } from 'astro:transitions'
+import { url } from '../../lib/url'
+import '@fontsource/syne/latin-600.css'
+import '@fontsource/syne/latin-700.css'
+import '@fontsource/ibm-plex-sans/latin-400.css'
+import '@fontsource/ibm-plex-sans/latin-600.css'
+import '@fontsource/ibm-plex-mono/latin-400.css'
+import './styles/site.css'
+const { title, section } = Astro.props
+const links = [['trabajos', 'Trabajos'], ['flash', 'Flash'], ['cuidados', 'Cuidados'], ['encargo', 'Reservar']]
+---
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#0C0D0F" />
+  <meta name="description" content="Tatuaje de línea fina, blackwork y ornamental en Malasaña, Madrid." />
+  <title>{title ? title + ' · Lía Ferro' : 'Lía Ferro · Tatuaje en Madrid'}</title>
+  <ClientRouter />
+</head>
+<body class="ferro">
+  <header class="mast wrap">
+    <a class="wordmark" href={url('lia-ferro/')}>LÍA FERRO<span>TATUAJE / MADRID</span></a>
+    <nav aria-label="Principal">
+      {links.map(([route, label]) => <a class:list={[route === 'encargo' && 'nav-book']} aria-current={section === route ? 'page' : undefined} href={url(`lia-ferro/${route}/`)}>{label}</a>)}
+    </nav>
+  </header>
+  <main id="contenido"><slot /></main>
+  <footer class="mast footer wrap">
+    <a class="wordmark" href={url('lia-ferro/')}>LÍA FERRO</a>
+    <span>Malasaña, Madrid · Con cita previa</span>
+    <a href={url('')}>Volver al catálogo</a>
+  </footer>
+  <script>import './scripts/main'</script>
+</body>
+</html>

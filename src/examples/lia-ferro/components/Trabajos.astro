@@ -1,0 +1,22 @@
+---
+import Layout from '../Layout.astro'
+import { styles } from '../data/flash'
+import { works } from '../data/works'
+---
+<Layout title="Trabajos" section="trabajos">
+  <section class="wrap page" data-gallery>
+    <p class="eyebrow">Portfolio</p><h1>Trabajos</h1>
+    <p class="intro">Una selección de piezas de línea fina, tinta negra y composición ornamental.</p>
+    <div class="filters" aria-label="Filtrar por estilo">
+      {['Todos', ...styles].map((style, i) => <button type="button" data-filter={style} aria-pressed={i === 0}>{style}</button>)}
+    </div>
+    <div class="work-grid">{works.map(work => <figure data-style={work.style}>
+      <button type="button" class="image-button" aria-label={`Ampliar ${work.name}`} data-image={work.photo.src} data-name={work.name}><img {...work.photo} alt="" loading="lazy" /></button>
+      <figcaption><strong>{work.name}</strong><span class="mono">{work.style}</span></figcaption>
+    </figure>)}</div>
+    <dialog aria-label="Visor de trabajos">
+      <form method="dialog"><button>Cerrar</button></form>
+      <img alt="" hidden /><p class="mono" data-caption></p>
+    </dialog>
+  </section>
+</Layout>

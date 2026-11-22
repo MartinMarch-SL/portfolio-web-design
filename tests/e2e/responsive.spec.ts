@@ -30,6 +30,11 @@ const pages = {
   salaSimon: 'simon-lera/obra/',
   fichaSimon: 'simon-lera/obra/linea-de-retirada/',
   estudioSimon: 'simon-lera/estudio/',
+  lia: 'lia-ferro/',
+  trabajosLia: 'lia-ferro/trabajos/',
+  encargoLia: 'lia-ferro/encargo/',
+  flashLia: 'lia-ferro/flash/',
+  cuidadosLia: 'lia-ferro/cuidados/',
 }
 
 for (const [width, height] of viewports) {

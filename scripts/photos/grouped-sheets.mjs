@@ -11,7 +11,7 @@ const imageHeight = 300;
 const labelHeight = 54;
 const tileHeight = imageHeight + labelHeight;
 
-export async function buildSimonLeraSheets(directory, groups) {
+export async function buildGroupedSheets(directory, groups) {
   const sheets = new URL('sheets/', directory);
   await mkdir(sheets, { recursive: true });
   const index = {};

@@ -1,0 +1,19 @@
+---
+import Layout from '../Layout.astro'
+import { phases } from '../lib/calendar'
+---
+<Layout title="Cuidados" section="cuidados">
+  <section class="wrap page">
+    <p class="eyebrow">Después de la sesión</p><h1>Cuidados</h1>
+    <p class="intro">Una guía para acompañar el primer mes de curación. Sigue las indicaciones que te dé al terminar la sesión.</p>
+    <div class="care-grid">
+      <div>{phases.map(phase => <article class="care-phase"><p class="eyebrow">Día {String(phase.day).padStart(2, '0')}</p><h2>{phase.title}</h2><p>{phase.text}</p></article>)}</div>
+      <form data-healing>
+        <h2>Calendario de curación</h2><p>Cinco citas de día completo para añadir a tu calendario.</p>
+        <label>Fecha del tatuaje <input name="start" type="date" required /></label>
+        <button class="button">Descargar calendario (.ics)</button>
+        <p role="status"></p>
+      </form>
+    </div>
+  </section>
+</Layout>

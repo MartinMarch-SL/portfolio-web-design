@@ -1,0 +1,159 @@
+.ferro {
+  --tinta:#0C0D0F; --grafito:#17191D; --acero:#8D939B; --piel:#E8E0D5; --hueso:#F4EFE8; --frio:#7FD6D2;
+  --rule:#34373c; --mono:"IBM Plex Mono",monospace; --display:Syne,sans-serif;
+  margin:0; background:var(--tinta); color:var(--piel); color-scheme:dark;
+  font: 400 16px/1.55 "IBM Plex Sans",sans-serif;
+}
+.ferro *, .ferro *::before, .ferro *::after { box-sizing:border-box }
+.ferro [hidden] { display:none !important }
+.ferro :focus-visible { outline:2px solid var(--hueso); outline-offset:4px }
+.ferro a { color:inherit }
+.ferro img { display:block; width:100%; object-fit:cover }
+.ferro h1,.ferro h2,.ferro h3,.ferro p,.ferro figure { margin:0 }
+.ferro h1,.ferro h2,.ferro h3 { font-family:var(--display); color:var(--hueso); line-height:1.02; font-weight:600 }
+.ferro h1 { font-size:clamp(2.85rem,8.3vw,8rem); letter-spacing:-.055em; text-transform:uppercase }
+.ferro h2 { font-size:clamp(1.55rem,3.6vw,3.5rem); letter-spacing:-.028em }
+.ferro h3 { font-size:1.25rem }
+.ferro p + p { margin-top:.8rem }
+.ferro .wrap { width:min(100% - clamp(2rem,9vw,10rem),1344px); margin-inline:auto }
+.ferro .mono,.ferro .eyebrow { font:400 .75rem/1.5 var(--mono) }
+.ferro .eyebrow { text-transform:uppercase; letter-spacing:.14em; color:var(--acero); margin-bottom:1.15rem }
+.ferro .mast { display:flex; justify-content:space-between; align-items:center; gap:1rem; min-height:76px; border-bottom:1px solid var(--rule) }
+.ferro .wordmark { color:var(--hueso); font:700 1.26rem/1 var(--display); text-decoration:none; letter-spacing:.06em; white-space:nowrap }
+.ferro .wordmark span { display:block; margin-top:.35rem; font: .69rem/1 var(--mono); color:var(--acero); letter-spacing:.14em }
+.ferro nav,.ferro .actions,.ferro .filters { display:flex; flex-wrap:wrap; align-items:center; gap:.8rem 1.5rem }
+.ferro nav a { font-size:.86rem; text-decoration:none }
+.ferro nav [aria-current],.ferro nav a:hover { text-decoration:underline; text-underline-offset:.35em }
+.ferro .nav-book { border:1px solid var(--rule); padding:.45em .8em }
+.ferro .hero,.ferro .studio,.ferro .care-grid,.ferro .booking-grid { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:clamp(1.5rem,5vw,5rem); align-items:start }
+.ferro .hero { min-height:min(760px,calc(100svh - 76px)); align-items:center; padding-block:clamp(2.5rem,5vw,6rem) }
+.ferro .hero h1 { font-size:clamp(3rem,7.3vw,7.3rem) }
+.ferro .hero h1 span { color:var(--acero) }
+.ferro .intro { max-width:37ch; margin-block:1.25rem 1.75rem; color:#b6b1aa; font-size:clamp(1rem,1.5vw,1.2rem) }
+.ferro .button,.ferro button { cursor:pointer; font:inherit }
+.ferro .button { display:inline-block; border:1px solid var(--piel); background:var(--piel); color:var(--tinta); text-decoration:none; padding:.65rem 1rem; font-weight:600 }
+.ferro .button:hover { background:var(--tinta); color:var(--piel) }
+.ferro .text-link { background:none; color:inherit; padding:0; border:0; text-decoration:underline; text-underline-offset:.27em }
+.ferro .section { border-top:1px solid var(--rule); padding-block:clamp(2.5rem,6vw,6rem) }
+.ferro .section-heading,.ferro figcaption { display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:.5rem 1rem }
+.ferro .work-grid,.ferro .flash-grid,.ferro .process { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1.5rem; margin-top:2rem }
+.ferro .work-grid img { aspect-ratio:4/5 }
+.ferro figcaption { padding:.6rem 0; border-bottom:1px solid var(--rule) }
+.ferro .work-grid .mono,.ferro .flash-meta .mono { color:var(--acero) }
+.ferro .process { list-style:none; padding:0; grid-template-columns:repeat(4,minmax(0,1fr)) }
+.ferro .process li,.ferro .care-phase { border-top:1px solid var(--rule); padding-top:1rem }
+.ferro .process h3,.ferro .studio p,.ferro .care-phase p { margin-block:.65rem }
+.ferro .studio { align-items:center }
+.ferro .studio img { aspect-ratio:1.5 }
+.ferro .footer { border-top:1px solid var(--rule); border-bottom:0; padding-block:1rem; color:var(--acero); font-size:.85rem; flex-wrap:wrap }
+.ferro .page { padding-block:clamp(2.5rem,6vw,6rem) }
+.ferro .filters { border-bottom:1px solid var(--rule); padding-block:.5rem }
+.ferro .filters button,.ferro dialog button { background:none; color:var(--piel); border:1px solid transparent; padding:.4rem }
+.ferro .filters button[aria-pressed=true],.ferro dialog button { border-color:var(--acero) }
+.ferro .image-button { width:100%; padding:0; border:0; background:none }
+.ferro dialog { width:100%; height:100%; max-width:none; max-height:none; border:0; padding:1rem; background:var(--tinta); color:var(--piel) }
+.ferro dialog[open] { display:grid; grid-template-rows:auto minmax(0,1fr) auto; gap:1rem; text-align:center }
+.ferro dialog img { width:100%; height:100%; object-fit:contain }
+.ferro .flash-grid article { border-block:1px solid var(--rule); padding-bottom:1rem }
+.ferro .flash-art { display:grid; place-items:center; padding:1.4rem; background:var(--grafito); aspect-ratio:1.4 }
+.ferro .flash-art svg { width:min(100%,10rem); height:auto }
+.ferro .flash-meta { padding-top:1rem }
+.ferro .flash-meta h2,.ferro .care-grid h2,.ferro .booking-grid h2 { font-size:clamp(1.35rem,2vw,2rem); margin-bottom:.65rem }
+.ferro .flash-meta a { display:inline-block; margin-top:.6rem }
+.ferro .care-grid { margin-top:2rem }
+.ferro .care-phase { margin-bottom:1rem }
+.ferro form label { display:grid; gap:.3rem; margin-block:.85rem; font-size:.9rem }
+.ferro input,.ferro select { width:100%; min-width:0; border:1px solid var(--rule); border-radius:0; background:var(--grafito); color:var(--piel); padding:.55rem; font:inherit }
+.ferro input[type=range] { accent-color:var(--acero); padding:0 }
+.ferro .booking-steps { display:flex; list-style:none; padding:0; flex-wrap:wrap; gap:0 1.3rem; border-block:1px solid var(--rule); margin-block:1.5rem; color:var(--acero); font: .75rem/1.4 var(--mono) }
+.ferro .booking-steps li { padding:.6rem 0 }
+.ferro .booking-steps [aria-current] { color:var(--hueso); box-shadow:inset 0 -1px var(--hueso) }
+.ferro .booking-grid { grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); gap:clamp(1rem,3.5vw,4rem) }
+.ferro .zone-list,.ferro .slots { margin-top:.75rem; border-top:1px solid var(--rule) }
+.ferro .zone-list button,.ferro .slot-day { display:flex; align-items:center; justify-content:space-between; gap:.4rem; border:0; border-bottom:1px solid var(--rule); background:none; color:inherit; padding:.38rem .45rem; width:100%; text-align:left }
+.ferro .zone-list button[aria-pressed=true] { background:var(--grafito); box-shadow:inset 2px 0 var(--acero) }
+.ferro .zone-list button span:last-child,.ferro .slot-day { font: .75rem/1.5 var(--mono) }
+.ferro .slot-day label { display:flex; align-items:center; margin:0; font:inherit; gap:.25rem }
+.ferro .slot-day input { width:auto; margin:0; accent-color:var(--acero) }
+.ferro .slot-day label:has(:disabled) { color:var(--acero) }
+.ferro .message { margin-top:.7rem }
+.ferro .form-nav { margin-top:.85rem }
+.ferro .estimate div { display:flex; justify-content:space-between; gap:.5rem; padding:.5rem 0; border-bottom:1px solid var(--rule) }
+.ferro .estimate dd { margin:0; text-align:right }
+.ferro .confirmation-code { font-size:1.25rem; margin-block:.6rem }
+.ferro [data-appointment] { margin-bottom:1rem }
+.ferro .scan { position:relative; border:1px solid var(--rule); background:#101216; isolation:isolate }
+.ferro .scan-grid { position:absolute; inset:0; z-index:-1; background-image:linear-gradient(#ffffff09 1px,transparent 1px),linear-gradient(90deg,#ffffff09 1px, transparent 1px); background-size:32px 32px; background-position:center }
+.ferro .scan-heading,.ferro .scan-foot { display:flex; align-items:center; justify-content:space-between; padding:.75rem; color:var(--acero); text-transform:uppercase }
+.ferro .scan-heading { justify-content:start; border-bottom:1px solid var(--rule) }
+.ferro .scan-scale { margin-left:auto }
+.ferro .scan-foot { border-top:1px solid var(--rule); gap:.65rem }
+.ferro .indicator { width:5px; height:5px; margin-right:.5rem; background:var(--frio) }
+.ferro .scan-stage { height:clamp(320px,41vw,560px); position:relative; overflow:hidden }
+.ferro .scan canvas { position:absolute; inset:0; width:100%; height:100%; touch-action:pan-y; cursor:grab }
+.ferro .scan canvas:active { cursor:grabbing }
+.ferro .scan-hero canvas { cursor:default; pointer-events:none }
+.ferro .scan-fallback { position:absolute; inset:0; display:grid; place-items:center }
+.ferro .silhouettes { display:flex; position:relative; height:91%; width:92%; justify-content:center; gap:3% }
+.ferro .silhouette { position:relative; height:100%; width:min(48%,190px); text-align:center }
+.ferro .silhouette svg { width:100%; height:93%; display:block }
+.ferro .silhouette-outline { fill:#0c0d0f55; stroke:#f4efe86b; stroke-width:.7 }
+.ferro .silhouette-grid { stroke:#f4efe85c; stroke-width:.4; fill:none }
+.ferro .hotspot { position:absolute; left:var(--x); top:calc(var(--y) * .92); transform:translate(-50%,-50%); width:14px; height:14px; border:1px solid var(--frio); background:var(--tinta); border-radius:50%; padding:0 }
+.ferro .hotspot[aria-pressed=true] { background:var(--frio) }
+.ferro .fallback-decal { position:absolute; width:var(--decal-width); height:auto; top:var(--decal-top); left:var(--decal-left); transform:translate(-50%,-50%) rotate(var(--decal-rotation)); pointer-events:none; object-fit:contain }
+.ferro [data-booking] .fallback-decal { filter:drop-shadow(0 0 2px #7fd6d263) }
+.ferro .scan-sweep { position:absolute; inset:0; pointer-events:none; background:linear-gradient(90deg,transparent,#7fd6d2a0 32%,#b0ece8c0 50%,#7fd6d2a0 68%,transparent) top / 100% 1px no-repeat; animation:ferro-sweep 7s linear -2.6s infinite }
+.ferro .scan-label { position:absolute; left:0; top:0; max-width:calc(100% - 16px); transform:translate(var(--hud-x,8px),var(--hud-y,8px)); padding:.35rem; border-left:1px solid var(--frio); background:#0c0d0fe8; color:var(--frio); pointer-events:none }
+@keyframes ferro-sweep { from {transform:translateY(0);opacity:0} 12%,85% {opacity:.65} to {transform:translateY(100%);opacity:0} }
+@media (max-width:760px) {
+  .ferro .hero,.ferro .studio,.ferro .care-grid,.ferro .booking-grid { grid-template-columns:minmax(0,1fr) }
+  .ferro .hero { min-height:auto }
+  .ferro .hero h1 { font-size:clamp(3.1rem,12vw,5rem) }
+  .ferro .work-grid,.ferro .flash-grid,.ferro .process { grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem }
+  .ferro .mast:not(.footer) { flex-wrap:wrap; gap:.75rem; padding-block:1rem }
+  .ferro nav { gap:.35rem .8rem }
+  .ferro .scan-stage { height:340px }
+}
+@media (min-width:761px) {
+  .ferro .booking-grid .scan { position:sticky; top:1rem }
+}
+@media (prefers-reduced-motion:reduce) {
+  .ferro .scan-sweep { display:none }
+  ::view-transition-group(*),::view-transition-old(*),::view-transition-new(*) { animation-duration:0s !important }
+}
+.ferro .scan-markers { position:absolute; inset:0; pointer-events:none }
+.ferro .scan-markers .hotspot { left:0; top:0; border-color:var(--acero); background:#0c0d0f9e; pointer-events:auto }
+.ferro .scan-markers .hotspot:hover,.ferro .scan-markers .hotspot[aria-pressed=true] { border-color:var(--frio); background:var(--frio) }
+.ferro .zoom { display:flex; gap:.25rem; margin-left:auto }
+.ferro .zoom button { border:1px solid var(--rule); background:var(--tinta); color:var(--piel); width:1.6rem; height:1.6rem; padding:0 }
+
+.ferro .scan-hero { border:0; background:transparent }
+.ferro .scan-hero .scan-grid { display:none }
+.ferro .scan-hero .scan-stage { height:clamp(390px,70svh,660px) }
+.ferro .scan-hero .scan-heading,.ferro .scan-hero .scan-foot { border:0; padding:.55rem 0; font-size:.7rem; letter-spacing:.08em }
+.ferro .scan-hero .scan-stage::before {
+  content:""; position:absolute; inset:0; z-index:1; pointer-events:none; opacity:.75;
+  background:
+    linear-gradient(90deg,var(--acero) 12px,transparent 12px,transparent calc(100% - 12px),var(--acero) calc(100% - 12px)) top / 100% 1px,
+    linear-gradient(90deg,var(--acero) 12px,transparent 12px,transparent calc(100% - 12px),var(--acero) calc(100% - 12px)) bottom / 100% 1px,
+    linear-gradient(var(--acero) 12px,transparent 12px,transparent calc(100% - 12px),var(--acero) calc(100% - 12px)) left / 1px 100%,
+    linear-gradient(var(--acero) 12px,transparent 12px,transparent calc(100% - 12px),var(--acero) calc(100% - 12px)) right / 1px 100%;
+  background-repeat:no-repeat;
+}
+.ferro .scan-callout { position:absolute; inset:0; pointer-events:none; color:var(--frio); text-transform:uppercase; font-size:.7rem }
+.ferro .scan-callout span,.ferro .scan-callout i { position:absolute; left:0; top:0 }
+.ferro .scan-callout span { max-width:34%; padding:.2rem .32rem; background:var(--tinta) }
+.ferro .scan-callout[data-callout="antebrazo-interior"] span { max-width:28%; background:transparent }
+.ferro .scan-callout i { width:1px; height:1px; background:currentColor; transform-origin:left center; opacity:.7 }
+@media (max-width:760px) {
+  .ferro .scan-hero .scan-stage { height:clamp(360px,65svh,480px) }
+}
+.ferro .scan-markers .hotspot.has-ink:not(:focus-visible) { opacity:0 }
+@media (min-width:761px) {
+  .ferro .hero { padding-block:1.25rem .5rem }
+  .ferro .scan-hero .scan-stage { height:clamp(390px,calc(100svh - 162px),780px) }
+  .ferro [data-booking] { padding-top:clamp(2rem,4.5vh,3rem) }
+  .ferro [data-booking] h1 { font-size:clamp(3.5rem,6.2vw,6rem) }
+  .ferro [data-booking] .scan-stage { height:clamp(340px,48svh,540px) }
+}
