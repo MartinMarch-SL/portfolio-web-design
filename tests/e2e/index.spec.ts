@@ -26,7 +26,11 @@ test('filtra por tipo de web', async ({ page }) => {
   await expect(page.locator('[data-details]')).toHaveText('Reservas y citas · Psicología')
   await filters.getByRole('button', { name: 'Hostelería 1' }).click()
   await expect(projects.getByRole('link')).toHaveCount(1)
-  await expect(page.getByRole('button', { name: 'Siguiente' })).toBeDisabled()
+  const onlyProject = projects.getByRole('link', { name: 'Bar Caribe' })
+  await onlyProject.focus()
+  await page.keyboard.press('ArrowRight')
+  await expect(onlyProject).toBeFocused()
+  await expect(page.locator('[data-name]')).toHaveText('Bar Caribe')
   await filters.getByRole('button', { name: 'Todas 6' }).click()
   await expect(projects.getByRole('link')).toHaveCount(6)
 })
@@ -49,7 +53,7 @@ test('cada enlace abre el ejemplo de la pantalla frontal', async ({ page }) => {
     await page.getByRole('link', { name, exact: true }).focus()
     await expect(page.locator('[data-name]')).toHaveText(name)
     await expect(page.locator('[data-current] a')).toHaveAttribute('href', base + slug + '/')
-    await page.getByRole('link', { name: 'Ver web' }).click()
+    await page.keyboard.press('Enter')
     await expect(page).toHaveURL(base + slug + '/')
     await page.goto(base)
   }
@@ -64,16 +68,6 @@ test('una pantalla lateral pasa al frente y abre su ejemplo', async ({ page, red
   await expect(page.locator('[data-name]')).toHaveText('Bar Caribe')
   await side.click()
   await expect(page).toHaveURL(base + 'bar-caribe/')
-})
-
-test('con movimiento reducido solo se funde la pantalla frontal', async ({ page }) => {
-  await page.emulateMedia({ reducedMotion: 'reduce' })
-  await page.getByRole('button', { name: 'Siguiente' }).click()
-  const current = page.locator('[data-project][data-current]')
-  await expect(current).toHaveCSS('transition-property', 'opacity')
-  await expect(current).toHaveCSS('opacity', '1')
-  await expect(page.locator('[data-project]').first()).toHaveCSS('opacity', '0')
-  await expect(page.locator('[data-name]')).toHaveText('Bar Caribe')
 })
 
 test('el catálogo cabe en 375 px', async ({ page }) => {

@@ -5,10 +5,8 @@ const stage = carousel.querySelector<HTMLElement>('[data-stage]')!
 const projects = [...carousel.querySelectorAll<HTMLLIElement>('[data-project]')]
 const links = projects.map(project => project.querySelector<HTMLAnchorElement>('a')!)
 const filters = [...carousel.querySelectorAll<HTMLButtonElement>('[data-filter]')]
-const directions = [...carousel.querySelectorAll<HTMLButtonElement>('[data-direction]')]
 const name = carousel.querySelector<HTMLElement>('[data-name]')!
 const details = carousel.querySelector<HTMLElement>('[data-details]')!
-const open = carousel.querySelector<HTMLAnchorElement>('[data-open]')!
 
 let visible = projects
 let current = projects[0]
@@ -44,8 +42,6 @@ function show(project: HTMLLIElement, recomposing = false) {
   const link = links[projects.indexOf(project)]
   name.textContent = link.getAttribute('aria-label')
   details.textContent = `${project.dataset.kind} · ${project.dataset.sector}`
-  open.setAttribute('href', link.getAttribute('href')!)
-  for (const button of directions) button.disabled = visible.length < 2
 }
 
 function move(direction: number, focus = false) {
@@ -62,9 +58,6 @@ for (const button of filters) {
     visible = projects.filter(project => !button.dataset.filter || project.dataset.kind === button.dataset.filter)
     show(visible.includes(current) ? current : visible[0], true)
   })
-}
-for (const button of directions) {
-  button.addEventListener('click', () => move(Number(button.dataset.direction)))
 }
 
 carousel.addEventListener('keydown', event => {

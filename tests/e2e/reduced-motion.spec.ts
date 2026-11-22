@@ -34,3 +34,19 @@ test('reduced motion keeps first-viewport content visible on every page', async 
   }
   await crawlSite(page, baseURL!, { inspect })
 })
+
+test('arrow navigation fades the front project into view', async ({ page, reducedMotion }) => {
+  test.skip(reducedMotion !== 'reduce', 'Requires the reduced-motion project')
+  await page.goto('/portfolio-web-design/')
+  await expect(page.locator('[data-carousel]')).toHaveAttribute('data-ready', '')
+  const first = page.getByRole('link', { name: 'RUIDO', exact: true })
+  const next = page.getByRole('link', { name: 'Bar Caribe', exact: true })
+  await first.focus()
+  await page.keyboard.press('ArrowRight')
+  await expect(next).toBeFocused()
+  const current = page.locator('[data-project][data-current]')
+  await expect(current).toHaveCSS('transition-property', 'opacity')
+  await expect(current).toHaveCSS('opacity', '1')
+  await expect(page.locator('[data-project]').first()).toHaveCSS('opacity', '0')
+  await expect(page.locator('[data-name]')).toHaveText('Bar Caribe')
+})

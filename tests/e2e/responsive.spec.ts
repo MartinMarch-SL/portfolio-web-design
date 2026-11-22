@@ -84,6 +84,12 @@ for (const [width, height] of viewports) {
         expect.soft(result.overflow).toEqual([])
         expect.soft(result.smallText).toEqual([])
 
+        if (name === 'index') {
+          const footer = page.getByRole('contentinfo')
+          await expect(footer).toHaveText('Catálogo de proyectos · 2026')
+          await expect(footer).toHaveCSS('border-top-width', '1px')
+        }
+
         if (name === 'ruido') {
           const word = page.locator('[data-section=hero] [data-wordmark]')
           await expect(word).toBeInViewport({ ratio: 1 })

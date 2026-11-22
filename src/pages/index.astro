@@ -37,25 +37,14 @@ import '@fontsource/jetbrains-mono/400.css'
             ))}
           </ol>
         </div>
-        <div class="selection" data-selection hidden>
-          <div aria-live="polite" aria-atomic="true">
-            <h2 class="display" data-name>{projects[0].name}</h2>
-            <p data-details>{projects[0].kind} · {projects[0].sector}</p>
-          </div>
-          <div class="actions">
-            <a data-open href={projects[0].href}>Ver web</a>
-            <div role="group" aria-label="Navegación de proyectos">
-              <button type="button" data-direction="-1">Anterior</button>
-              <button type="button" data-direction="1">Siguiente</button>
-            </div>
-          </div>
+        <div class="selection" data-selection aria-live="polite" aria-atomic="true" hidden>
+          <h2 class="display" data-name>{projects[0].name}</h2>
+          <p data-details>{projects[0].kind} · {projects[0].sector}</p>
         </div>
       </section>
     </main>
     <footer class="catalogue-footer">
-      <p>Encargo</p>
-      <h2 class="display">Tu web empieza aquí.</h2>
-      <a href={url('encargo/')}>Preparar un encargo</a>
+      Catálogo de proyectos · 2026
     </footer>
   </div>
 </Layout>

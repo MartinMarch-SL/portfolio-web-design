@@ -19,7 +19,7 @@ button:disabled { opacity: .4; cursor: default; }
 .catalogue-header, main > h1, .filters, .selection, .catalogue-footer {
   margin-inline: clamp(1rem, 4.5vw, 5rem);
 }
-.catalogue-header, .catalogue-header nav, .actions, .actions > div {
+.catalogue-header, .catalogue-header nav {
   display: flex; align-items: baseline; gap: clamp(.75rem, 2vw, 2rem);
 }
 .catalogue-header {
@@ -83,17 +83,11 @@ h1.display { margin-block: clamp(2rem, 5vw, 4rem) 1.5rem; font-size: clamp(3.1re
 @media (hover: hover) and (pointer: fine) {
   [data-current] .screen:hover .screen-mobile { opacity: 1; transform: translate3d(0, 0, 0); }
 }
-.selection {
-  display: flex; align-items: end; justify-content: space-between; flex-wrap: wrap;
-  gap: 1rem 2rem; padding: .5rem 0 2.5rem;
-}
-.selection h2, .catalogue-footer h2 { margin: 0; font-size: clamp(2.5rem, 7.4vw, 8rem); }
-.selection p, .catalogue-footer p { margin: .7rem 0 0; color: var(--muted); font: 400 .75rem/1.5 var(--mono); }
-.actions { flex-wrap: wrap; }
-.actions a, .catalogue-footer a { font-weight: 750; }
-.actions button { min-height: 2.75rem; text-decoration: underline; text-underline-offset: .25em; }
-.catalogue-footer { border-top: 1px solid var(--rule); padding-block: 2rem 4rem; }
-.catalogue-footer h2 { margin-block: .65rem 1.4rem; max-width: 12ch; }
+.selection { padding: .5rem 0 2.5rem; }
+.selection h2 { margin: 0; font-size: clamp(2.5rem, 7.4vw, 8rem); }
+.selection p, .catalogue-footer { color: var(--muted); font: 400 .75rem/1.5 var(--mono); }
+.selection p { margin: .7rem 0 0; }
+.catalogue-footer { border-top: 1px solid var(--rule); padding-block: 1rem; }
 
 @media (max-width: 650px) {
   h1.display { font-size: clamp(3.1rem, 15vw, 4.2rem); }
