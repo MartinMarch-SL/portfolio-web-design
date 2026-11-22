@@ -17,6 +17,7 @@ function show(project: HTMLLIElement, recomposing = false) {
   current.removeAttribute('data-held')
   current = project
   const front = visible.indexOf(project)
+  carousel.style.setProperty('--ring', String(Math.max(1, Math.tan(Math.PI / 6) / Math.tan(Math.PI / Math.max(visible.length, 3)))))
 
   for (const screen of projects) {
     const index = visible.indexOf(screen)

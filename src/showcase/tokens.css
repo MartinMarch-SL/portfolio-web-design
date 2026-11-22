@@ -53,7 +53,7 @@ h1.display { margin-block: clamp(2rem, 5vw, 4rem) 1.5rem; font-size: clamp(3.1re
   background: radial-gradient(ellipse at 50% 44%, #ffffff10, transparent 65%);
 }
 [data-ready] .screens {
-  --radius: min(53cqw, 56rem);
+  --radius: calc(min(53cqw, 56rem) * var(--ring, 1));
   position: relative; height: clamp(15rem, 41vw, 43rem); display: block; padding: 0;
   transform-style: preserve-3d; pointer-events: none;
 }
@@ -91,7 +91,7 @@ h1.display { margin-block: clamp(2rem, 5vw, 4rem) 1.5rem; font-size: clamp(3.1re
 
 @media (max-width: 650px) {
   h1.display { font-size: clamp(3.1rem, 15vw, 4.2rem); }
-  [data-ready] .screens { --radius: 67cqw; }
+  [data-ready] .screens { --radius: calc(67cqw * var(--ring, 1)); }
   [data-ready] [data-project] { width: 74%; }
 }
 @media (max-width: 600px) {
