@@ -1,0 +1,61 @@
+---
+import { url } from '../../../lib/url'
+import { series, works } from '../data/works'
+import { imagePath, imageSize } from '../lib/works'
+import Photo from './Photo.astro'
+import WorkCard from './WorkCard.astro'
+const featured = works.find(work => work.image === 'obra-01')!
+const currentSeries = 'Salitre'
+---
+<section class="hero" data-hero data-source={url(imagePath(featured.image))} data-linen={url(imagePath('lino'))} data-title={featured.title} data-year={featured.year} data-technique={featured.technique}>
+  <div class="hero-stage wrap">
+    <div class="hero-copy">
+      <p class="eyebrow">Pintura al óleo · Valencia</p>
+      <h1>Simón<br />Lera</h1>
+      <p class="hero-name">El reverso</p>
+      <p class="hero-note">La tela, la madera y lo que queda al otro lado de la pintura.</p>
+      <a class="text-link" href={url('simon-lera/obra/')}>Entrar en la sala</a>
+    </div>
+    <figure class="hero-object">
+      <div class="hero-shadow"></div>
+      <div class="hero-canvas" data-hero-canvas aria-hidden="true"></div>
+      <div class="hero-static stretcher" data-hero-static>
+        <Photo image={featured.image} alt={featured.title} {...imageSize(featured)} eager />
+      </div>
+      <figcaption><i>{featured.title}</i> · {featured.year} · {featured.technique}</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="wrap section series-section">
+  <div class="split-heading" data-reveal>
+    <div><p class="eyebrow">Serie actual</p><h2>{currentSeries}</h2></div>
+    <p>{series[currentSeries]}</p>
+  </div>
+  <div class="series-grid">
+    {works.filter(work => work.series === currentSeries).map(work => <WorkCard {work} eager />)}
+  </div>
+  <a class="text-link" href={url('simon-lera/obra/')}>Ver toda la obra</a>
+</section>
+
+<section class="statement wrap section" data-reveal aria-label="Declaración del pintor">
+  <blockquote>«Me interesa el momento en que una superficie deja de parecer lisa y empieza a guardar el tiempo.»</blockquote>
+  <p>Pinto a partir de lo que encuentro cerca del estudio: paredes repasadas con cal, madera que ha pasado un invierno a la intemperie, restos de sal en el suelo. En el lienzo vuelvo sobre una misma zona hasta que la pintura conserva algo de esos materiales.</p>
+</section>
+
+<section class="wrap section editorial" data-reveal>
+  <Photo image="estudio-01" alt="Vista del taller de pintura" />
+  <div><p class="eyebrow">El Cabanyal</p><h2>Estudio</h2><p>Trabajo con luz de patio. Tenso y preparo la tela aquí, en la misma mesa donde mezclo los pigmentos y dejo reposar las espátulas.</p>
+    <a class="text-link" href={url('simon-lera/estudio/')}>Ver el proceso</a></div>
+</section>
+
+<section class="wrap section editorial exhibition" data-reveal>
+  <div><p class="eyebrow">Próxima exposición</p><h2>Salitre</h2><p>Galería Mar de Cal, Valencia</p><p class="date">14 ene–28 feb 2027</p></div>
+  <Photo image="sala-01" alt="Vista de sala" />
+</section>
+
+<section class="wrap section contact" id="contacto">
+  <p class="eyebrow">Contacto</p><h2>Escríbeme</h2>
+  <p>Para consultas de obra, visitas al taller y propuestas de exposición.</p>
+  <a class="text-link" href="mailto:estudio@simon-lera.example">estudio@simon-lera.example</a>
+</section>

@@ -1,0 +1,11 @@
+---
+import Layout from '../../../examples/simon-lera/Layout.astro'
+import Detail from '../../../examples/simon-lera/components/Detail.astro'
+import { works } from '../../../examples/simon-lera/data/works'
+
+export function getStaticPaths() {
+  return works.map((work, index) => ({ params: { slug: work.slug }, props: { work, index } }))
+}
+const { work, index } = Astro.props
+---
+<Layout title={work.title} section="obra"><Detail {work} {index} /></Layout>

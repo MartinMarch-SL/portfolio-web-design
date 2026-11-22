@@ -1,0 +1,15 @@
+---
+import { responsiveImage } from '../../../lib/responsive-image'
+import { imagePath } from '../lib/works'
+interface Props {
+  image: string
+  alt: string
+  width?: number
+  height?: number
+  sizes?: string
+  eager?: boolean
+  class?: string
+}
+const { image, alt, width = 1200, height = image.startsWith('detalle-') ? width : 800, sizes = '(max-width: 700px) 90vw, 50vw', eager, class: className } = Astro.props
+---
+<img {...responsiveImage(imagePath(image), sizes, width)} {alt} {width} {height} class={className} loading={eager ? 'eager' : 'lazy'} decoding="async" />

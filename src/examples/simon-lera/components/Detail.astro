@@ -1,0 +1,84 @@
+---
+import { url } from '../../../lib/url'
+import { series, works } from '../data/works'
+import { dimensions, imagePath, imageSize, scaleScene, transitionName, workPath, type Work } from '../lib/works'
+import Photo from './Photo.astro'
+const { work, index } = Astro.props as { work: Work; index: number }
+const scale = scaleScene(work)
+const previous = works[index - 1]
+const next = works[index + 1]
+const detail = 'detalle-0' + (Object.keys(series).indexOf(work.series) + 1)
+---
+<article class="wrap detail" data-detail data-source={url(imagePath(work.image))}>
+  <header class="intro">
+    <a class="text-link" href={url('simon-lera/obra/')}>Volver a la sala</a>
+    <p class="eyebrow"><span class="work-number">Obra {String(index + 1).padStart(2, '0')}</span> · {work.series}</p>
+    <h1><i>{work.title}</i></h1>
+  </header>
+  <div class="detail-grid">
+    <div>
+      <div class="view-controls" data-view-controls hidden>
+        <div role="group" aria-label="Iluminación">
+          <button type="button" data-light="room" aria-pressed="true">Luz de sala</button>
+          <button type="button" data-light="raking" aria-pressed="false">Luz rasante</button>
+        </div>
+        <button type="button" data-scale-toggle aria-pressed="false">Escala real</button>
+      </div>
+      <p class="light-note" data-light-note role="status"></p>
+      <div class="work-views">
+        <div class="stretcher detail-painting" style={`view-transition-name:${transitionName(work)}`} data-painting>
+          <Photo image={work.image} alt={work.title} {...imageSize(work)} eager />
+          <div class="raking-canvas" data-raking-canvas aria-hidden="true"></div>
+        </div>
+        <figure class="scale" data-scale hidden>
+          <svg viewBox={`0 0 ${scale.width} ${scale.height}`} role="img" aria-labelledby="scale-title">
+            <title id="scale-title">{work.title}, una persona de 175 cm y un sofá de 202 cm, a la misma escala</title>
+            <g transform={`translate(0 ${scale.height})`}>
+              <image href={url(imagePath(work.image))} x={scale.x} y={-scale.bottom - work.height} width={work.width} height={work.height} />
+              <g fill="none" stroke="currentColor" stroke-width=".8" stroke-linecap="round" stroke-linejoin="round">
+                <path d={`M0 0H${scale.width}`} />
+                <path transform={`translate(${scale.x - 22} 0)`} d="M0 0v-16h-6v-48q0-8 8-8h8v-8q0-6 7-6h155q7 0 7 6v8h9q8 0 8 8v48h-6V0m-190-16h190M10-72v31h169v-31M10-41l-16 9m185-9 17 9M94-86v45" />
+                <g transform={`translate(${scale.width - 58} 0)`}>
+                  <ellipse cx="0" cy="-163" rx="9" ry="12" />
+                  <path d="M-4-152v7l-12 5q-5 3-7 13l-5 34q1 7 5 5l10-33-4 40 4 38-2 36-7 5q-2 2 3 2h13l1-39 5-41 5 41 1 39h13q5 0 3-2l-7-5-2-36 4-38-4-40 10 33q4 2 5-5l-5-34q-2-10-7-13l-12-5v-7" />
+                </g>
+              </g>
+            </g>
+          </svg>
+          <figcaption>Referencia a escala · Persona de 175 cm · Sofá de 202 cm</figcaption>
+        </figure>
+      </div>
+    </div>
+    <div class="detail-info">
+      <h2 id="work-data">Ficha de obra</h2>
+      <table aria-labelledby="work-data">
+        <tbody>
+          <tr><th scope="row">Serie</th><td>{work.series}</td></tr>
+          <tr><th scope="row">Año</th><td>{work.year}</td></tr>
+          <tr><th scope="row">Técnica</th><td>{work.technique}</td></tr>
+          <tr><th scope="row">Medidas</th><td>{dimensions(work)}</td></tr>
+          <tr><th scope="row">Estado</th><td>{work.state}</td></tr>
+        </tbody>
+      </table>
+      <details class="enquiry" data-enquiry>
+        <summary>Solicitar información</summary>
+        <form hidden>
+          <label>Nombre<input name="nombre" autocomplete="name" required /></label>
+          <label>Correo electrónico<input name="correo" type="email" autocomplete="email" required /></label>
+          <label>Consulta<textarea name="consulta" rows="3" required></textarea></label>
+          <button class="text-link" type="submit">Registrar consulta</button>
+          <p class="form-note">Formulario de muestra. La consulta se registra solo en esta página.</p>
+        </form>
+        <p data-confirmation role="status" hidden>Tu consulta se ha registrado en esta página.</p>
+      </details>
+    </div>
+  </div>
+  <section class="editorial section detail-material" data-reveal>
+    <Photo image={detail} alt={`Estudio de superficie de la serie ${work.series}`} />
+    <div><p class="eyebrow">La materia</p><h2>{work.series}</h2><p>{series[work.series]}</p></div>
+  </section>
+  <nav class="work-navigation" aria-label="Obras contiguas">
+    {previous && <a href={url(workPath(previous))}><span>Obra anterior</span><i>{previous.title}</i></a>}
+    {next && <a class="next-work" href={url(workPath(next))}><span>Obra siguiente</span><i>{next.title}</i></a>}
+  </nav>
+</article>

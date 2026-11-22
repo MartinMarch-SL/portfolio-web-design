@@ -1,0 +1,20 @@
+---
+import Photo from './Photo.astro'
+const steps = [
+  { title: 'Imprimación', image: 'estudio-01', text: 'Tenso el lino sobre el bastidor y aplico dos manos finas de imprimación. Lijo entre manos para quitar los nudos más altos y conservar el dibujo de la trama.' },
+  { title: 'Capas', image: 'estudio-02', text: 'Empiezo con una capa magra, casi transparente. Cuando pierde el brillo, vuelvo con una mezcla más espesa. Dejo zonas abiertas para que se vea el tono de abajo.' },
+  { title: 'Espátula', image: 'detalle-02', text: 'Arrastro la hoja casi plana para extender el óleo. Con el canto retiro parte de la capa fresca. En algunos bordes queda una cresta que solo se ve con la luz de lado.' },
+  { title: 'Secado', image: 'estudio-03', text: 'Dejo los cuadros en vertical, separados de la pared. Cada mezcla seca a un ritmo distinto. Reviso el color con la luz del patio antes de dar por terminada la pieza.' },
+]
+---
+<section class="wrap intro studio-intro">
+  <p class="eyebrow">El Cabanyal, Valencia</p>
+  <h1>Estudio</h1>
+  <p>El lino llega en rollos y la madera en listones. Entre eso y un cuadro pasan semanas de capas, raspados y espera.</p>
+</section>
+<div class="wrap studio-steps">
+  {steps.map(({ title, image, text }, index) => <section class="editorial step" data-reveal>
+    <Photo {image} alt={`Una vista del proceso de ${title.toLowerCase()}`} eager={index === 0} />
+    <div><p class="eyebrow">0{index + 1}</p><h2>{title}</h2><p>{text}</p></div>
+  </section>)}
+</div>

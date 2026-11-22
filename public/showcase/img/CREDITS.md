@@ -7,3 +7,5 @@ bar-caribe-preview.webp — Photo by Nacho Carretero Molero (https://unsplash.co
 ines-arranz-preview.webp — Photo by Croissant (https://unsplash.com/@getcroissant) on Unsplash (https://unsplash.com/photos/assorted-green-leafed-plants-fSuVFIDJwX4)
 
 mares-preview.webp — Photo by Tim Schmidbauer (https://unsplash.com/@timschmidbauer) on Unsplash (https://unsplash.com/photos/luxury-modern-home-overlooks-the-ocean-dtTlZ4DwjgA)
+
+simon-lera-preview.webp — Foto de Laura Cleffmann en Unsplash (https://unsplash.com/photos/two-men-standing-in-an-art-gallery-looking-at-paintings-7PyXLYLtvI8)

@@ -1,0 +1,27 @@
+---
+import { url } from '../../../lib/url'
+import { dimensions, imageSize, transitionName, workPath, type Work } from '../lib/works'
+import Photo from './Photo.astro'
+const { work, wall = false, eager = false } = Astro.props as { work: Work; wall?: boolean; eager?: boolean }
+// Dominant colors sampled from the corresponding WebP originals.
+const colors: Record<string, string> = {
+  'obra-01': '#380808', 'obra-02': '#c88808', 'obra-03': '#d83808',
+  'obra-04': '#386888', 'obra-05': '#c8d8d8', 'obra-06': '#d8d8d8',
+  'obra-07': '#e8d8c8', 'obra-08': '#e8e8d8', 'obra-09': '#f8f8f8',
+}
+---
+<article class="work-card" data-work={wall ? work.slug : undefined} data-series={wall ? work.series : undefined}
+  data-state={wall ? work.state : undefined} style={`--work-w:${work.width};--work-h:${work.height}`}>
+  <a href={url(workPath(work))}>
+    <div class="hanging">
+      <div class="stretcher" style={{ backgroundColor: colors[work.image], viewTransitionName: wall ? transitionName(work) : undefined }}>
+        <Photo image={work.image} alt="" {eager} {...imageSize(work)} sizes={wall ? '(max-width: 760px) 85vw, 420px' : '(max-width: 650px) 85vw, 30vw'} />
+      </div>
+    </div>
+    <div class="cartela">
+      <h3>{work.title}</h3>
+      <p>{work.year} · {dimensions(work)}</p>
+      <p>{work.state}</p>
+    </div>
+  </a>
+</article>

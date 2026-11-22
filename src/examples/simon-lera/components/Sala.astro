@@ -1,0 +1,28 @@
+---
+import { series, states, works } from '../data/works'
+import WorkCard from './WorkCard.astro'
+---
+<section class="wrap intro">
+  <p class="eyebrow">Obra original · 2024–2026</p>
+  <h1>Sala</h1>
+  <p data-series-note>Óleos sobre lino de las series Salitre, Cal y Mediodía.</p>
+  <div class="filters" data-filters hidden>
+    <div role="group" aria-label="Serie">
+      <button type="button" data-filter="series" data-value="" data-note="Óleos sobre lino de las series Salitre, Cal y Mediodía." aria-pressed="true">Todas las series</button>
+      {Object.entries(series).map(([name, note]) => <button type="button" data-filter="series" data-value={name} data-note={note} aria-pressed="false">{name}</button>)}
+    </div>
+    <div role="group" aria-label="Disponibilidad">
+      <button type="button" data-filter="state" data-value="" aria-pressed="true">Todos los estados</button>
+      {states.map(state => <button type="button" data-filter="state" data-value={state} aria-pressed="false">{state}</button>)}
+    </div>
+  </div>
+  <p class="result-count" data-count role="status">9 obras</p>
+</section>
+<div class="wall" data-wall>
+  <div class="wall-window" data-rail-window tabindex="0" role="region" aria-label="Obras de la sala">
+    <div class="wall-track" data-wall-track>
+      {works.map(work => <WorkCard {work} wall eager />)}
+      <p data-empty hidden>No hay obras con estos filtros.</p>
+    </div>
+  </div>
+</div>

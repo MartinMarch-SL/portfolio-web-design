@@ -1,0 +1,43 @@
+---
+import PortfolioIcons from '../../lib/PortfolioIcons.astro'
+import { url } from '../../lib/url'
+import { imagePath } from './lib/works'
+import '@fontsource/bodoni-moda/latin-500.css'
+import '@fontsource/caveat/latin-400.css'
+import '@fontsource/bodoni-moda/latin-500-italic.css'
+import '@fontsource/hanken-grotesk/latin-400.css'
+import '@fontsource/hanken-grotesk/latin-600.css'
+import './styles/base.css'
+
+const { title, section, description = 'Obra al óleo sobre lino. Estudio en el Cabanyal, Valencia.' } = Astro.props
+---
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#FBF8F2" />
+    <meta name="description" content={description} />
+    <PortfolioIcons />
+    <title>{title ? `${title} · Simón Lera` : 'Simón Lera · Pintura'}</title>
+  </head>
+  <body style={`--linen: url("${url(imagePath('lino'))}")`}>
+    <a class="skip" href="#contenido">Saltar al contenido</a>
+    <header class="mast wrap">
+      <a class="signature" href={url('simon-lera/')}>Simón Lera</a>
+      <nav aria-label="Principal">
+        <a href={url('simon-lera/obra/')} aria-current={section === 'obra' ? 'page' : undefined}>Obra</a>
+        <a href={url('simon-lera/estudio/')} aria-current={section === 'estudio' ? 'page' : undefined}>Estudio</a>
+        <a href={url('simon-lera/#contacto')}>Contacto</a>
+      </nav>
+    </header>
+    <main id="contenido"><slot /></main>
+    <footer class="footer wrap">
+      <a class="signature" href={url('simon-lera/')}>Simón Lera</a>
+      <span>El Cabanyal, Valencia</span>
+      <a href={url('')}>Volver al catálogo</a>
+    </footer>
+    <script>import './scripts/main'</script>
+  </body>
+</html>
