@@ -1,0 +1,26 @@
+---
+import { disciplines, sectors } from '../data/company'
+import Photo from './Photo.astro'
+import { route } from '../lib/paths'
+import { number } from '../lib/offer'
+
+const { project, index, featured } = Astro.props as { project: (typeof import('../data/projects').projects)[number]; index: number; featured?: boolean }
+const scope = disciplines.filter(({ id }) => Object.hasOwn(project.scope, id))
+---
+<article class="project-card" data-project={project.slug}>
+  <a href={route('obras/' + project.slug + '/')}>
+    <Photo name={project.photos[0]} sizes={featured ? '(max-width: 900px) 92vw, 60vw' : '(max-width: 500px) 92vw, (max-width: 760px) 45vw, 31vw'} decorative />
+    <div class="project-meta"><span>RML / O-{String(index + 1).padStart(2, '0')}</span><span>{project.year}</span></div>
+    <div class:list={{ 'featured-caption': featured }}>
+    <div><h3>{project.name}</h3>
+    <p>{sectors[project.sector]} · {project.place} · {number(project.area)} m²</p>
+    <p class="mono">{scope.map(({ code }) => code.replace(/-$/, '')).join(' / ')}</p>
+    </div>
+    {featured && <svg class="mini-scheme" viewBox="0 0 130 72" aria-hidden="true">
+      <rect x="1" y="1" width="128" height="70" fill="none" stroke="currentColor" />
+      <path d="M12 1v70M118 1v70M1 36h128" fill="none" stroke="currentColor" stroke-dasharray="2 3" opacity=".35" />
+      {scope.map((_, i) => <path d={`M12 ${13 + i * 8}H${38 + i * 7}l9 7H118`} fill="none" stroke="currentColor" />)}
+    </svg>}
+    </div>
+  </a>
+</article>

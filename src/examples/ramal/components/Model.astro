@@ -1,0 +1,65 @@
+---
+import { faceColor, faceNormal, layers, mesh, modelProjection } from '../data/model'
+
+const drawings = layers.map(layer => ({
+  ...layer,
+  polygons: layer.parts.flatMap((part, index) => {
+    const { points, faces } = mesh(part)
+    return faces.flatMap(face => {
+      const vertices = face.map(i => points[i])
+      const normal = faceNormal(vertices)
+      const [x, y, z] = normal
+      if (x + y * .75 + z <= .001) return []
+      const depth = vertices.reduce((sum, [x, y, z]) => sum + x + y + z, 0) / vertices.length
+      const underlay = index === 0 && ['estructura', 'fotovoltaica'].includes(layer.id)
+      return [{
+        depth: underlay ? -Infinity : depth,
+        points: vertices.map(point => modelProjection(point).join(',')).join(' '),
+        fill: `rgb(${faceColor(layer, part, normal).map(Math.round).join(',')})`,
+      }]
+    })
+  }).sort((a, b) => a.depth - b.depth),
+}))
+---
+<figure class="model" data-model aria-label="Modelo de coordinación de una planta técnica">
+  <div class="model-bar"><span>RML / BIM-01</span><span>AXONOMETRÍA</span></div>
+  <div class="model-viewport">
+    <svg data-fallback viewBox="0 0 740 535" role="img" aria-labelledby="model-title">
+      <title id="model-title">Planta técnica con forjado y redes de fontanería, incendios, clima, electricidad y fotovoltaica</title>
+      {drawings.map(layer => (
+        <g data-layer={layer.id} style={`--lift:${-layer.lift * 32}px`}>
+          {layer.polygons.map(polygon => <polygon points={polygon.points} fill={polygon.fill} stroke={layer.id === 'estructura' ? '#e1e5e5' : layer.color} stroke-width=".55" stroke-linejoin="round" />)}
+        </g>
+      ))}
+    </svg>
+    <canvas data-model-canvas aria-hidden="true" hidden></canvas>
+    <svg class="model-leaders" aria-hidden="true">
+      {layers.slice(1).map(layer => <g data-leader={layer.id}>
+        <circle r="2" fill={layer.color} />
+        <path d="M0 0H1" fill="none" stroke={layer.color} vector-effect="non-scaling-stroke" />
+        <path d="M0 0H1" fill="none" stroke={layer.color} vector-effect="non-scaling-stroke" />
+        <text fill="currentColor">{layer.code}</text>
+      </g>)}
+    </svg>
+  </div>
+  <div class="model-dimension">
+    <svg viewBox="0 0 400 22" preserveAspectRatio="none" aria-hidden="true">
+      <defs><marker id="dimension-head" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto-start-reverse"><path d="M0 0 7 3.5 0 7Z" fill="currentColor" /></marker></defs>
+      <path d="M3 0V22M397 0V22" stroke="currentColor" />
+      <path class="dimension-line" d="M4 11H396" stroke="currentColor" marker-start="url(#dimension-head)" marker-end="url(#dimension-head)" />
+    </svg>
+    <span data-dimension aria-live="polite">A-00 · 12.000 × 9.000 mm</span>
+  </div>
+  <figcaption>
+    <div class="model-selector" role="group" aria-label="Aislar una disciplina">
+      <button type="button" data-isolate="" aria-pressed="true">Conjunto</button>
+      {layers.map(layer => <button type="button" data-isolate={layer.id} aria-pressed="false" style={`--swatch:${layer.color}`}><i></i>{layer.name}</button>)}
+    </div>
+    <ul class="model-notes" aria-label="Cotas de las capas">
+      {layers.slice(1).map(layer => <li data-layer-note={layer.id}>
+        <svg viewBox="0 0 26 14" aria-hidden="true"><path d="M2 2v10M24 2v10M3 7h20M7 4 3 7l4 3m12-6 4 3-4 3" fill="none" stroke="currentColor" /></svg>
+        <span><b>{layer.code}</b> · {layer.id === 'electricidad' ? 'Electricidad BT/MT' : layer.name} · {layer.size}</span>
+      </li>)}
+    </ul>
+  </figcaption>
+</figure>

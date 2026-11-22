@@ -1,0 +1,18 @@
+{
+  "techo-instalado": "q1-14",
+  "tecnico-elevador": "q1-19",
+  "bandejas": "q1-03",
+  "forjado-tubos": "q1-20",
+  "bandeja-pci": "q1-05",
+  "operario-andamio": "q1-13",
+  "conductos-oscuro": "q2-06",
+  "conductos-blanco": "q2-02",
+  "conducto-nave": "q2-17",
+  "fv-nave": "q4-13",
+  "fv-patron": "q4-10",
+  "sala-cuadros": "q5-03",
+  "cuadro": "q5-13",
+  "plano": "q7-02",
+  "revision-plano": "q7-06",
+  "ferralla": "q7-07"
+}

@@ -1,0 +1,61 @@
+---
+import Photo from '../../../examples/ramal/components/Photo.astro'
+import Layout from '../../../examples/ramal/Layout.astro'
+import PageHero from '../../../examples/ramal/components/PageHero.astro'
+import TitleBlock from '../../../examples/ramal/components/TitleBlock.astro'
+import { disciplines, sectors } from '../../../examples/ramal/data/company'
+import { projects } from '../../../examples/ramal/data/projects'
+import { route } from '../../../examples/ramal/lib/paths'
+import { number } from '../../../examples/ramal/lib/offer'
+
+export const getStaticPaths = () => projects.map((project, index) => ({ params: { slug: project.slug }, props: { project, index } }))
+const { project, index } = Astro.props
+const code = 'O-' + String(index + 1).padStart(2, '0')
+const facts = [
+  ['Ingeniería', project.engineering], ['Constructora', project.builder], ['Superficie', number(project.area) + ' m²'],
+  ['Potencia', project.power], ['Plazo', project.duration + ' semanas'], ['Año', project.year],
+]
+const scope = disciplines.filter(({ id }) => Object.hasOwn(project.scope, id))
+---
+<Layout title={project.name} section="obras/">
+  <PageHero code={`${code} / ${sectors[project.sector]}`} title={project.name} intro={`${project.place} · ${project.year}`}>
+    <a class="text-link" href={route('obras/')}>Volver a obras</a>
+  </PageHero>
+  <section class="section">
+    <div class="wrap">
+      <div class="sheet-grid">
+        <Photo name={project.photos[0]} sizes="(max-width: 760px) 92vw, 48vw" />
+        <div><h2>Ficha técnica</h2><dl class="technical-grid facts">{facts.map(([label, value]) => <div><dt>{label}</dt><dd>{value}</dd></div>)}</dl><p class="mono">Caso de estudio ficticio</p></div>
+      </div>
+      <TitleBlock project={project.name} sheet={code} />
+    </div>
+  </section>
+  <section class="section dark">
+    <div class="wrap">
+      <h2>Alcance contratado</h2>
+      <dl class="technical-grid">{scope.map(({ id, code, name }) => <div><dt>{code} / {name}</dt><dd>{project.scope[id]}</dd></div>)}</dl>
+      <TitleBlock project={project.name} sheet="Alcance MEP" />
+    </div>
+  </section>
+  <section class="section grid-paper">
+    <div class="wrap">
+      <div class="sheet-grid">
+        <div><h2>Reto de obra</h2><p>{project.challenge}</p><h3>Solución ejecutada</h3><p>{project.solution}</p></div>
+        <figure class="technical-scheme">
+          <svg viewBox="0 0 440 260" role="img" aria-label="Esquema de coordinación de las disciplinas contratadas">
+            <rect x="48" y="30" width="343" height="190" fill="none" stroke="currentColor" />
+            <path d="M82 30v190M355 30v190M48 61h343M48 192h343" fill="none" stroke="currentColor" stroke-dasharray="3 5" />
+            {scope.map(({ code }, i) => <g transform={`translate(0 ${i * 30})`}>
+              <path d={`M${96 + i * 22} 83H${242 + i * 17}L${252 + i * 17} 93H330`} fill="none" stroke="currentColor" stroke-width="1.5" />
+              <circle cx={96 + i * 22} cy="83" r="3" fill="currentColor" />
+              <text x="332" y="98" fill="currentColor" font-size="15">{code}</text>
+            </g>)}
+          </svg>
+          <figcaption class="mono">Esquema de coordinación · {code}</figcaption>
+        </figure>
+      </div>
+      <Photo class="detail-image" name={project.photos[1]} sizes="(max-width: 980px) 92vw, 896px" />
+      <TitleBlock project={project.name} sheet="Coordinación" />
+    </div>
+  </section>
+</Layout>

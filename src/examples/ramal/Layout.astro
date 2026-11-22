@@ -1,0 +1,58 @@
+---
+import { ClientRouter } from 'astro:transitions'
+import PortfolioIcons from '../../lib/PortfolioIcons.astro'
+import { url } from '../../lib/url'
+import { route, image } from './lib/paths'
+import { contact } from './data/company'
+import '@fontsource-variable/geist'
+import '@fontsource/geist-mono/latin-400.css'
+import './styles/site.css'
+
+const { title, section = '' } = Astro.props
+const links = [['disciplinas/', 'Disciplinas'], ['obras/', 'Obras'], ['empresa/', 'Empresa']]
+---
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#F2F1EC" />
+  <meta name="description" content="Instalaciones técnicas para ingenierías y constructoras. Ejecución MEP, legalización y puesta en marcha desde Zaragoza." />
+  <title>{title ? title + ' · RAMAL Instalaciones Técnicas' : 'RAMAL Instalaciones Técnicas · Zaragoza'}</title>
+  <PortfolioIcons name="ramal" />
+  <ClientRouter />
+</head>
+<body class="ramal">
+  <a class="skip" href="#contenido">Saltar al contenido</a>
+  <header class="mast">
+    <div class="wrap mast-inner">
+      <a class="brand" href={route()} aria-label="RAMAL Instalaciones Técnicas, inicio">
+        <img src={image('isotipo.svg')} alt="" width="42" height="42" />
+        <span><strong>RAMAL</strong><small>Instalaciones Técnicas</small></span>
+      </a>
+      <nav class="desktop-nav" aria-label="Principal">
+        {links.map(([path, label]) => <a href={route(path)} aria-current={section === path ? 'page' : undefined}>{label}</a>)}
+      </nav>
+      <a class="button mast-offer" href={route('oferta/')} aria-current={section === 'oferta/' ? 'page' : undefined}>Solicitar oferta</a>
+      <button class="menu-toggle" type="button" data-menu-open aria-haspopup="dialog" aria-controls="ramal-menu">Menú</button>
+    </div>
+  </header>
+  <dialog id="ramal-menu" aria-label="Menú principal">
+    <button type="button" data-menu-close autofocus>Cerrar menú</button>
+    <nav aria-label="Principal móvil">
+      <a href={route()}>Inicio</a>
+      {[...links, ['oferta/', 'Solicitar oferta']].map(([path, label]) => <a href={route(path)} aria-current={section === path ? 'page' : undefined}>{label}</a>)}
+    </nav>
+  </dialog>
+  <main id="contenido" tabindex="-1"><slot /></main>
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <div><strong>RAMAL Instalaciones Técnicas</strong><p>Zaragoza · Desde 2003</p></div>
+      <div><a href={'mailto:' + contact}>{contact}</a><p>Empresa y obras ficticias</p></div>
+      <a href={url('')}>Volver al catálogo</a>
+    </div>
+  </footer>
+  <script>import './scripts/main'</script>
+</body>
+</html>

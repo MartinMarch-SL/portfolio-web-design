@@ -1,0 +1,64 @@
+---
+import Photo from '../../../examples/ramal/components/Photo.astro'
+import Layout from '../../../examples/ramal/Layout.astro'
+import PageHero from '../../../examples/ramal/components/PageHero.astro'
+import TitleBlock from '../../../examples/ramal/components/TitleBlock.astro'
+import { certifications, contact } from '../../../examples/ramal/data/company'
+
+const roles = [
+  ['Dirección técnica', 'Revisión de contrato y coordinación con la dirección facultativa.'],
+  ['Oficina de estudios y BIM', 'Mediciones, planificación de compras y coordinación de modelos.'],
+  ['Jefatura de obra', 'Secuencia de montaje, control de producción y seguimiento de partidas.'],
+  ['Encargados y técnicos de disciplina', 'Replanteo, ejecución y registro de ensayos por instalación.'],
+  ['Prevención y calidad', 'Inspecciones en campo, control documental y cierre de no conformidades.'],
+  ['Puesta en marcha y mantenimiento', 'Pruebas funcionales, formación al explotador y asistencia posobra.'],
+]
+---
+<Layout title="Empresa" section="empresa/">
+  <PageHero code="Zaragoza / Desde 2003" title="Una instaladora a pie de obra." intro="RAMAL Instalaciones Técnicas reúne a unos 85 técnicos propios para ejecutar instalaciones en edificios de uso intensivo.">
+    <button class="button primary" type="button" data-dossier>Descargar dossier</button>
+  </PageHero>
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head"><h2>Desde 2003</h2><p>Empezamos con cuadros y redes eléctricas en Zaragoza. Incorporamos climatización, PCI y redes hidráulicas para asumir lotes completos. Hoy coordinamos modelos BIM de montaje e integramos el control de los edificios con la puesta en marcha.</p></div>
+      <TitleBlock sheet="Historia y actividad" />
+    </div>
+  </section>
+  <section class="section dark">
+    <div class="wrap">
+      <h2>Equipo técnico</h2>
+      <dl class="technical-grid">{roles.map(([role, description]) => <div><dt>{role}</dt><dd>{description}</dd></div>)}</dl>
+      <TitleBlock sheet="Organización de obra" />
+    </div>
+  </section>
+  <section class="section grid-paper">
+    <div class="wrap">
+      <div class="section-head"><h2>Medios propios</h2><p>Taller de prefabricación y almacén en Zaragoza, equipos de elevación para montaje, instrumentación calibrada y oficina técnica para modelado y planos de taller.</p></div>
+      <div class="photo-pair">
+        <Photo name="tecnico-elevador" sizes="(max-width: 580px) 92vw, 46vw" />
+        <Photo name="ferralla" sizes="(max-width: 580px) 92vw, 46vw" />
+      </div>
+      <TitleBlock sheet="Medios y taller" />
+    </div>
+  </section>
+  <section class="section dark">
+    <div class="wrap">
+      <h2>Seguridad, calidad y medio ambiente</h2>
+      <dl class="technical-grid">
+        <div><dt>Seguridad y salud</dt><dd>Planificamos izados, trabajos en altura y consignaciones. Revisamos permisos de trabajo y coordinamos actividades con los demás oficios.</dd></div>
+        <div><dt>Calidad</dt><dd>Aplicamos planes de inspección por lote, registramos ensayos con equipos calibrados y cerramos pendientes antes de la entrega.</dd></div>
+        <div><dt>Medio ambiente</dt><dd>Separamos residuos, registramos su retirada y controlamos fugas de refrigerante durante las pruebas y el mantenimiento.</dd></div>
+      </dl>
+      <TitleBlock sheet="Control de obra" />
+    </div>
+  </section>
+  <section class="section grid-paper">
+    <div class="wrap">
+      <h2>Certificaciones y homologaciones</h2>
+      <p>Documentación simulada para esta empresa ficticia.</p>
+      <ul class="line-list">{certifications.map(item => <li>{item}</li>)}</ul>
+      <p><a class="text-link" href={'mailto:' + contact}>{contact}</a></p>
+      <TitleBlock sheet="Registro documental" />
+    </div>
+  </section>
+</Layout>

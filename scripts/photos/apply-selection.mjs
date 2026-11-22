@@ -21,7 +21,8 @@ const simonLera = batch === 'candidates-simon-lera';
 const liaFerro = batch === 'candidates-lia-ferro';
 const losAlmendros = batch === 'candidates-los-almendros';
 const pinarAlto = batch === 'candidates-pinar-alto';
-const grouped = simonLera || liaFerro || losAlmendros || pinarAlto;
+const ramal = batch === 'candidates-ramal';
+const grouped = simonLera || liaFerro || losAlmendros || pinarAlto || ramal;
 const basketballCrops = new Map([
   ['pabellon-noche', [1600, 1000, 'centre']],
   ['parquet-claro', [1200, 800, 'south']],
@@ -45,6 +46,24 @@ const footballCrops = new Map([
   ['circulo', [800, 800]], ['cal', [800, 400]], ['campo-municipal', [1200, 800]],
   ['grada', [1200, 800]], ['cesped-perspectiva', [1440, 960]],
   ['cesped-franjas', [960, 640]], ['cesped-cenital', [1280, 850]],
+]);
+const ramalCrops = new Map([
+  ['techo-instalado', [1600, 900, 'centre']],
+  ['tecnico-elevador', [1200, 900, 'attention']],
+  ['bandejas', [1200, 800, 'centre']],
+  ['forjado-tubos', [1200, 800, 'south']],
+  ['bandeja-pci', [1200, 800, 'centre']],
+  ['operario-andamio', [1200, 900, 'attention']],
+  ['conductos-oscuro', [1200, 800, 'centre']],
+  ['conductos-blanco', [1200, 800, 'centre']],
+  ['conducto-nave', [1200, 800, 'centre']],
+  ['fv-nave', [1440, 960, 'centre']],
+  ['fv-patron', [1200, 800, 'centre']],
+  ['sala-cuadros', [1200, 800, 'centre']],
+  ['cuadro', [1200, 800, 'attention']],
+  ['plano', [1200, 800, 'south']],
+  ['revision-plano', [1200, 800, 'attention']],
+  ['ferralla', [1200, 800, 'attention']],
 ]);
 const byNumber = new Map(grouped ? Object.entries(candidates) : candidates.map(photo => [photo.n, photo]));
 const photos = new Map();
@@ -83,6 +102,7 @@ for (const [key, number] of Object.entries(selection)) {
   }
   if (losAlmendros && !footballCrops.has(key)) throw new Error(`Invalid Los Almendros target: ${key}`);
   if (pinarAlto && !basketballCrops.has(key)) throw new Error(`Invalid Pinar Alto target: ${key}`);
+  if (ramal && !ramalCrops.has(key)) throw new Error(`Invalid RAMAL target: ${key}`);
   const requestedPath = path.resolve(publicDir, grouped
     ? `examples/${batch.slice(11)}/img/${key}.webp`
     : key.replace(/^public\//, ''));
@@ -90,7 +110,7 @@ for (const [key, number] of Object.entries(selection)) {
   const realDirectory = await realpath(path.dirname(requestedPath));
   if (realDirectory !== path.dirname(requestedPath)) throw new Error(`Invalid target directory: ${key}`);
   const target = await realpath(requestedPath).catch(error => {
-    if ((losAlmendros || pinarAlto) && error.code === 'ENOENT') return requestedPath;
+    if ((losAlmendros || pinarAlto || ramal) && error.code === 'ENOENT') return requestedPath;
     throw error;
   });
   if (target !== requestedPath || path.extname(target).toLowerCase() !== '.webp' || targets.has(target)) {
@@ -103,8 +123,8 @@ for (const [key, number] of Object.entries(selection)) {
     : fileURLToPath(new URL(`${String(number).padStart(3, '0')}.webp`, candidatesDir));
   const crop = sharp(source).autoOrient();
   let width, height, position = sharp.strategy.attention;
-  if (pinarAlto) {
-    const [cropWidth, cropHeight, anchor] = basketballCrops.get(key);
+  if (pinarAlto || ramal) {
+    const [cropWidth, cropHeight, anchor] = (ramal ? ramalCrops : basketballCrops).get(key);
     [width, height] = [cropWidth, cropHeight];
     position = anchor === 'attention' ? sharp.strategy.attention : anchor;
   } else if (losAlmendros) {
@@ -129,6 +149,7 @@ for (const [key, number] of Object.entries(selection)) {
     if (simonLera && key.startsWith('detalle-')) height = width;
     crop.resize(width, height, { fit: 'cover', position });
   }
+  if (ramal) crop.modulate({ saturation: 0.82 });
   let image;
   for (let quality = 78; ; quality = Math.max(1, quality - 2)) {
     image = await crop.clone().webp({ quality }).toBuffer();
@@ -170,8 +191,10 @@ for (const { target, image, downloadUrl, downloadId, creditsPath, file, credit }
     throw error;
   });
   const lines = credits.trimEnd().split(/\r?\n/)
+    .filter(line => !ramal || !line.startsWith('Las doce reservas fotográficas'))
     .filter(line => !liaFerro || !line.startsWith('Ilustraciones tipográficas y de línea originales'))
     .filter(line => !simonLera || !line.startsWith('Las imágenes de obra, detalle, estudio y sala son marcadores de posición'));
+  if (ramal && lines[0] === '# Créditos de imagen') lines[0] = '# Créditos de fotografía';
   if (liaFerro && lines[0] === '# Imágenes provisionales') lines[0] = '# Créditos de fotografía';
   if (simonLera && !lines.includes('La trama de lino se genera mediante código.')) {
     lines.splice(1, 0, '', 'La trama de lino se genera mediante código.');

@@ -1,0 +1,83 @@
+---
+import Layout from '../../../examples/ramal/Layout.astro'
+import PageHero from '../../../examples/ramal/components/PageHero.astro'
+import TitleBlock from '../../../examples/ramal/components/TitleBlock.astro'
+import OfferField from '../../../examples/ramal/components/OfferField.astro'
+import { demo, disciplines, sectors } from '../../../examples/ramal/data/company'
+import { deadlines, maxArea, phases } from '../../../examples/ramal/lib/offer'
+const options = (values: string[]): [string, string][] => values.map(value => [value, value])
+---
+<Layout title="Solicitud de oferta" section="oferta/">
+  <PageHero code="Oficina de estudios" title="Solicitud de oferta" intro="Prepara el alcance, añade la relación de documentos y descarga un justificante para tu expediente." />
+  <section class="section offer-section">
+    <div class="wrap">
+      <p id="demo" class="demo-note">{demo}</p>
+      <noscript><p>Activa JavaScript para preparar y descargar la solicitud en este dispositivo.</p></noscript>
+      <form data-offer novalidate hidden aria-describedby="demo">
+        <ol class="step-list">
+          {['Proyecto', 'Documentación', 'Contacto'].map((name, i) => <li data-progress={i + 1}><span>0{i + 1}</span> {name}</li>)}
+        </ol>
+        <div class="offer-grid">
+          <div>
+            <section data-step="1" aria-labelledby="paso-1">
+              <h2 id="paso-1" tabindex="-1">Proyecto</h2>
+              <div class="field-grid">
+                <OfferField name="sector" label="Tipo de obra" options={Object.entries(sectors)} />
+                <OfferField name="location" label="Ubicación" autocomplete="address-level2" />
+                <OfferField name="area" label="Superficie (m²)" type="number" min={1} max={maxArea} step="any" />
+                <OfferField name="phase" label="Fase" options={options(phases)} />
+              </div>
+              <fieldset class="choices" aria-describedby="disciplines-error">
+                <legend>Disciplinas implicadas</legend>
+                {disciplines.map(({ id, name }) => <label><input type="checkbox" name="disciplines" value={id} aria-describedby="disciplines-error" /> {name}</label>)}
+              </fieldset>
+              <p class="field-error" id="disciplines-error" data-error="disciplines"></p>
+            </section>
+            <section data-step="2" aria-labelledby="paso-2" hidden>
+              <h2 id="paso-2" tabindex="-1">Documentación</h2>
+              <p>Adjunta las mediciones o el pliego si están disponibles. Solo se conserva el nombre y tamaño de cada archivo en este dispositivo.</p>
+              <div class="field"><label for="attachments">Mediciones o pliego (opcional)</label><input id="attachments" type="file" multiple data-files /></div>
+              <p data-no-files>Sin archivos adjuntos.</p>
+              <ul class="file-list" data-file-list aria-live="polite"></ul>
+            </section>
+            <section data-step="3" aria-labelledby="paso-3" hidden>
+              <h2 id="paso-3" tabindex="-1">Contacto</h2>
+              <div class="field-grid">
+                <OfferField name="company" label="Empresa" autocomplete="organization" />
+                <OfferField name="taxId" label="CIF o NIF" maxLength={18} />
+                <OfferField name="person" label="Persona de contacto" autocomplete="name" />
+                <OfferField name="role" label="Cargo" autocomplete="organization-title" />
+                <OfferField name="email" label="Correo electrónico" type="email" autocomplete="email" maxLength={254} />
+                <OfferField name="phone" label="Teléfono" type="tel" autocomplete="tel" maxLength={30} />
+                <OfferField name="deadline" label="Plazo de respuesta deseado" options={options(deadlines)} />
+              </div>
+            </section>
+            <section data-step="4" aria-labelledby="paso-4" hidden>
+              <h2 id="paso-4" tabindex="-1">Resumen de solicitud</h2>
+              <p class="reference mono" data-reference></p>
+              <dl class="summary-list" data-summary></dl>
+              <button class="button primary" type="button" data-receipt>Descargar justificante</button>
+            </section>
+            <div class="actions form-actions">
+              <button class="button" type="button" data-back hidden>Atrás</button>
+              <button class="button primary" type="submit" data-next>Continuar</button>
+              <button class="text-button" type="button" data-reset>Restablecer solicitud</button>
+            </div>
+          </div>
+          <aside class="estimate dark grid-paper">
+            <p class="eyebrow">Planificación preliminar</p>
+            <h3>Estimador orientativo</h3>
+            <output data-estimate aria-live="polite">Indica el tipo de obra, la superficie y las disciplinas para estimar el plazo y el equipo.</output>
+            <p>Estimación orientativa, sujeta a la revisión de mediciones, accesos, suministros y fases de montaje.</p>
+            <div class="estimate-schedule" data-schedule hidden aria-hidden="true">
+              <div class="schedule-weeks mono"><span>SEM. 01</span><span data-min-week></span><span data-max-week></span></div>
+              <div class="schedule-track"><i></i></div>
+            </div>
+            <TitleBlock sheet="Plazos y equipo" />
+          </aside>
+        </div>
+      </form>
+      <TitleBlock sheet="Solicitud de oferta" />
+    </div>
+  </section>
+</Layout>

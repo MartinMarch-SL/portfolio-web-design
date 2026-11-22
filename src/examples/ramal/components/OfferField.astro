@@ -1,0 +1,14 @@
+---
+const { name, label, type = 'text', autocomplete, options, min, max, step, maxLength = 160 } = Astro.props as {
+  name: string; label: string; type?: string; autocomplete?: string; options?: [string, string][];
+  min?: number; max?: number; step?: string; maxLength?: number;
+}
+---
+<div class="field">
+  <label for={name}>{label}</label>
+  {options ? <select id={name} name={name} required aria-describedby={name + '-error'}>
+    <option value="">Seleccionar</option>
+    {options.map(([value, text]) => <option value={value}>{text}</option>)}
+  </select> : <input id={name} name={name} type={type} autocomplete={autocomplete} min={min} max={max} step={step} maxlength={maxLength} required aria-describedby={name + '-error'} />}
+  <p class="field-error" id={name + '-error'} data-error={name}></p>
+</div>

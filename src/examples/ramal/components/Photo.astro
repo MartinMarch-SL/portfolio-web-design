@@ -1,0 +1,16 @@
+---
+import { responsiveImage } from '../../../lib/responsive-image'
+import { photos, type PhotoName } from '../data/photos'
+
+interface Props {
+  name: PhotoName
+  sizes: string
+  class?: string
+  decorative?: boolean
+  loading?: 'lazy' | 'eager'
+}
+
+const { name, sizes, class: className, decorative, loading = 'lazy' } = Astro.props
+const [width, height, alt] = photos[name]
+---
+<img {...responsiveImage(`examples/ramal/img/${name}.webp`, sizes, width)} width={width} height={height} alt={decorative ? '' : alt} class={className} {loading} />

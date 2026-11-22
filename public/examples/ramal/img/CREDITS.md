@@ -1,0 +1,18 @@
+# Créditos de fotografía
+
+techo-instalado.webp — Foto de Valentin Lacoste en Unsplash (https://unsplash.com/photos/exposed-industrial-ceiling-with-concrete-beams-red-pipes-and-wiring-YkPY2Awkra8)
+tecnico-elevador.webp — Foto de Valentin Lacoste en Unsplash (https://unsplash.com/photos/construction-worker-on-lift-installing-ceiling-components-5l991aLrCJ8)
+bandejas.webp — Foto de Max Harlynking en Unsplash (https://unsplash.com/photos/a-black-and-white-photo-of-a-metal-structure-Muh7FRE7at4)
+forjado-tubos.webp — Foto de Steffen Lemmerzahl en Unsplash (https://unsplash.com/photos/a-group-of-colorful-wires-fu3iLPBe964)
+bandeja-pci.webp — Foto de Valentin Lacoste en Unsplash (https://unsplash.com/photos/cables-pipes-and-a-white-box-on-a-utility-ceiling-8dxZfuDeQf8)
+operario-andamio.webp — Foto de Glenov Brankovic en Unsplash (https://unsplash.com/photos/a-man-standing-on-a-ladder-working-on-a-ceiling-fsa8AHFoJH8)
+conductos-oscuro.webp — Foto de Adrien Olichon en Unsplash (https://unsplash.com/photos/gray-metal-ceiling-ventilations-3-GSjNOsO8Q)
+conductos-blanco.webp — Foto de Mitchell Luo en Unsplash (https://unsplash.com/photos/vent-pipe-RAliDqgJKbE)
+conducto-nave.webp — Foto de Devon Rogers en Unsplash (https://unsplash.com/photos/a-blue-and-yellow-structure-with-a-large-metal-object-hanging-from-its-side-XHX38SBnWrs)
+fv-nave.webp — Foto de Bernd 📷 Dittrich en Unsplash (https://unsplash.com/photos/an-aerial-view-of-a-parking-lot-with-lots-of-solar-panels-g-SFUAYL0MY)
+fv-patron.webp — Foto de Bernd 📷 Dittrich en Unsplash (https://unsplash.com/photos/a-large-array-of-blue-and-white-tiles-O6t9RkVkjNE)
+sala-cuadros.webp — Foto de NIKHIL SHAHU en Unsplash (https://unsplash.com/photos/gray-machine-s89Z5V0plTY)
+cuadro.webp — Foto de Raymond Sime en Unsplash (https://unsplash.com/photos/an-open-electrical-control-panel-with-numerous-wires-and-components-dtbSMLkwVCI)
+plano.webp — Foto de Sven Mieke en Unsplash (https://unsplash.com/photos/brown-pencil-on-white-printing-paper-fteR0e2BzKo)
+revision-plano.webp — Foto de ThisisEngineering en Unsplash (https://unsplash.com/photos/man-in-orange-and-white-striped-polo-shirt-beside-woman-in-black-and-white-floral-dress-df7erzy97sg)
+ferralla.webp — Foto de Toni  Reed en Unsplash (https://unsplash.com/photos/construction-worker-inspects-rebar-on-a-building-site-dSjrv4w1g1Q)

@@ -1,0 +1,9 @@
+---
+const { project = 'RAMAL', sheet, scale = 'S/E', revision = '02' } = Astro.props
+---
+<div class="title-block">
+  <div><span>Proyecto</span><strong>{project}</strong></div>
+  <div><span>Plano</span><strong>{sheet}</strong></div>
+  <div><span>Escala</span><strong>{scale}</strong></div>
+  <div><span>Revisión</span><strong>{revision}</strong></div>
+</div>

@@ -1,0 +1,23 @@
+---
+import Photo from './Photo.astro'
+import type { PhotoName } from '../data/photos'
+interface Props {
+  name: PhotoName
+  title: string
+  sheet: string
+  notes: { label: string; x: number; y: number; dx: number; dy: number }[]
+}
+const { name, title, sheet, notes } = Astro.props
+---
+<figure class="annotated-photo dark">
+  <div class="annotated-image">
+    <Photo {name} sizes="100vw" />
+    {notes.map(({ label, x, y, dx, dy }) => (
+      <div class:list={['photo-note', { above: dy < 0 }]} style={`--x:${x}%;--y:${y}%;--dx:${dx};--dy:${Math.abs(dy)}`}>
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><circle cx="0" cy={dy < 0 ? 100 : 0} r="2" vector-effect="non-scaling-stroke" /><path d={dy < 0 ? 'M0 100L65 0H100' : 'M0 0L65 100H100'} vector-effect="non-scaling-stroke" /></svg>
+        <span>{label}</span>
+      </div>
+    ))}
+  </div>
+  <figcaption class="wrap"><span>{title}</span><span class="mono">{sheet}</span></figcaption>
+</figure>

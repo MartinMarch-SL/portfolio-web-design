@@ -55,6 +55,17 @@ const pages = {
   competicionPinar: 'pinar-alto/competicion/',
   clubPinar: 'pinar-alto/club/',
   inscripcionPinar: 'pinar-alto/inscripcion/',
+  ramal: 'ramal/',
+  disciplinasRamal: 'ramal/disciplinas/',
+  obrasRamal: 'ramal/obras/',
+  sotoRamal: 'ramal/obras/plataforma-soto-norte/',
+  hospitalRamal: 'ramal/obras/hospital-val-de-luna/',
+  oficinasRamal: 'ramal/obras/oficinas-umbral-ebro/',
+  hotelRamal: 'ramal/obras/hotel-piedra-clara/',
+  galeriaRamal: 'ramal/obras/galeria-las-eras/',
+  vedaRamal: 'ramal/obras/centro-logistico-la-veda/',
+  empresaRamal: 'ramal/empresa/',
+  ofertaRamal: 'ramal/oferta/',
 }
 
 for (const [width, height] of viewports) {

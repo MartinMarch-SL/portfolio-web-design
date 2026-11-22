@@ -1,6 +1,6 @@
 import { url } from '../lib/url'
 
-export const kinds = ['Tienda online', 'Reservas y citas', 'Portfolio', 'Catálogo', 'Hostelería', 'Clubes y asociaciones'] as const
+export const kinds = ['Tienda online', 'Reservas y citas', 'Portfolio', 'Catálogo', 'Hostelería', 'Clubes y asociaciones', 'Industria y servicios'] as const
 
 const entries = [
   ['ruido', 'RUIDO', 'Moda urbana', 'Tienda online'],
@@ -11,6 +11,7 @@ const entries = [
   ['lia-ferro', 'Lía Ferro', 'Tatuaje', 'Reservas y citas'],
   ['los-almendros', 'UD Los Almendros', 'Club de fútbol base', 'Clubes y asociaciones'],
   ['pinar-alto', 'CB Pinar Alto', 'Club de baloncesto', 'Clubes y asociaciones'],
+  ['ramal', 'RAMAL Instalaciones', 'Instaladora MEP', 'Industria y servicios'],
 ] satisfies [string, string, string, typeof kinds[number]][]
 
 export const projects = entries.map(([slug, name, sector, kind]) => ({

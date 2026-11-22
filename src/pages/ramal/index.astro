@@ -1,0 +1,124 @@
+---
+import Photo from '../../examples/ramal/components/Photo.astro'
+import Layout from '../../examples/ramal/Layout.astro'
+import AnnotatedPhoto from '../../examples/ramal/components/AnnotatedPhoto.astro'
+import { layers } from '../../examples/ramal/data/model'
+import type { PhotoName } from '../../examples/ramal/data/photos'
+import Model from '../../examples/ramal/components/Model.astro'
+import TitleBlock from '../../examples/ramal/components/TitleBlock.astro'
+import ProjectCard from '../../examples/ramal/components/ProjectCard.astro'
+import { certifications, disciplines, figures, process, sectors } from '../../examples/ramal/data/company'
+import { projects } from '../../examples/ramal/data/projects'
+import { route } from '../../examples/ramal/lib/paths'
+import { number } from '../../examples/ramal/lib/offer'
+const disciplinePhotos: PhotoName[] = ['bandejas', 'conductos-oscuro', 'bandeja-pci', 'forjado-tubos', 'fv-nave', 'cuadro']
+---
+<Layout>
+  <section class="hero dark grid-paper" data-model-scene>
+    <div class="hero-pin">
+      <div class="wrap hero-inner">
+        <div class="hero-copy">
+          <p class="eyebrow"><i></i> Instaladora MEP · Zaragoza</p>
+          <h1>Instalaciones<br /> que se entregan<br /> como se proyectan.</h1>
+          <p class="lede">Ejecutamos y legalizamos instalaciones para ingenierías y constructoras. Coordinamos el montaje, los ensayos y la puesta en marcha con 85 técnicos propios.</p>
+          <div class="actions">
+            <a class="button primary" href={route('oferta/')}>Solicitar oferta</a>
+            <button class="button" type="button" data-dossier>Descargar dossier</button>
+          </div>
+        </div>
+        <Model />
+      </div>
+      <div class="wrap hero-data"><dl class="figures">{figures.map(({ value, label }) => <div><dt>{label}</dt><dd>{number(value)}</dd></div>)}</dl></div>
+    </div>
+  </section>
+  <section class="dark section">
+    <div class="wrap">
+      <div class="section-head">
+        <div><p class="eyebrow">Ejecución coordinada</p><h2>Del plano a la puesta en marcha.</h2></div>
+        <p>Un interlocutor técnico desde la revisión de alcance hasta la entrega de los planos finales de obra.</p>
+      </div>
+      <ol class="process">{process.map(([name, detail], i) => <li><span class="mono">0{i + 1}</span><h3>{name}</h3><p>{detail}</p></li>)}</ol>
+      <div class="photo-pair">
+        <Photo name="plano" sizes="(max-width: 580px) 92vw, 46vw" />
+        <Photo name="operario-andamio" sizes="(max-width: 580px) 92vw, 46vw" />
+      </div>
+      <TitleBlock sheet="Procedimiento de obra" />
+    </div>
+  </section>
+  <AnnotatedPhoto name="techo-instalado" title="Redes bajo forjado" sheet="Detalle de montaje · MEP"
+    notes={[{ label: 'Bandeja 300×60', x: 59, y: 42, dx: 15, dy: -23 }, { label: 'Red de rociadores', x: 22, y: 43, dx: 10, dy: 23 }]} />
+  <section class="section grid-paper">
+    <div class="wrap">
+      <div class="section-head"><h2>Disciplinas</h2><a class="text-link" href={route('disciplinas/')}>Consultar alcance y normativa</a></div>
+      <div class="discipline-index" data-discipline-index>
+        <div class="discipline-rows">
+          {disciplines.map(({ id, code, name, scope }, index) => {
+            const layer = layers.find(layer => layer.id === id)
+            const label = layer?.code ?? code + '06'
+            const href = route('disciplinas/#' + id)
+            return (
+              <div class="discipline-row" data-discipline={id} style={`--swatch:${layer?.color ?? '#81918C'}`}>
+                <a class="discipline-trigger" href={href}><span class="mono">{label}</span><strong>{name}</strong></a>
+                <details name="ramal-disciplina">
+                  <summary class="discipline-trigger"><span class="mono">{label}</span><strong>{name}</strong></summary>
+                  <div class="discipline-detail">
+                    <Photo name={disciplinePhotos[index]} sizes="92vw" />
+                    <p>{scope}</p>
+                    <a class="text-link" href={href}>Alcance y normativa</a>
+                  </div>
+                </details>
+              </div>
+            )
+          })}
+        </div>
+        <div class="discipline-preview">
+          {disciplines.map(({ id, scope }, index) => (
+            <div class:list={['discipline-panel', { active: index === 0 }]} data-discipline-panel={id} inert={index !== 0}>
+              <div class="discipline-mask"><Photo name={disciplinePhotos[index]} sizes="34vw" /></div>
+              <p>{scope}</p>
+              <a class="text-link" href={route('disciplinas/#' + id)}>Alcance y normativa</a>
+            </div>
+          ))}
+        </div>
+      </div>
+      <TitleBlock sheet="Alcance de instalaciones" />
+    </div>
+  </section>
+  <section class="section featured" data-project-scene>
+    <div class="featured-pin">
+      <div class="wrap section-head"><h2>Obras destacadas</h2><a class="text-link" href={route('obras/')}>Ver todas las obras</a></div>
+      <div class="featured-window" data-rail-window><div class="featured-track" data-project-track>{projects.slice(0, 3).map((project, index) => <ProjectCard {project} {index} featured />)}</div></div>
+      <div class="wrap">
+        <p class="sector-line mono">{Object.values(sectors).join(' / ')}</p>
+        <TitleBlock sheet="Referencias de obra" />
+      </div>
+    </div>
+  </section>
+  <AnnotatedPhoto name="sala-cuadros" title="Distribución en baja tensión" sheet="Sala de cuadros · BT"
+    notes={[{ label: 'Cuadro general', x: 37, y: 29, dx: 10, dy: 46 }, { label: 'Protecciones de salida', x: 64, y: 27, dx: 10, dy: 28 }]} />
+  <section class="section dark">
+    <div class="wrap">
+      <div class="section-head"><h2>Capacidad de ejecución</h2><p>Datos de actividad acumulada y capacidad anual. Base operativa y taller en Zaragoza.</p></div>
+      <dl class="figures">{figures.map(({ value, label }) => <div><dt>{label}</dt><dd data-count={value}>{number(value)}</dd></div>)}</dl>
+      <TitleBlock sheet="Indicadores de actividad" />
+    </div>
+  </section>
+  <section class="section grid-paper">
+    <div class="wrap">
+      <div class="section-head">
+        <div><p class="eyebrow">Seguridad y calidad</p><h2>Controles desde el replanteo.</h2></div>
+        <p>Supervisamos trabajos críticos y dejamos trazabilidad de cada ensayo. Los certificados y habilitaciones que aparecen en esta web son simulados.</p>
+      </div>
+      <ul class="line-list">{certifications.map(item => <li>{item}</li>)}</ul>
+      <Photo name="tecnico-elevador" class="detail-image" sizes="(max-width: 980px) 92vw, 896px" />
+      <TitleBlock sheet="Certificaciones y homologaciones" />
+    </div>
+  </section>
+  <section class="section project-cta">
+    <div class="wrap">
+      <div class="section-head"><h2>Estudiemos tu proyecto.</h2><p>Indica el alcance, la fase y las disciplinas para preparar una solicitud de oferta.</p></div>
+      <a class="button primary" href={route('oferta/')}>Solicitar oferta</a>
+      <TitleBlock sheet="Oficina de estudios" />
+    </div>
+  </section>
+</Layout>

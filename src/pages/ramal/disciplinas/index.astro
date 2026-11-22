@@ -1,0 +1,36 @@
+---
+import Photo from '../../../examples/ramal/components/Photo.astro'
+import Layout from '../../../examples/ramal/Layout.astro'
+import PageHero from '../../../examples/ramal/components/PageHero.astro'
+import TitleBlock from '../../../examples/ramal/components/TitleBlock.astro'
+import { disciplines } from '../../../examples/ramal/data/company'
+import { route } from '../../../examples/ramal/lib/paths'
+import type { PhotoName } from '../../../examples/ramal/data/photos'
+import type { Discipline } from '../../../examples/ramal/data/company'
+
+const disciplinePhotos = {
+  electricidad: ['bandejas', 'sala-cuadros'],
+  clima: ['conductos-oscuro'],
+  pci: ['bandeja-pci'],
+  fontaneria: ['forjado-tubos'],
+  fotovoltaica: ['fv-nave', 'fv-patron'],
+  control: ['cuadro'],
+} satisfies Record<Discipline, PhotoName[]>
+---
+<Layout title="Disciplinas" section="disciplinas/">
+  <PageHero code="Alcance técnico / MEP" title="Disciplinas" intro="Montaje y puesta en marcha con mandos de obra y equipos propios. Coordinamos cada red con la ingeniería, estructura y arquitectura." />
+  {disciplines.map(({ id, code, name, scope, standards, tools }, index) => <section id={id} class:list={['section', index % 2 ? 'dark' : 'grid-paper']}>
+    <div class="wrap">
+      <div class="section-head"><div><p class="eyebrow">{code}0{index + 1}</p><h2>{name}</h2></div><p>{scope}</p></div>
+      <dl class="technical-grid">
+        <div><dt>Normativa de referencia</dt><dd><ul>{standards.map(([label, href]) => <li><a href={href}>{label}</a></li>)}</ul></dd></div>
+        <div><dt>Equipos propios</dt><dd>{tools}</dd></div>
+      </dl>
+      <div class="photo-pair">
+        {disciplinePhotos[id].map(name => <Photo {name} sizes="(max-width: 580px) 92vw, 46vw" />)}
+      </div>
+      <TitleBlock sheet={code + '0' + (index + 1)} />
+    </div>
+  </section>)}
+  <div class="wrap section"><a class="button primary" href={route('oferta/')}>Solicitar oferta</a></div>
+</Layout>

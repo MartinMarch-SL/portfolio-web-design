@@ -10,6 +10,7 @@ const examples = [
   ['Lía Ferro', 'lia-ferro'],
   ['UD Los Almendros', 'los-almendros'],
   ['CB Pinar Alto', 'pinar-alto'],
+  ['RAMAL Instalaciones', 'ramal'],
 ]
 
 test.beforeEach(async ({ page }) => {
@@ -20,7 +21,7 @@ test.beforeEach(async ({ page }) => {
 test('filtra por tipo de web', async ({ page }) => {
   const projects = page.getByRole('list', { name: 'Proyectos' })
   const filters = page.getByRole('group', { name: 'Tipo de web' })
-  await expect(projects.getByRole('link')).toHaveCount(8)
+  await expect(projects.getByRole('link')).toHaveCount(9)
   await filters.getByRole('button', { name: 'Reservas y citas 2' }).click()
   await expect(projects.getByRole('link')).toHaveCount(2)
   await expect(projects.getByRole('link', { name: 'Inés Arranz' })).toBeAttached()
@@ -37,8 +38,12 @@ test('filtra por tipo de web', async ({ page }) => {
   await expect(projects.getByRole('link')).toHaveCount(2)
   await expect(projects.getByRole('link', { name: 'UD Los Almendros' })).toBeAttached()
   await expect(projects.getByRole('link', { name: 'CB Pinar Alto' })).toBeAttached()
-  await filters.getByRole('button', { name: 'Todas 8' }).click()
-  await expect(projects.getByRole('link')).toHaveCount(8)
+  await expect(filters.getByRole('button')).toHaveCount(8)
+  await filters.getByRole('button', { name: 'Industria y servicios 1' }).click()
+  await expect(projects.getByRole('link')).toHaveCount(1)
+  await expect(projects.getByRole('link', { name: 'RAMAL Instalaciones' })).toBeAttached()
+  await filters.getByRole('button', { name: 'Todas 9' }).click()
+  await expect(projects.getByRole('link')).toHaveCount(9)
 })
 
 test('permite recorrer el carrusel con el teclado y abrir la web', async ({ page }) => {
@@ -49,9 +54,9 @@ test('permite recorrer el carrusel con el teclado y abrir la web', async ({ page
   await page.keyboard.press('ArrowLeft')
   await expect(first).toBeFocused()
   await page.keyboard.press('ArrowLeft')
-  await expect(page.locator('[data-name]')).toHaveText('CB Pinar Alto')
+  await expect(page.locator('[data-name]')).toHaveText('RAMAL Instalaciones')
   await page.keyboard.press('Enter')
-  await expect(page).toHaveURL(base + 'pinar-alto/')
+  await expect(page).toHaveURL(base + 'ramal/')
 })
 
 test('cada enlace abre el ejemplo de la pantalla frontal', async ({ page }) => {
@@ -68,8 +73,12 @@ test('cada enlace abre el ejemplo de la pantalla frontal', async ({ page }) => {
 test('una pantalla lateral pasa al frente y abre su ejemplo', async ({ page, reducedMotion }) => {
   test.skip(reducedMotion === 'reduce', 'Las pantallas laterales están fuera de escena')
   await page.setViewportSize({ width: 1440, height: 900 })
+  const front = (await page.getByRole('link', { name: 'RUIDO', exact: true }).boundingBox())!
+  const left = (await page.getByRole('link', { name: 'RAMAL Instalaciones', exact: true }).boundingBox())!
+  expect(left.x + left.width).toBeLessThan(front.x)
   const side = page.getByRole('link', { name: 'Bar Caribe', exact: true })
   const box = (await side.boundingBox())!
+  expect(front.x + front.width).toBeLessThan(box.x)
   await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2)
   await expect(page.locator('[data-name]')).toHaveText('Bar Caribe')
   await side.click()
@@ -112,4 +121,8 @@ test('el catálogo móvil deja ver todos los filtros y tiene un pie compacto', a
   expect(footer.y).toBeCloseTo(main.y + main.height, 0)
   expect(footer.height).toBeLessThan(35)
   expect(footer.y + footer.height).toBeLessThanOrEqual(844)
+
+  await lastFilter.click()
+  await expect(lastFilter).toHaveAttribute('aria-pressed', 'true')
+  await expect(page.locator('[data-name]')).toHaveText('RAMAL Instalaciones')
 })

@@ -1,0 +1,23 @@
+---
+import Layout from '../../../examples/ramal/Layout.astro'
+import PageHero from '../../../examples/ramal/components/PageHero.astro'
+import TitleBlock from '../../../examples/ramal/components/TitleBlock.astro'
+import ProjectCard from '../../../examples/ramal/components/ProjectCard.astro'
+import { disciplines, sectors } from '../../../examples/ramal/data/company'
+import { projects } from '../../../examples/ramal/data/projects'
+---
+<Layout title="Obras" section="obras/">
+  <PageHero code="Registro de ejecución" title="Obras" intro="Seis fichas de instalaciones ejecutadas en edificios de distinto uso, con el alcance contratado y los condicionantes de montaje." />
+  <section class="section work-list">
+    <div class="wrap">
+      <div class="filter-bar" data-project-filter>
+        <label>Sector<select name="sector"><option value="">Todos los sectores</option>{Object.entries(sectors).map(([id, name]) => <option value={id}>{name}</option>)}</select></label>
+        <label>Disciplina<select name="discipline"><option value="">Todas las disciplinas</option>{disciplines.map(({ id, name }) => <option value={id}>{name}</option>)}</select></label>
+        <output aria-live="polite">{projects.length} obras</output>
+      </div>
+      <p data-empty hidden>No hay obras con esta combinación de filtros.</p>
+      <div class="project-grid">{projects.map((project, index) => <ProjectCard {project} {index} />)}</div>
+      <TitleBlock sheet="Registro de obras" />
+    </div>
+  </section>
+</Layout>
