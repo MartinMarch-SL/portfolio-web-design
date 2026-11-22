@@ -1,8 +1,3 @@
-@property --orbit {
-  syntax: '<angle>';
-  inherits: true;
-  initial-value: 0deg;
-}
 :root {
   color-scheme: dark;
   --paper: #141414;
@@ -51,7 +46,7 @@ h1.display { margin-block: clamp(2rem, 5vw, 4rem) 1.5rem; font-size: clamp(3.1re
 .stage { overflow: clip; container-type: inline-size; }
 .screens { margin: 0; padding: 1rem; list-style: none; display: grid; gap: 1rem; }
 .screen { display: block; position: relative; }
-.screen-preview { width: 100%; height: auto; display: block; }
+.screen-desktop { width: 100%; height: auto; display: block; }
 .screen-mobile { display: none; }
 [data-ready] .stage {
   perspective: 1100px; touch-action: pan-y; user-select: none;
@@ -65,7 +60,7 @@ h1.display { margin-block: clamp(2rem, 5vw, 4rem) 1.5rem; font-size: clamp(3.1re
 [data-ready] [data-project] {
   position: absolute; inset: 50% auto auto 50%; width: min(56%, 62rem); backface-visibility: hidden;
   transform: translate(-50%, -50%) translate3d(0, var(--sink, 0px), calc(-1 * var(--radius)))
-    rotateY(var(--rotation, var(--angle, 0deg))) translateZ(var(--radius));
+    rotateY(var(--angle, 0deg)) translateZ(var(--radius));
   opacity: var(--light, 0); pointer-events: auto; transition: transform .72s var(--ease), opacity .62s ease;
 }
 [data-ready]:not([data-animated]) [data-project] { transition: none; }
@@ -95,9 +90,15 @@ h1.display { margin-block: clamp(2rem, 5vw, 4rem) 1.5rem; font-size: clamp(3.1re
 .catalogue-footer { border-top: 1px solid var(--rule); padding-block: 1rem; }
 
 @media (max-width: 650px) {
+  h1.display { font-size: clamp(3.1rem, 15vw, 4.2rem); }
+  [data-ready] .screens { --radius: 67cqw; }
+  [data-ready] [data-project] { width: 74%; }
+}
+@media (max-width: 600px) {
   h1.display {
-    margin-block: 1.25rem .85rem;
-    font-size: clamp(3.1rem, 15vw, 4.2rem);
+    margin-block: 1.25rem 1rem;
+    font-size: clamp(3.1rem, 21vw, 5.5rem);
+    font-stretch: 85%;
   }
   .filters {
     gap: .9rem;
@@ -108,55 +109,14 @@ h1.display { margin-block: clamp(2rem, 5vw, 4rem) 1.5rem; font-size: clamp(3.1re
     mask-image: linear-gradient(to right, #000 calc(100% - 1.5rem), transparent);
   }
   .filters button { flex: none; scroll-snap-align: start; }
-  [data-ready] .screens {
-    --radius: 67cqw;
-    height: 55svh;
-  }
-  [data-ready] [data-project] { width: 80%; }
-  .selection { padding-block: .25rem .75rem; }
-  .selection p { margin-block-start: .35rem; }
+  [data-ready] .stage { margin-block-start: .75rem; }
+  .selection { padding-block: .75rem .25rem; }
+  .selection p { margin-block-start: .125rem; }
+  .selection h2 { font-size: clamp(2.5rem, 12vw, 4rem); }
   .catalogue-footer {
     padding-block: .45rem;
     font-size: .7rem;
   }
-}
-@media (max-width: 600px) {
-  h1.display {
-    margin-block: 1.25rem 1rem;
-    font-size: clamp(3.1rem, 21vw, 5.5rem);
-    font-stretch: 85%;
-  }
-  [data-ready] .stage { margin-block-start: .75rem; perspective: 90vw; }
-  [data-ready] .screens {
-    --card-height: min(52svh, 440px);
-    --radius: var(--mobile-radius, 67cqw);
-    height: calc(var(--card-height) + 8px);
-  }
-  @media (prefers-reduced-motion: no-preference) {
-    [data-ready][data-animated]:not([data-recomposing]) .screens {
-      transition: --orbit .72s var(--ease);
-    }
-  }
-  [data-ready] [data-project] {
-    --rotation: calc(var(--slot, 0deg) + var(--orbit));
-    width: 87%;
-    transition-property: opacity;
-  }
-  [data-ready] [data-project][inert] { transition: none; }
-  [data-ready] .screen {
-    height: var(--card-height);
-    padding: 3px;
-  }
-  [data-ready] .screen picture { display: block; height: 100%; }
-  [data-ready] .screen-mobile { display: none; }
-  [data-ready] .screen-preview {
-    height: 100%;
-    object-fit: cover;
-    object-position: top;
-  }
-  .selection { padding-block: .75rem .25rem; }
-  .selection p { margin-block-start: .125rem; }
-  .selection h2 { font-size: clamp(2.5rem, 12vw, 4rem); }
 }
 @media (prefers-reduced-motion: reduce) {
   [data-ready] [data-project] {
