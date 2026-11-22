@@ -36,7 +36,7 @@ Private showcase of fictional client websites, deployed as a static site to GitH
 ## Hard rules
 
 - Open-source (OSI) dependencies only. **No GSAP**, no UI kits, no Tailwind component libraries, no icon packs in circles.
-- `astro.config.mjs` uses `site: 'https://martinmarch.github.io'`, `base: '/portfolio-web-design'`, `output: 'static'`, `trailingSlash: 'always'`.
+- `astro.config.mjs` uses `site: 'https://martinmarch-sl.github.io'`, `base: '/portfolio-web-design'`, `output: 'static'`, `trailingSlash: 'always'`.
 - Use `url()` from `src/lib/url.ts` for every internal path, including all hrefs and asset paths. No literal `href="/..."` or `src="/..."`.
 - Every page has `<meta name="robots" content="noindex, nofollow">`. `public/robots.txt` contains `User-agent: *\nDisallow: /`.
 - No author name anywhere. All site copy in Spanish (RUIDO may use some Catalan). No lorem ipsum, no exclamation marks in RUIDO copy.
