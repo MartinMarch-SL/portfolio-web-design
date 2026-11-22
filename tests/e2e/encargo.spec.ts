@@ -7,6 +7,7 @@ test('completes and restores the brief, then downloads it and offers email deliv
   await page.goto(base)
   await page.getByRole('link', { name: 'Encargo', exact: true }).click()
   await expect(page).toHaveURL(base + 'encargo/')
+  await expect(page.locator('[data-flat]')).toHaveAttribute('role', 'img')
   const next = page.getByRole('button', { name: 'Siguiente' })
   await page.getByRole('textbox', { name: /Nombre del negocio/ }).fill('Taller Ébano')
   await page.getByRole('radio', { name: 'Cultura y diseño' }).check()

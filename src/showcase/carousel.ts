@@ -1,6 +1,7 @@
 export {}
 
 const carousel = document.querySelector<HTMLElement>('[data-carousel]')!
+const mobileCards = matchMedia('(max-width: 600px)')
 const stage = carousel.querySelector<HTMLElement>('[data-stage]')!
 const projects = [...carousel.querySelectorAll<HTMLLIElement>('[data-project]')]
 const links = projects.map(project => project.querySelector<HTMLAnchorElement>('a')!)
@@ -94,7 +95,7 @@ stage.addEventListener('pointerdown', event => {
   if (!event.isPrimary || event.button !== 0) return
   suppressClick = false
   gesture = { id: event.pointerId, x: event.clientX, y: event.clientY }
-  if (event.pointerType !== 'mouse' && (event.target as Element).closest('[data-current]')) {
+  if (!mobileCards.matches && event.pointerType !== 'mouse' && (event.target as Element).closest('[data-current]')) {
     hold = setTimeout(() => {
       current.setAttribute('data-held', '')
       suppressClick = true

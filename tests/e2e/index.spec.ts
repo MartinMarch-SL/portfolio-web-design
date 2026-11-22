@@ -59,9 +59,10 @@ test('cada enlace abre el ejemplo de la pantalla frontal', async ({ page }) => {
   }
 })
 
-test('una pantalla lateral pasa al frente y abre su ejemplo', async ({ page, reducedMotion }) => {
+test('una pantalla lateral pasa al frente y abre su ejemplo', async ({ page, baseURL, reducedMotion }) => {
   test.skip(reducedMotion === 'reduce', 'Las pantallas laterales están fuera de escena')
   await page.setViewportSize({ width: 1440, height: 900 })
+  await expect(page.locator('[data-current] .screen-preview')).toHaveJSProperty('currentSrc', new URL(base + 'showcase/img/screens/ruido-desktop.webp', baseURL).href)
   const side = page.getByRole('link', { name: 'Bar Caribe', exact: true })
   const box = (await side.boundingBox())!
   await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2)
@@ -72,5 +73,73 @@ test('una pantalla lateral pasa al frente y abre su ejemplo', async ({ page, red
 
 test('el catálogo cabe en 375 px', async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 812 })
-  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(375)
+  expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBe(0)
+})
+
+test('el catálogo móvil deja ver todos los filtros y ajusta el carrusel a la pantalla frontal', async ({ page, baseURL, reducedMotion }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.evaluate(() => document.fonts.ready)
+  expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBe(0)
+
+  const filters = page.getByRole('group', { name: 'Tipo de web' })
+  const lastFilter = filters.getByRole('button').last()
+  await filters.evaluate(row => { row.scrollLeft = row.scrollWidth })
+  await expect(lastFilter).toBeInViewport({ ratio: 1 })
+  expect(await filters.evaluate(row => {
+    const lastTab = row.lastElementChild!.getBoundingClientRect()
+    return row.getBoundingClientRect().right - lastTab.right
+  })).toBeGreaterThanOrEqual(0)
+
+  const header = (await page.getByRole('banner').boundingBox())!
+  const title = page.getByRole('heading', { level: 1 })
+  const titleBox = (await title.boundingBox())!
+  const titleLineHeight = await title.evaluate(element => {
+    const style = getComputedStyle(element)
+    return parseFloat(style.lineHeight) / parseFloat(style.fontSize)
+  })
+  const tabs = (await filters.boundingBox())!
+  const stage = (await page.locator('[data-stage]').boundingBox())!
+  const card = await page.locator('[data-current] .screen').evaluate(face => face.getBoundingClientRect().toJSON())
+  const name = (await page.locator('[data-name]').boundingBox())!
+  const footer = (await page.locator('footer').boundingBox())!
+  expect(card.width).toBeGreaterThanOrEqual(390 * .86)
+  expect(card.width).toBeLessThanOrEqual(390 * .88)
+  expect(card.height).toBeCloseTo(844 * .52, 0)
+  expect(card.left).toBeGreaterThan(0)
+  expect(card.right).toBeLessThan(390)
+  expect(Math.abs(card.x + card.width / 2 - 390 / 2)).toBeLessThanOrEqual(4)
+  const preview = page.locator('[data-current] .screen-preview')
+  await expect(preview).toHaveJSProperty('currentSrc', new URL(base + 'showcase/img/screens/ruido-mobile.webp', baseURL).href)
+  await expect(preview).toHaveCSS('object-fit', 'cover')
+  await expect(preview).toHaveCSS('object-position', '50% 0%')
+  const logo = (await page.getByRole('link', { name: 'Catálogo de proyectos' }).boundingBox())!
+  const nav = (await page.getByRole('navigation', { name: 'Menú del catálogo' }).boundingBox())!
+  expect(logo.x).toBeCloseTo(header.x, 0)
+  expect(nav.x + nav.width).toBeCloseTo(header.x + header.width, 0)
+  expect(titleLineHeight).toBeCloseTo(.91, 2)
+  expect(titleBox.y - (header.y + header.height)).toBeCloseTo(20, 0)
+  expect(tabs.y - (titleBox.y + titleBox.height)).toBeCloseTo(16, 0)
+  expect(stage.y - (tabs.y + tabs.height)).toBeCloseTo(12, 0)
+  expect(card.y + card.height / 2).toBeCloseTo(stage.y + stage.height / 2, 0)
+  const nameGap = name.y - (card.y + card.height)
+  expect(nameGap).toBeGreaterThanOrEqual(16)
+  expect(nameGap).toBeLessThanOrEqual(24)
+  expect(footer.y - (name.y + name.height)).toBeCloseTo(24, 0)
+  expect(footer.y + footer.height).toBeLessThanOrEqual(844)
+
+  if (reducedMotion !== 'reduce') {
+    const [leftPeek, rightPeek] = await page.evaluate(({ left, right, top, height }) => {
+      const y = top + height / 2
+      const hasSideCard = (x: number) => Boolean(
+        document.elementFromPoint(x, y)?.closest('[data-project]:not([data-current]) .screen'),
+      )
+      return Array.from({ length: innerWidth }, (_, x) => x + .5).reduce(([leftPeek, rightPeek], x) => [
+        leftPeek + Number(x < left && hasSideCard(x)),
+        rightPeek + Number(x > right && hasSideCard(x)),
+      ], [0, 0])
+    }, card)
+    expect(leftPeek).toBeGreaterThan(0)
+    expect(rightPeek).toBeGreaterThan(0)
+    expect(Math.abs(leftPeek - rightPeek)).toBeLessThanOrEqual(1)
+  }
 })

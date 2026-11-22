@@ -29,7 +29,10 @@ import '@fontsource/jetbrains-mono/400.css'
             {projects.map(project => (
               <li data-project data-kind={project.kind} data-sector={project.sector}>
                 <a class="screen" href={project.href} aria-label={project.name} draggable="false">
-                  <img class="screen-desktop" src={project.desktop} alt="" width="1440" height="900" draggable="false" />
+                  <picture>
+                    <source media="(max-width: 600px)" srcset={project.mobile} width="375" height="812" />
+                    <img class="screen-preview" src={project.desktop} alt="" width="1440" height="900" draggable="false" />
+                  </picture>
                   <img class="screen-mobile" src={project.mobile} alt="" width="375" height="812" draggable="false" />
                   <span class="screen-name">{project.name}</span>
                 </a>
