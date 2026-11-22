@@ -1,0 +1,15 @@
+---
+interface Props {
+  name: string
+  label: string
+  type?: string
+  required?: boolean
+  area?: boolean
+  autocomplete?: string
+}
+const { name, label, type = 'text', required, area, autocomplete } = Astro.props
+---
+<label class="field">
+  <span>{label}{required && <small>Obligatorio</small>}</span>
+  {area ? <textarea name={name} rows="2" maxlength="1500"></textarea> : <input {name} {type} {required} {autocomplete} maxlength={name === 'business' ? 90 : 250} />}
+</label>

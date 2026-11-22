@@ -1,0 +1,11 @@
+---
+const { id, title, description } = Astro.props
+---
+<label class="artifact">
+  <input type="checkbox" name="artifacts" value={id} />
+  <span class:list={['mini', id]} aria-hidden="true">
+    <i></i><i></i><i></i><i></i><i></i><i></i>
+  </span>
+  <span class="artifact-name">{title}</span>
+  <span class="artifact-description">{description}</span>
+</label>

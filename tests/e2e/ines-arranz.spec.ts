@@ -126,6 +126,9 @@ test('el dial muestra el momento que corresponde al desplazamiento', async ({ pa
   const session = page.locator('.session.enhanced')
   await expect(session).toBeAttached()
   await expect(page.locator('.perspective.has-scene')).toBeAttached()
+  await expect.poll(() => session.locator('.moments li').evaluateAll(moments =>
+    moments.filter(moment => Number(getComputedStyle(moment).opacity) > .01).length,
+  )).toBe(1)
   const peak = await session.evaluate(async element => {
     const top = element.getBoundingClientRect().top + scrollY
     const moments = [...element.querySelectorAll('.moments li')]

@@ -1,6 +1,7 @@
 ---
 import Layout from '../showcase/Layout.astro'
 import { projects } from '../showcase/projects'
+import { url } from '../lib/url'
 import { responsiveImage } from '../lib/responsive-image'
 
 const clock = new Intl.DateTimeFormat('es-ES', {
@@ -11,7 +12,10 @@ const clock = new Intl.DateTimeFormat('es-ES', {
   <div class="catalogue">
     <header class="catalogue-header">
       <h1>Catálogo de proyectos</h1>
-      <p>Edición 2026 <span class="clock">Madrid <time data-madrid-clock>{clock.format()}</time></span></p>
+      <div class="catalogue-meta">
+        <nav aria-label="Menú del catálogo"><a class="encargo-link" href={url('encargo/')}>Encargo</a></nav>
+        <p>Edición 2026 <span class="clock">Madrid <time data-madrid-clock>{clock.format()}</time></span></p>
+      </div>
     </header>
     <main>
       <p class="intro">Webs a medida para negocios que cuidan los detalles.</p>
