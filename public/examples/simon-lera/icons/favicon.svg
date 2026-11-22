@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="linen" x2=".7" y2="1">
+      <stop stop-color="#FBF8F2"/>
+      <stop offset=".58" stop-color="#F3EDE2"/>
+      <stop offset="1" stop-color="#D0BEA4"/>
+    </linearGradient>
+    <radialGradient id="shadow">
+      <stop stop-color="#1D1A16" stop-opacity=".52"/>
+      <stop offset="1" stop-color="#1D1A16" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="64" height="64" rx="9" fill="#6F6455"/>
+  <ellipse cx="33" cy="51" rx="27" ry="9" fill="url(#shadow)"/>
+  <path d="m8 15 44-5 6 7-25 3 1 35-15 2-8-6z" fill="#917657"/>
+  <path d="m25 22 27-5 6 0-25 5 1 33-7-6z" fill="#5D4533"/>
+  <path d="m8 15 44-5 1 13-28 4 2 22-16 2z" fill="url(#linen)"/>
+  <path d="m11 20 40-5v8l-26 4 2 22-9 1-2-23-5 1z" fill="#BF9B73"/>
+  <path d="m17 21 8 6 2 22-9 1-2-23z" fill="#AA835E"/>
+  <path d="m8 15 44-5v2l-42 5 2 33-1 1z" fill="#FFFDF7"/>
+  <path d="m17 21 8 6" stroke="#6F4F36" stroke-width="1"/>
+  <path d="m29 18 .3 3m12-4 .3 3M11 31l3-.4m-2 12 3-.4" stroke="#6F6455" stroke-width="1.2" stroke-linecap="round"/>
+  <path d="m31 28 12-2" stroke="#9C4F2E" stroke-width="1" opacity=".7"/>
+</svg>

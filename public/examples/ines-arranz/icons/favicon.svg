@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="glass" x2=".62" y2="1">
+      <stop stop-color="#F7F7F4"/>
+      <stop offset=".56" stop-color="#D9DDE0"/>
+      <stop offset="1" stop-color="#A8ADB7"/>
+    </linearGradient>
+    <linearGradient id="plum" x2=".7" y2="1">
+      <stop stop-color="#986D80"/>
+      <stop offset="1" stop-color="#4A2C3A"/>
+    </linearGradient>
+    <radialGradient id="shadow">
+      <stop stop-color="#101217" stop-opacity=".86"/>
+      <stop offset="1" stop-color="#101217" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="64" height="64" rx="9" fill="#202227"/>
+  <ellipse cx="35" cy="53" rx="23" ry="8" fill="url(#shadow)"/>
+  <path d="m8 22 23-13 24 13-23 13z" fill="url(#glass)"/>
+  <path d="m8 22 24 13v21L8 43z" fill="#A1A5AD"/>
+  <path d="m32 35 23-13v21L32 56z" fill="url(#plum)"/>
+  <path d="m8 22 24 13v7L8 29z" fill="#DFE1E2" opacity=".78"/>
+  <path d="m32 35 23-13v7L32 42z" fill="#D9DDE0" opacity=".47"/>
+  <path d="m8 34 24 13 23-13v2L32 49 8 36z" fill="#202227"/>
+  <path d="m8 22 24 13 23-13M32 35v11m0 3v7" fill="none" stroke="#F6F4F1" stroke-opacity=".69" stroke-width="1.15"/>
+  <path d="m20 16 24 13 11-7L31 9z" fill="#F6F4F1" opacity=".36"/>
+</svg>

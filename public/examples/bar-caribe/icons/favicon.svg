@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="brass" x2=".8" y2="1">
+      <stop stop-color="#F2DEAE"/>
+      <stop offset=".4" stop-color="#C8A05A"/>
+      <stop offset=".72" stop-color="#F0CB81"/>
+      <stop offset="1" stop-color="#957039"/>
+    </linearGradient>
+    <linearGradient id="enamel" x2=".3" y2="1">
+      <stop stop-color="#22574C"/>
+      <stop offset=".62" stop-color="#2E8573"/>
+      <stop offset="1" stop-color="#23695A"/>
+    </linearGradient>
+    <radialGradient id="shadow">
+      <stop stop-opacity=".92"/>
+      <stop offset="1" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="64" height="64" rx="9" fill="#1E1915"/>
+  <ellipse cx="34" cy="52" rx="28" ry="8" fill="url(#shadow)"/>
+  <path d="M16 13h32l12 12v15L48 52H16L5 41V24z" fill="#77542E"/>
+  <path d="M15 10h32l12 12v14L47 48H15L4 37V21z" fill="url(#brass)"/>
+  <path d="M17 15h28l9 9v10l-9 9H17l-8-8V23z" fill="url(#enamel)"/>
+  <path d="M17 15h28l9 9v3l-10-10H18l-9 8v-2z" fill="#12100E" opacity=".47"/>
+  <path d="m20 21 11 1 13-1-10 11v5h5v2H24v-2h5v-5z" fill="#172B25"/>
+  <path d="M20 20h23L33 31v5h5v2H24v-2h5v-5z" fill="#EEE4CF"/>
+  <path d="M23 23h17l-4 4H27z" fill="#E2472C"/>
+  <path d="m4 21 11-11h32l2 2H16L4 24z" fill="#F8E8C1"/>
+</svg>
