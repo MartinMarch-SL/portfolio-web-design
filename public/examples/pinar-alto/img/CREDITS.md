@@ -1,0 +1,16 @@
+# Créditos de fotografía
+
+pabellon-noche.webp — Foto de ARTO SURAJ en Unsplash (https://unsplash.com/photos/empty-indoor-sports-arena-with-spectator-seating-_XlTp6nHbm0)
+parquet-claro.webp — Foto de Hannah Tu en Unsplash (https://unsplash.com/photos/a-group-of-people-standing-on-top-of-a-basketball-court-2BM4Vix067E)
+parquet-luz.webp — Foto de Yanhao Fang en Unsplash (https://unsplash.com/photos/sunlight-streams-into-a-wooden-floored-gymnasium-GQwxPlyNy2E)
+aro.webp — Foto de Jorgen Hendriksen en Unsplash (https://unsplash.com/photos/a-basketball-hoop-on-a-table-kq5jjsAfR30)
+tablero.webp — Foto de Max Saeling en Unsplash (https://unsplash.com/photos/basketball-hoop-in-a-room-um8MwEb8Jro)
+entreno.webp — Foto de Ludo Poiré en Unsplash (https://unsplash.com/photos/a-group-of-young-men-playing-a-game-of-basketball-Vxycili-K0Y)
+pina.webp — Foto de jesse orrico en Unsplash (https://unsplash.com/photos/grayscale-photography-of-boys-raising-hand-mse1vdzZXjA)
+equipo.webp — Foto de Simon Kessler en Unsplash (https://unsplash.com/photos/basketball-team-huddles-together-on-court-HLdMYH4O8rg)
+babybasket.webp — Foto de April Walker en Unsplash (https://unsplash.com/photos/a-group-of-young-children-playing-a-game-of-basketball-J4Qe1fP0CxA)
+femenino.webp — Foto de Stefan Vibes en Unsplash (https://unsplash.com/photos/coach-giving-high-fives-to-players-XC90kgrdtpo)
+entrada.webp — Foto de Omar Abozeid en Unsplash (https://unsplash.com/photos/a-person-jumping-in-the-air-with-a-basketball-d0LAEe0nXeg)
+bote.webp — Foto de Lesli Whitecotton en Unsplash (https://unsplash.com/photos/a-group-of-people-standing-on-top-of-a-basketball-court-AzLSYjbDIJY)
+pabellon-madera.webp — Foto de Kurt Liebhaeuser en Unsplash (https://unsplash.com/photos/brown-wooden-parquet-floor-with-white-wall-PXcx8cT3ojI)
+manos.webp — Foto de Davide Aracri en Unsplash (https://unsplash.com/photos/a-group-of-people-reaching-for-a-basketball-ohAr6vNawiI)

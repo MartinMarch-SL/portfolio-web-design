@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240">
+  <defs>
+    <radialGradient id="leather" cx=".40" cy=".28" r=".75">
+      <stop stop-color="#E8612C"/>
+      <stop offset=".57" stop-color="#C9501F"/>
+      <stop offset="1" stop-color="#602810"/>
+    </radialGradient>
+    <radialGradient id="spot" cx=".40" cy=".26" r=".32">
+      <stop stop-color="#FFD4A3" stop-opacity=".42"/>
+      <stop offset="1" stop-color="#FFD4A3" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grain" width="2.4" height="2.4" patternUnits="userSpaceOnUse">
+      <path d="M.45 .65h.15m1.05 1.2h.15" stroke="#FFE0BA" stroke-width=".65" stroke-linecap="round" opacity=".22"/>
+    </pattern>
+    <clipPath id="outline"><ellipse cx="120" cy="129.9" rx="79.8" ry="79.9"/></clipPath>
+    <path id="seams" d="
+      M43.3 107.7 C41 116.5 72 134.7 107 147.4 S186 170.2 194.2 159.3
+      M101.8 207.6 C111.5 207.5 127.7 174 138.5 141.1 S155.4 57.7 146.1 54.4
+      M62.5 185.3 C66.4 186.1 77.8 155.5 87.3 123.7 S107.6 52.2 101.5 52.2
+      M148.4 204.5 C157.7 200.8 171.2 179.7 179.6 154.6 S192.8 92.4 183.5 81.5"/>
+  </defs>
+  <g clip-path="url(#outline)">
+    <path d="M40 50h160v160H40z" fill="url(#leather)"/>
+    <path d="M40 50h160v160H40z" fill="url(#spot)"/>
+    <path d="M40 50h160v160H40z" fill="url(#grain)"/>
+    <use href="#seams" fill="none" stroke="#F89A57" stroke-opacity=".42" stroke-width="2.8"/>
+    <use href="#seams" fill="none" stroke="#1B100D" stroke-width="1.7"/>
+  </g>
+</svg>

@@ -20,7 +20,24 @@ const candidates = JSON.parse(await readFile(new URL('index.json', candidatesDir
 const simonLera = batch === 'candidates-simon-lera';
 const liaFerro = batch === 'candidates-lia-ferro';
 const losAlmendros = batch === 'candidates-los-almendros';
-const grouped = simonLera || liaFerro || losAlmendros;
+const pinarAlto = batch === 'candidates-pinar-alto';
+const grouped = simonLera || liaFerro || losAlmendros || pinarAlto;
+const basketballCrops = new Map([
+  ['pabellon-noche', [1600, 1000, 'centre']],
+  ['parquet-claro', [1200, 800, 'south']],
+  ['parquet-luz', [1440, 960, 'south']],
+  ['aro', [1200, 800, 'centre']],
+  ['tablero', [1200, 800, 'attention']],
+  ['entreno', [1200, 800, 'attention']],
+  ['pina', [1200, 800, 'centre']],
+  ['equipo', [1200, 800, 'attention']],
+  ['babybasket', [1200, 800, 'attention']],
+  ['femenino', [1200, 800, 'attention']],
+  ['entrada', [1440, 960, 'attention']],
+  ['bote', [1200, 800, 'south']],
+  ['pabellon-madera', [1200, 800, 'centre']],
+  ['manos', [1200, 800, 'centre']],
+]);
 const footballCrops = new Map([
   ['hero', [1600, 1040]], ['entrenamiento', [1200, 800]], ['portero', [1200, 800]],
   ['chupetines', [1200, 800]], ['atardecer', [1200, 800]], ['historia', [1200, 800]],
@@ -65,6 +82,7 @@ for (const [key, number] of Object.entries(selection)) {
     throw new Error(`Invalid Lía Ferro target: ${key}`);
   }
   if (losAlmendros && !footballCrops.has(key)) throw new Error(`Invalid Los Almendros target: ${key}`);
+  if (pinarAlto && !basketballCrops.has(key)) throw new Error(`Invalid Pinar Alto target: ${key}`);
   const requestedPath = path.resolve(publicDir, grouped
     ? `examples/${batch.slice(11)}/img/${key}.webp`
     : key.replace(/^public\//, ''));
@@ -72,7 +90,7 @@ for (const [key, number] of Object.entries(selection)) {
   const realDirectory = await realpath(path.dirname(requestedPath));
   if (realDirectory !== path.dirname(requestedPath)) throw new Error(`Invalid target directory: ${key}`);
   const target = await realpath(requestedPath).catch(error => {
-    if (losAlmendros && error.code === 'ENOENT') return requestedPath;
+    if ((losAlmendros || pinarAlto) && error.code === 'ENOENT') return requestedPath;
     throw error;
   });
   if (target !== requestedPath || path.extname(target).toLowerCase() !== '.webp' || targets.has(target)) {
@@ -84,8 +102,12 @@ for (const [key, number] of Object.entries(selection)) {
   const source = grouped ? photo.source
     : fileURLToPath(new URL(`${String(number).padStart(3, '0')}.webp`, candidatesDir));
   const crop = sharp(source).autoOrient();
-  let width, height;
-  if (losAlmendros) {
+  let width, height, position = sharp.strategy.attention;
+  if (pinarAlto) {
+    const [cropWidth, cropHeight, anchor] = basketballCrops.get(key);
+    [width, height] = [cropWidth, cropHeight];
+    position = anchor === 'attention' ? sharp.strategy.attention : anchor;
+  } else if (losAlmendros) {
     [width, height] = footballCrops.get(key);
   } else {
     ({ width, height } = await sharp(target).metadata());
@@ -93,7 +115,7 @@ for (const [key, number] of Object.entries(selection)) {
   if (liaFerro) {
     if (key.startsWith('trabajo-')) [width, height] = [1120, 1400];
     if (key === 'retrato-01') [width, height] = [1080, 1440];
-    crop.resize(width, height, { fit: 'cover', position: sharp.strategy.attention })
+    crop.resize(width, height, { fit: 'cover', position })
       .modulate({ saturation: 0.85 })
       .linear([1.04, 1.03, 1.01], [-5, -6, -7]);
   } else if (simonLera && key.startsWith('obra-')) {
@@ -105,7 +127,7 @@ for (const [key, number] of Object.entries(selection)) {
       height: original.width < original.height ? 1200 : undefined });
   } else {
     if (simonLera && key.startsWith('detalle-')) height = width;
-    crop.resize(width, height, { fit: 'cover', position: sharp.strategy.attention });
+    crop.resize(width, height, { fit: 'cover', position });
   }
   let image;
   for (let quality = 78; ; quality = Math.max(1, quality - 2)) {

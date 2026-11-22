@@ -1,0 +1,91 @@
+.hero { min-height: max(720px, 94svh); isolation: isolate; position: relative; display: grid; padding-top: var(--mast) }
+.hero.pabellon { background: linear-gradient(90deg, #0b1420ee, #0b14206e), var(--pabellon-noche) center / cover, var(--azul) }
+.hero-inner { position: relative; display: grid; align-content: center; padding-block: 2.75rem 5.5rem }
+.hero-copy { position: relative; z-index: 2; width: fit-content }
+.hero-copy .eyebrow { color: var(--tiza) }
+.hero-copy .eyebrow i { display: inline-block; width: .5rem; aspect-ratio: 1; background: var(--naranja); margin-right: .3rem }
+.hero h1 { font-size: clamp(6.2rem, 17vw, 16.5rem); line-height: .75; margin: .13em 0 .1em; letter-spacing: -.025em }
+.hero h1 span { color: var(--naranja) }
+.hero-copy > p:not(.eyebrow) { margin: 1.5rem 0 1rem; font-size: clamp(1.1rem, 2vw, 1.55rem); text-shadow: 0 1px 4px var(--noche) }
+.hero-index { position: absolute; bottom: 1.1rem; right: 0; text-align: right; color: var(--tiza); text-shadow: 0 1px 4px var(--noche) }
+.court-stage { position: absolute; z-index: -1; inset: 0; overflow: clip; perspective: 760px; perspective-origin: 61% 42% }
+.hero-court {
+  position: absolute; inset: auto -22% -35% -9%; height: 85%; color: var(--tiza);
+  transform: rotateX(64deg) rotateZ(-12deg); transform-origin: center 32%;
+  background:
+    radial-gradient(ellipse at 64% 57%, transparent 18%, #291b1399 61%, var(--noche) 90%),
+    radial-gradient(ellipse at 66% 40%, #fff0d14d, transparent 44%),
+    linear-gradient(115deg, #B8834A, var(--arce) 58%, #B8834A),
+    var(--maple) center bottom / cover;
+  background-blend-mode: normal, normal, multiply, normal;
+  box-shadow: 0 -5px 4rem #060b12; display: grid; place-items: center;
+}
+.hero-court .court-lines { width: 100%; height: 100% }
+.court-reveal { animation: lines-in 1.9s cubic-bezier(.22,.65,.22,1) both }
+@keyframes lines-in { from { transform: translateX(-740px) } to { transform: none } }
+.hoop { position: absolute; left: 47%; top: 15%; width: clamp(8rem, 20vw, 23rem); aspect-ratio: 1.55; filter: blur(2px); opacity: .52; transform: rotate(-8deg) skewY(-8deg) }
+.backboard { position: absolute; inset: 0; border: 4px solid #8fa0b3; background: linear-gradient(120deg, #13263d56, #13263d75), var(--tablero) center / cover }
+.backboard::after { content: ''; position: absolute; inset: 42% 29% 10%; border: 3px solid #aebbc8 }
+.rim { position: absolute; z-index: 1; left: 23%; top: 80%; width: 53%; height: 29%; border: .34rem solid var(--naranja); border-radius: 50%; background: #13263d63 }
+.net { position: absolute; left: 27%; top: 98%; width: 46%; height: 40%; background: repeating-linear-gradient(64deg, transparent 0 9px, #f3f0ea83 10px 11px), repeating-linear-gradient(-64deg, transparent 0 9px, #f3f0ea83 10px 11px); clip-path: polygon(0 0,100% 0,76% 100%,24% 100%) }
+.ball-stage { position: absolute; width: min(44vw, 42rem); right: 0; bottom: 2%; aspect-ratio: 1 }
+.ball-stage :is(img, canvas) { position: absolute; inset: 0; width: 100%; height: 100%; max-width: 100%; max-height: 100%; z-index: 1 }
+.ball-shadow { position: absolute; width: 60%; height: 13%; left: 20%; bottom: 12%; background: radial-gradient(ellipse, #05070be8, transparent 70%); transform: scale(var(--shadow-scale, 1)); opacity: var(--shadow-opacity, .9) }
+.match-band { border-block: 1px solid var(--line); background: repeating-linear-gradient(0deg, #0b1420 0 3px, #0e1926 3px 4px) }
+.match { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: clamp(.65rem, 3vw, 3rem); align-items: center; padding-block: 1.1rem }
+.match-date { display: grid; gap: .14rem; font: .75rem/1.5 var(--mono); color: var(--niebla) }
+.match-date time { font-weight: 700; color: var(--tiza) }
+.scoreboard { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: clamp(.25rem, 2vw, 1.75rem); align-items: center; border-inline: 1px solid var(--line); padding-inline: clamp(.25rem, 2vw, 1.75rem) }
+.score-team { text-align: center }
+.score-team span, .score-clock span { display: block; font: .6875rem/1.4 var(--mono); text-transform: uppercase; color: var(--niebla) }
+.score-team strong { display: block; font: 800 clamp(1.4rem, 3.4vw, 3.2rem)/.9 var(--display); margin-top: .3rem }
+.score-clock { text-align: center }
+.segments { display: flex; justify-content: center; gap: 2px; color: var(--marcador); margin: .1rem 0 .2rem }
+.segments svg { width: clamp(12px, 2.1vw, 30px); height: auto; fill: currentColor }
+.segments svg:nth-child(3) { width: clamp(5px, .55vw, 8px) }
+.segments polygon { opacity: .095 }
+.segments .lit, .segments circle { animation: led-on 1.2s ease-out both }
+@keyframes led-on { from { opacity: .12 } to { opacity: 1 } }
+.score-clock b { color: var(--marcador) }
+.ticker { border-bottom: 1px solid var(--line); background: #13263db8 }
+.ticker-inner { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 1rem; align-items: center }
+.ticker h2 { font: 800 1.35rem/1 var(--display); padding-block: .7rem }
+.ticker-window { overflow-x: auto; scrollbar-width: thin }
+.ticker-track { display: flex; width: max-content }
+.ticker-copy { display: none !important }
+.ticker:has(.ticker-toggle:not([hidden])):not(.is-paused) .ticker-window:not(:focus-within) { overflow: hidden }
+.ticker:has(.ticker-toggle:not([hidden])):not(.is-paused) .ticker-window:not(:focus-within) .ticker-track { animation: results-roll 30s linear infinite }
+.ticker:has(.ticker-toggle:not([hidden])):not(.is-paused) .ticker-window:not(:focus-within) .ticker-copy { display: flex !important }
+.ticker-toggle { font-size: .75rem }
+@keyframes results-roll { to { transform: translateX(-33.333333%) } }
+.ticker ul { display: flex; list-style: none; width: max-content; padding: .6rem 0 }
+.ticker li { display: flex; gap: .6rem; align-items: baseline; border-left: 1px solid var(--line); padding-inline: .8rem; font-size: .9rem }
+.ticker b { font: .8rem/1.4 var(--mono); color: var(--tiza) }
+.ticker li span { color: var(--niebla) }
+.kit-demo { display: grid; justify-items: center; perspective: 850px }
+.kit { display: grid; width: min(100%, 20rem); transform-style: preserve-3d; transform: rotateY(-14deg); transition: transform .95s cubic-bezier(.22,.65,.22,1) }
+.kit-side { grid-area: 1/1; width: 100%; backface-visibility: hidden }
+.kit-side:last-child { transform: rotateY(180deg) }
+.kit-demo.flipped .kit { transform: rotateY(166deg) }
+@media (max-width: 850px) {
+  .hero { min-height: max(610px, 92svh) }
+  .hero-inner { align-content: start; padding-block: 3.4rem 17rem }
+  .hero h1 { font-size: clamp(6rem, 19vw, 11rem) }
+  .ball-stage { width: min(64vw, 27rem); bottom: 4%; right: 0 }
+  .hoop { top: 25%; left: 55% }
+  .hero-court { inset: auto -48% -26% -32%; height: 69% }
+}
+@media (max-width: 630px) {
+  .hero h1 { font-size: clamp(5.5rem, 22vw, 8rem) }
+  .match { grid-template-columns: minmax(0, 1fr) auto; gap: .65rem }
+  .match-date { grid-column: 1; grid-row: 1 }
+  .match > a { grid-column: 2; grid-row: 1; font-size: .84rem }
+  .scoreboard { grid-column: 1 / -1; grid-row: 2; border: 1px solid var(--line); padding: .55rem .25rem }
+  .ticker-inner { gap: .55rem }
+}
+@media (prefers-reduced-motion: reduce) {
+  .court-reveal { animation: none }
+  .segments .lit, .segments circle { animation-duration: .18s }
+  .kit, .kit-demo.flipped .kit, .kit-side:last-child { transform: none; transition: none }
+  .kit-demo:not(.flipped) .kit-side:last-child, .kit-demo.flipped .kit-side:first-child { visibility: hidden }
+}

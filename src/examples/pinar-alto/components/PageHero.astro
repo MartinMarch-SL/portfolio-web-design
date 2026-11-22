@@ -1,0 +1,9 @@
+---
+import CourtLines from './CourtLines.astro'
+import { image } from '../lib/paths'
+const { class: className, backdrop } = Astro.props
+---
+<header class="page-hero parquet" style={backdrop && `--parquet-shade: linear-gradient(90deg, #0b1420eb, #152334b8); --section-photo: url('${image(backdrop + '.webp')}')`}>
+  <CourtLines />
+  <div class:list={['wrap', 'page-head', className]}><slot /></div>
+</header>

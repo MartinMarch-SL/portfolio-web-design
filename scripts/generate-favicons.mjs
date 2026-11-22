@@ -9,6 +9,7 @@ const examples = [
   ['simon-lera', 'Simón Lera', '#6F6455'],
   ['lia-ferro', 'Lía Ferro', '#17191D'],
   ['los-almendros', 'UD Los Almendros', '#0F3A2B'],
+  ['pinar-alto', 'CB Pinar Alto', '#0B1420'],
 ]
 const resultsDir = new URL('../test-results/', import.meta.url)
 const icoSizes = [16, 32, 48]

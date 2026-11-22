@@ -1,0 +1,20 @@
+---
+import { image } from '../lib/paths'
+const sides = [
+  { name: 'Local', shirt: '#13263D', trim: '#D8B07A', ink: '#F3F0EA' },
+  { name: 'Visitante', shirt: '#F3F0EA', trim: '#13263D', ink: '#13263D' },
+]
+---
+<div class="kit-demo" data-kit>
+  <figure class="kit">
+    {sides.map(({ name, shirt, trim, ink }) => <svg class="kit-side" viewBox="0 0 280 310" role="img" aria-label={'Equipación ' + name.toLowerCase()}>
+      <path d="M84 22 112 13q28 31 56 0l28 9q-3 52 24 70l-10 166q-70 14-140 0L60 92Q87 74 84 22Z" fill={shirt} stroke={trim} stroke-width="3"/>
+      <path d="M111 14q29 41 58 0M84 23q3 49-24 69m136-69q-3 49 24 69M75 120l8 130m122-130-8 130" fill="none" stroke={trim} stroke-width="6"/>
+      <image href={image('escudo.svg')} x="157" y="63" width="24" height="29" />
+      <g fill={ink} text-anchor="middle" font-family="Saira Extra Condensed,sans-serif" font-weight="800">
+        <text x="140" y="118" font-size="23" letter-spacing="3">PINAR ALTO</text><text x="140" y="200" font-size="83">84</text>
+      </g>
+    </svg>)}
+  </figure>
+  <button class="button" type="button" data-kit-flip aria-pressed="false">Ver cara visitante</button>
+</div>

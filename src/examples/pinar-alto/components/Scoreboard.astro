@@ -1,0 +1,23 @@
+---
+import { nextMatch as match } from '../data/competition'
+import { route } from '../lib/paths'
+const digits = ['abcdef', 'bc', 'abdeg', 'abcdg', 'bcfg', 'acdfg', 'acdefg', 'abc', 'abcdefg', 'abcdfg']
+const paths = ['4,3 19,3 22,6 19,9 4,9 1,6', '20,10 23,7 26,10 26,21 23,24 20,21', '20,28 23,25 26,28 26,39 23,42 20,39', '4,40 19,40 22,43 19,46 4,46 1,43', '-3,28 0,25 3,28 3,39 0,42 -3,39', '-3,10 0,7 3,10 3,21 0,24 -3,21', '4,21 19,21 22,24 19,27 4,27 1,24']
+---
+<section class="match-band" aria-label="Próximo partido">
+  <div class="wrap match">
+    <div class="match-date"><p class="eyebrow">Próximo partido</p><time datetime={match.date + 'T' + match.time}>{match.label}</time><span>{match.team} · Jornada 04</span></div>
+    <div class="scoreboard">
+      <div class="score-team"><span>Local</span><strong>{match.home}</strong></div>
+      <div class="score-clock">
+        <div class="segments" role="img" aria-label={match.time}>
+          {[...match.time].map(digit => digit === ':' ? <svg viewBox="0 0 8 49" width="8" height="49" aria-hidden="true"><circle cx="4" cy="17" r="2"/><circle cx="4" cy="32" r="2"/></svg> :
+            <svg viewBox="-4 0 31 49" width="31" height="49" aria-hidden="true">{paths.map((points, index) => <polygon points={points} class:list={[{ lit: digits[Number(digit)].includes('abcdefg'[index]) }]} />)}</svg>)}
+        </div>
+        <span>Cuarto <b>01</b></span>
+      </div>
+      <div class="score-team"><span>Visitante</span><strong>{match.away}</strong></div>
+    </div>
+    <a class="text-link" href={route('competicion/')}>Ver competición</a>
+  </div>
+</section>

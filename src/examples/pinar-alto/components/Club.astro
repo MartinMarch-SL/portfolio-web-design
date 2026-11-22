@@ -1,0 +1,33 @@
+---
+import Layout from '../Layout.astro'
+import PageHero from './PageHero.astro'
+import Crest from './Crest.astro'
+import { photo } from '../lib/paths'
+import { contact } from '../data/season'
+---
+<Layout title="El club" section="club">
+  <PageHero><p class="eyebrow">DESDE 1984 · PINAR ALTO</p><h1>El club</h1><p>Baloncesto de barrio en el Pabellón Municipal Pinar Alto.</p></PageHero>
+  <section class="acta"><div class="wrap section split club-history">
+    <div><h2>Desde la pista del barrio</h2><p>En 1984, un grupo de familias y entrenadores organizó los primeros equipos en la pista del colegio. El club creció con los torneos del barrio y encontró su casa en el pabellón municipal.</p><p>Hoy entrenan 16 equipos y unas 260 personas juegan con licencia. El club acompaña a la cantera desde Babybasket hasta Júnior y cuenta con un sénior amateur.</p></div><Crest />
+  </div></section>
+  <section class="acta"><div class="wrap section split method-photos">
+    <img class="photo" {...photo('pabellon-madera')} alt="Pista de madera iluminada por los ventanales" loading="lazy" />
+    <img class="photo" {...photo('pina')} alt="Un equipo se reúne con su entrenador" loading="lazy" />
+  </div></section>
+  <section class="parquet"><div class="wrap section split campus">
+    <img class="photo" {...photo('pabellon-noche')} loading="lazy" alt="" />
+    <div><h2>El pabellón</h2><p>La pista central acoge los partidos del fin de semana y parte de los entrenamientos. La pista auxiliar está al otro lado del vestíbulo.</p><p>Secretaría abre los martes y jueves de 17:00 a 19:30.</p></div>
+  </div></section>
+  <section class="acta"><div class="wrap section split campus">
+    <div><h2>Lo que compartimos</h2><p>Cuidamos la pista, respetamos a quien tenemos enfrente y hacemos sitio a quien empieza.</p></div>
+    <img class="photo" {...photo('manos')} alt="Varias manos sujetan un balón" loading="lazy" />
+  </div></section>
+  <section class="pabellon"><div class="wrap section split campus">
+    <div><h2>Cómo llegar</h2><p>Pabellón Municipal Pinar Alto · Calle del Arce, 14. Entrada por la plaza del Pinar.</p><p><a class="text-link" href={'mailto:' + contact}>{contact}</a></p></div>
+    <figure class="map"><svg viewBox="0 0 420 260" role="img" aria-label="Plano del barrio. Se entra al pabellón desde la plaza del Pinar." xmlns="http://www.w3.org/2000/svg">
+      <rect width="420" height="260" fill="#13263D"/><path d="M0 196h420M120 0v260M0 80h120m190-80v196" fill="none" stroke="#8FA0B3" stroke-width="12"/>
+      <path d="M145 36h140v92H145z" fill="#D8B07A"/><path d="M150 150h132v28H150z" fill="#0B1420" stroke="#F3F0EA"/>
+      <g font-family="sans-serif" font-size="15" text-anchor="middle"><text x="215" y="86" fill="#0B1420">Pabellón</text><text x="216" y="169" fill="#F3F0EA">Plaza del Pinar</text><text x="216" y="230" fill="#F3F0EA">Calle del Arce</text></g>
+    </svg><figcaption>Plano esquemático del barrio ficticio</figcaption></figure>
+  </div></section>
+</Layout>

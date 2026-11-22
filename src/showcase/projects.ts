@@ -10,6 +10,7 @@ const entries = [
   ['simon-lera', 'Simón Lera', 'Pintura', 'Portfolio'],
   ['lia-ferro', 'Lía Ferro', 'Tatuaje', 'Reservas y citas'],
   ['los-almendros', 'UD Los Almendros', 'Club de fútbol base', 'Clubes y asociaciones'],
+  ['pinar-alto', 'CB Pinar Alto', 'Club de baloncesto', 'Clubes y asociaciones'],
 ] satisfies [string, string, string, typeof kinds[number]][]
 
 export const projects = entries.map(([slug, name, sector, kind]) => ({

@@ -4,7 +4,7 @@ import sharp from 'sharp'
 
 const root = new URL(process.argv[2] ?? 'http://127.0.0.1:4399/portfolio-web-design/')
 const output = new URL('../../public/showcase/img/screens/', import.meta.url)
-const examples = ['ruido', 'bar-caribe', 'ines-arranz', 'mares', 'simon-lera', 'lia-ferro', 'los-almendros']
+const examples = ['ruido', 'bar-caribe', 'ines-arranz', 'mares', 'simon-lera', 'lia-ferro', 'los-almendros', 'pinar-alto']
 const selected = process.argv.slice(3)
 for (const name of selected) {
   if (!examples.includes(name)) throw new Error(`Ejemplo desconocido: ${name}`)
@@ -42,8 +42,8 @@ try {
         if (webp.length >= 300_000) throw new Error(`Captura demasiado grande: ${example} ${device}`)
         const filename = `${example}-${device}.webp`
         await writeFile(new URL(filename, output), webp)
-        if (example === 'los-almendros' && device === 'desktop') {
-          await copyFile(new URL(filename, output), new URL('../los-almendros-preview.webp', output))
+        if (['los-almendros', 'pinar-alto'].includes(example) && device === 'desktop') {
+          await copyFile(new URL(filename, output), new URL(`../${example}-preview.webp`, output))
         }
         console.log(`${filename} (${webp.length} bytes)`)
       }

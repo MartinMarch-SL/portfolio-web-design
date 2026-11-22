@@ -43,6 +43,18 @@ const pages = {
   competicionAlmendros: 'los-almendros/competicion/',
   clubAlmendros: 'los-almendros/club/',
   inscripcionAlmendros: 'los-almendros/inscripcion/',
+  pinar: 'pinar-alto/',
+  equiposPinar: 'pinar-alto/equipos/',
+  noticiasPinar: 'pinar-alto/noticias/',
+  noticiaPinar: 'pinar-alto/noticias/una-manana-de-cantera/',
+  cronicaInfantilPinar: 'pinar-alto/noticias/el-infantil-cierra-en-defensa/',
+  campusPinar: 'pinar-alto/noticias/campus-de-verano/',
+  torneoPinar: 'pinar-alto/noticias/tres-por-tres-del-barrio/',
+  puertasPinar: 'pinar-alto/noticias/puertas-abiertas/',
+  equipacionPinar: 'pinar-alto/noticias/equipacion-reversible/',
+  competicionPinar: 'pinar-alto/competicion/',
+  clubPinar: 'pinar-alto/club/',
+  inscripcionPinar: 'pinar-alto/inscripcion/',
 }
 
 for (const [width, height] of viewports) {

@@ -1,0 +1,13 @@
+---
+const { draw = false } = Astro.props
+---
+<svg class="court-lines" viewBox="0 0 740 430" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+  {draw && <defs><mask id="court-reveal" maskUnits="userSpaceOnUse" x="0" y="0" width="740" height="430"><rect class="court-reveal" width="740" height="430" fill="white" stroke="none"/></mask></defs>}
+  <g mask={draw ? 'url(#court-reveal)' : undefined}>
+    <path d="M10 10h720v410H10zM370 10v410"/>
+    <circle cx="370" cy="215" r="57"/>
+    <path d="M10 144h155v142H10m720-142H575v142h155"/>
+    <path d="M10 42h43a173 173 0 0 1 0 346H10m720-346h-43a173 173 0 0 0 0 346h43"/>
+    <path d="M165 158a57 57 0 0 1 0 114m410-114a57 57 0 0 0 0 114"/>
+  </g>
+</svg>

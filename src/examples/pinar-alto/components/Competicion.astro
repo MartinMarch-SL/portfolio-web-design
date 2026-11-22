@@ -1,0 +1,36 @@
+---
+import Layout from '../Layout.astro'
+import PageHero from './PageHero.astro'
+import Scoreboard from './Scoreboard.astro'
+import { groups, nextMatch } from '../data/competition'
+import { standings } from '../lib/competition'
+
+const upcoming = [
+  nextMatch,
+  { home: 'CB Alameda', away: 'Infantil femenino', team: 'Infantil femenino', date: '2026-11-28', label: 'SÁB 28 NOV', time: '12:15' },
+  { home: 'CB Estación', away: 'Júnior A', team: 'Júnior A', date: '2026-11-29', label: 'DOM 29 NOV', time: '11:30' },
+]
+---
+<Layout title="Competición" section="competicion">
+  <PageHero backdrop="entrada"><p class="eyebrow">TEMPORADA 2026/27</p><h1>Competición</h1><p>Calendario, resultados y clasificaciones de tres equipos de cantera.</p></PageHero>
+  <Scoreboard />
+  <section class="acta"><div class="wrap section">
+    <h2>Calendario</h2>
+    {upcoming.map(game => <article class="fixture"><p class="eyebrow"><time datetime={game.date + 'T' + game.time}>{game.label} · {game.time}</time> · {game.team}</p><h3>{game.home} <span>contra</span> {game.away}</h3></article>)}
+  </div></section>
+  <section class="pabellon"><div class="wrap section">
+    <div class="section-heading"><h2>Clasificaciones</h2><label>Equipo<select data-standings>{groups.map(group => <option value={group.id}>{group.name}</option>)}</select></label></div>
+    {groups.map(group => <div data-group={group.id}>
+      <div class="table-frame acta"><table>
+        <caption>{group.name} · Grupo de barrio</caption>
+        <thead><tr><th scope="col">Pos.</th><th scope="col">Equipo</th>{['PJ', 'G', 'P', 'PF', 'PC', 'Dif', 'Pts'].map(label => <th scope="col">{label}</th>)}</tr></thead>
+        <tbody>{standings(group.teams, group.games).map((row, index) => <tr class:list={[{ 'our-team': row.team === group.name }]}><td>{index + 1}</td><th scope="row">{row.team}</th>{[row.played, row.won, row.lost, row.scored, row.allowed, row.diff, row.points].map(value => <td>{value}</td>)}</tr>)}</tbody>
+      </table></div>
+      <p class="table-key">2 puntos por victoria y 1 por derrota. PF y PC son los puntos a favor y en contra.</p>
+      <div class="competition-details">
+        <div><h3>Resultados</h3>{[...group.games].reverse().filter(game => [game.home, game.away].includes(group.name)).map(game => <p class="game"><time datetime={game.date}>{game.date.slice(-2)} NOV</time><span>{game.home} · {game.away}</span><strong>{game.score.join('–')}</strong></p>)}</div>
+        <div class="table-frame acta"><table><caption>Líderes por partido</caption><thead><tr><th scope="col">Jugador/a</th><th scope="col">Estadística</th><th scope="col">Media</th></tr></thead><tbody>{group.leaders.map(([name, stat, value]) => <tr><th scope="row">{name}</th><td>{stat}</td><td>{value.toLocaleString('es-ES', { minimumFractionDigits: 1 })}</td></tr>)}</tbody></table></div>
+      </div>
+    </div>)}
+  </div></section>
+</Layout>

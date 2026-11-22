@@ -9,6 +9,7 @@ const examples = [
   ['Simón Lera', 'simon-lera'],
   ['Lía Ferro', 'lia-ferro'],
   ['UD Los Almendros', 'los-almendros'],
+  ['CB Pinar Alto', 'pinar-alto'],
 ]
 
 test.beforeEach(async ({ page }) => {
@@ -19,7 +20,7 @@ test.beforeEach(async ({ page }) => {
 test('filtra por tipo de web', async ({ page }) => {
   const projects = page.getByRole('list', { name: 'Proyectos' })
   const filters = page.getByRole('group', { name: 'Tipo de web' })
-  await expect(projects.getByRole('link')).toHaveCount(7)
+  await expect(projects.getByRole('link')).toHaveCount(8)
   await filters.getByRole('button', { name: 'Reservas y citas 2' }).click()
   await expect(projects.getByRole('link')).toHaveCount(2)
   await expect(projects.getByRole('link', { name: 'Inés Arranz' })).toBeAttached()
@@ -32,11 +33,12 @@ test('filtra por tipo de web', async ({ page }) => {
   await page.keyboard.press('ArrowRight')
   await expect(onlyProject).toBeFocused()
   await expect(page.locator('[data-name]')).toHaveText('Bar Caribe')
-  await filters.getByRole('button', { name: 'Clubes y asociaciones 1' }).click()
-  await expect(projects.getByRole('link')).toHaveCount(1)
+  await filters.getByRole('button', { name: 'Clubes y asociaciones 2' }).click()
+  await expect(projects.getByRole('link')).toHaveCount(2)
   await expect(projects.getByRole('link', { name: 'UD Los Almendros' })).toBeAttached()
-  await filters.getByRole('button', { name: 'Todas 7' }).click()
-  await expect(projects.getByRole('link')).toHaveCount(7)
+  await expect(projects.getByRole('link', { name: 'CB Pinar Alto' })).toBeAttached()
+  await filters.getByRole('button', { name: 'Todas 8' }).click()
+  await expect(projects.getByRole('link')).toHaveCount(8)
 })
 
 test('permite recorrer el carrusel con el teclado y abrir la web', async ({ page }) => {
@@ -47,9 +49,9 @@ test('permite recorrer el carrusel con el teclado y abrir la web', async ({ page
   await page.keyboard.press('ArrowLeft')
   await expect(first).toBeFocused()
   await page.keyboard.press('ArrowLeft')
-  await expect(page.locator('[data-name]')).toHaveText('UD Los Almendros')
+  await expect(page.locator('[data-name]')).toHaveText('CB Pinar Alto')
   await page.keyboard.press('Enter')
-  await expect(page).toHaveURL(base + 'los-almendros/')
+  await expect(page).toHaveURL(base + 'pinar-alto/')
 })
 
 test('cada enlace abre el ejemplo de la pantalla frontal', async ({ page }) => {

@@ -1,0 +1,21 @@
+---
+import { news } from '../data/season'
+import { photo, route } from '../lib/paths'
+const { limit = news.length, heading: Heading = 'h3', carousel = false } = Astro.props
+---
+<div data-news={carousel ? '' : undefined}>
+  {carousel && <div class="news-controls" hidden>
+    <button class="text-link" type="button" data-news-step="-1">Anterior</button>
+    <button class="text-link" type="button" data-news-step="1">Siguiente</button>
+  </div>}
+<div class:list={['news-grid', { 'news-carousel': carousel }]} data-gallery-track={carousel ? "" : undefined} tabindex={carousel ? 0 : undefined} aria-label={carousel ? 'Últimas noticias' : undefined} role={carousel ? 'region' : undefined}>
+  {news.slice(0, limit).map(item => <article>
+    <a class="story" href={route('noticias/' + item.slug + '/')}>
+      <div class="story-image"><img class="photo" {...photo(item.photo, '(max-width: 630px) 85vw, 34vw')} alt="" loading="lazy" draggable="false" /></div>
+      <p class="eyebrow"><time datetime={item.date}>{item.label}</time><span>{item.section}</span></p>
+      <Heading>{item.title}</Heading>
+      <p>{item.intro}</p>
+    </a>
+  </article>)}
+</div>
+</div>

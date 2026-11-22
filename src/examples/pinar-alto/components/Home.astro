@@ -1,0 +1,96 @@
+---
+import Layout from '../Layout.astro'
+import CourtLines from './CourtLines.astro'
+import Scoreboard from './Scoreboard.astro'
+import Kits from './Kits.astro'
+import NewsList from './NewsList.astro'
+import { image, photo, route } from '../lib/paths'
+import { categories } from '../data/season'
+import { results } from '../data/competition'
+
+const years = categories.flatMap(category => [category.last, category.first])
+const methods = [
+  ['Iniciación', 'Coordinación, juego y primeras canastas. Aprender a compartir el balón.'],
+  ['Formación', 'Técnica individual y lectura del juego en tareas cortas y partidos reducidos.'],
+  ['Competición', 'Entrenar con intención y jugar en equipo. El acta suma el resultado, la pista enseña el resto.'],
+]
+---
+<Layout>
+  <section class="hero pabellon">
+    <div class="court-stage" data-stage aria-hidden="true">
+      <div class="hero-court parquet"><CourtLines draw /></div>
+      <div class="hoop"><div class="backboard"></div><div class="rim"></div><div class="net"></div></div>
+    </div>
+    <div class="wrap hero-inner">
+      <div class="hero-copy">
+        <p class="eyebrow"><i></i> BALONCESTO DE BARRIO · DESDE 1984</p>
+        <h1>PINAR<br />ALTO<span>.</span></h1>
+        <p>El pabellón es nuestra casa.</p>
+        <a class="button primary" href={route('inscripcion/')}>Preinscripción 2026/27</a>
+      </div>
+      <div class="ball-stage" data-ball aria-hidden="true"><div class="ball-shadow"></div><img src={image('balon.svg')} alt="" width="240" height="240" /><canvas hidden></canvas></div>
+      <p class="hero-index eyebrow">PABELLÓN MUNICIPAL<br />PISTA CENTRAL · 01</p>
+    </div>
+  </section>
+  <Scoreboard />
+  <section class="ticker" data-section="ticker" aria-label="Últimos resultados">
+    <div class="wrap ticker-inner">
+      <h2>Resultados</h2>
+      <div class="ticker-window" data-gallery-track tabindex="0" aria-label="Marcadores de la última jornada">
+        <div class="ticker-track">{[false, true, true].map(copy => <ul aria-hidden={copy ? 'true' : undefined} class:list={[{ 'ticker-copy': copy }]}>{results.map(game => <li><strong>{game.team}</strong><b>{game.score.join('–')}</b><span>{game.away}</span></li>)}</ul>)}</div>
+      </div>
+      <button type="button" class="text-link ticker-toggle" hidden>Pausar</button>
+    </div>
+  </section>
+  <section class="parquet">
+    <div class="wrap section split signup">
+      <div><p class="eyebrow">Temporada 2026/27</p><h2>Tu sitio en la pista</h2><p>Elige el año de nacimiento para ver el grupo, el horario y la cuota.</p></div>
+      <form class="quick" data-quick action={route('inscripcion/')}>
+        <label for="quick-year">Año de nacimiento</label>
+        <select name="anio" id="quick-year" required><option value="">Elige el año</option>{years.map(year => <option>{year}</option>)}</select>
+        <div class="quick-act" aria-live="polite"><output for="quick-year"></output><p data-quick-details></p></div>
+        <button class="button primary" type="submit">Empezar preinscripción</button>
+      </form>
+    </div>
+    <div class="wrap dorsal-rail" aria-label="Equipos por año de nacimiento">
+      {categories.map(category => <a href={route('equipos/#' + category.id)}><strong>{String(category.first).slice(-2)}–{String(category.last).slice(-2)}</strong><span>{category.name}</span></a>)}
+    </div>
+  </section>
+  <section class="acta">
+    <div class="wrap section">
+      <div class="section-heading"><div><p class="eyebrow">Cantera</p><h2>Cómo entrenamos</h2></div><a class="text-link" href={route('equipos/')}>Todos los equipos</a></div>
+      <div class="split method-photos"><img class="photo" {...photo('entreno')} alt="Jugadores jóvenes entrenando en una pista cubierta" loading="lazy" /><img class="photo" {...photo('pina')} alt="Un equipo reunido con su entrenador" loading="lazy" /></div>
+      <ol class="methods">{methods.map(([name, description], index) => <li><span class="eyebrow">0{index + 1}</span><h3>{name}</h3><p>{description}</p></li>)}</ol>
+    </div>
+  </section>
+  <section class="pabellon">
+    <div class="wrap section">
+      <div class="section-heading"><div><p class="eyebrow">Desde la grada</p><h2>Noticias</h2></div><a class="text-link" href={route('noticias/')}>Todas las noticias</a></div>
+      <NewsList carousel />
+    </div>
+  </section>
+  <section class="parquet">
+    <div class="wrap section split uniform">
+      <div><p class="eyebrow">Equipación 2026/27</p><h2>Dos caras.<br />Un escudo.</h2><p>Azul noche en casa, blanco tiza fuera. La camiseta reversible va incluida en la cuota.</p></div>
+      <Kits />
+    </div>
+  </section>
+  <section class="acta">
+    <div class="wrap stats" aria-label="Cifras del club">
+      <div><strong data-count>260</strong><span>Licencias</span></div><div><strong data-count>16</strong><span>Equipos</span></div><div><strong data-count>1984</strong><span>Año de fundación</span></div>
+    </div>
+  </section>
+  <section class="pabellon">
+    <div class="wrap section split campus">
+      <img class="photo" {...photo('aro')} loading="lazy" alt="" />
+      <div><p class="eyebrow">5–16 JULIO 2027 · 7–14 AÑOS</p><h2>Campus de verano</h2><p>Dos semanas de técnica, juego y partidos en el pabellón. De lunes a viernes, de 9:00 a 14:00.</p><a class="text-link" href={route('noticias/campus-de-verano/')}>Fechas y grupos</a></div>
+    </div>
+  </section>
+  <section class="parquet"><div class="wrap section">
+    <h2>En la pista</h2>
+    <div class="split method-photos"><img class="photo" {...photo('entrada')} alt="Silueta de un jugador entrando a canasta" loading="lazy" /><img class="photo" {...photo('bote')} alt="Zapatillas y balón en la pista" loading="lazy" /></div>
+  </div></section>
+  <section class="acta">
+    <div class="wrap sponsors"><h2>Patrocinadores</h2><ul><li>ARCE <small>CARPINTERÍA</small></li><li>Pan del Pinar</li><li>FISIO<span> ALTO</span></li><li>Óptica Mirador</li></ul></div>
+  </section>
+</Layout>
