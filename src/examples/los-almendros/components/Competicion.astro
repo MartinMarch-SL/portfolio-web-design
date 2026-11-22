@@ -1,0 +1,23 @@
+---
+import { photo } from '../lib/paths'
+import Layout from '../Layout.astro'
+import { fixtures, standings } from '../data/season'
+---
+<Layout title="Competición" section="competicion">
+  <header class="wrap page-head"><p class="eyebrow">TEMPORADA 2026/27 · JORNADA 09</p><h1>Competición</h1><p>Clasificaciones, próximos partidos y últimos resultados.</p><img class="photo section-photo competition-photo" {...photo('juvenil')} alt="Partido juvenil junto a la sede del club" /></header>
+  <section class="wrap section" data-reveal>
+    <div class="section-heading"><h2>Clasificación</h2><label>Equipo<select data-standings>{standings.map(group => <option>{group.team}</option>)}</select></label></div>
+    {standings.map((group, index) => <div class="table-frame" data-group={group.team} hidden={index !== 0}>
+      <table>
+        <caption>{group.team} · Grupo {index + 1}</caption>
+        <thead><tr>{['Pos.', 'Equipo', 'PJ', 'G', 'E', 'P', 'GF', 'GC', 'Pts'].map(label => <th scope="col">{label}</th>)}</tr></thead>
+        <tbody>{group.rows.map((row, position) => <tr class:list={[row.name.startsWith('UD ') && 'our-team']}><td>{position + 1}</td><th scope="row">{row.name}</th><td>{row.played}</td><td>{row.won}</td><td>{row.drawn}</td><td>{row.lost}</td><td>{row.goals}</td><td>{row.conceded}</td><td>{row.points}</td></tr>)}</tbody>
+      </table>
+    </div>)}
+    <p class="eyebrow table-key">PJ Partidos · G Ganados · E Empatados · P Perdidos · GF Goles a favor · GC Goles en contra · Pts Puntos</p>
+  </section>
+  {[['Próximos partidos', false], ['Últimos resultados', true]].map(([heading, past]) => <section class="wrap section" data-reveal>
+    <h2>{heading}</h2>
+    {fixtures.filter(match => Boolean(match.result) === past).map(match => <article class="fixture"><p class="eyebrow">{match.date} · {match.team}</p><h3>{match.home} <span>{match.result || 'vs.'}</span> {match.away}</h3><p>{match.venue}</p></article>)}
+  </section>)}
+</Layout>

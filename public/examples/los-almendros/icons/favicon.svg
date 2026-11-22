@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="-8 0 116 116">
+  <path fill="#0F3A2B" stroke="#E9E0CC" stroke-width="3" opacity=".65" transform="translate(5 3)" d="M8 8h84v55c0 25-19 40-42 47C27 103 8 88 8 63Z"/>
+  <path fill="#0F3A2B" stroke="#E9E0CC" stroke-width="3" d="M8 8h84v55c0 25-19 40-42 47C27 103 8 88 8 63Z"/>
+  <g fill="none" stroke="#E9E0CC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M14 14h72v49c0 20-16 33-36 41-20-8-36-21-36-41Z M50 14v64 M14 78h72"/>
+    <path d="M22 69Q47 66 71 35 M30 67q-8-8-6-15 11 1 13 12 M48 57q-3-12 5-17 5 7 0 13 M54 55q12 2 16-5-8-4-14 1"/>
+    <path fill="#0F3A2B" d="M71 35c-12 1-12-9-4-9-4-9 7-12 8-3 8-4 13 5 5 8 4 7-5 11-9 4Z"/>
+    <circle cx="73" cy="30" r="1.4"/>
+  </g>
+  <g fill="#E9E0CC" font-family="sans-serif" font-weight="700" text-anchor="middle">
+    <text x="32" y="36" font-size="15">UD</text><text x="50" y="94" font-size="12">1972</text>
+  </g>
+</svg>

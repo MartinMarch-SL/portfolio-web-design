@@ -1,0 +1,15 @@
+---
+import { news } from '../data/season'
+import { photo, route } from '../lib/paths'
+const { limit = news.length, heading: Heading = 'h3' } = Astro.props
+---
+<div class="news-grid">
+  {news.slice(0, limit).map(item => <article>
+    <a class="story" href={route('noticias/' + item.slug + '/')}>
+      <img class="photo" {...photo(item.photo, '(max-width: 630px) 100vw, 33vw')} alt="" loading="lazy" />
+      <p class="eyebrow"><time datetime={item.date}>{item.label}</time> · {item.section}</p>
+      <Heading>{item.title}</Heading>
+      <p>{item.intro}</p>
+    </a>
+  </article>)}
+</div>

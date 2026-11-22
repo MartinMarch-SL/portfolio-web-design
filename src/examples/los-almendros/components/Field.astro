@@ -1,0 +1,19 @@
+---
+interface Props {
+  name: string
+  label: string
+  type?: string
+  options?: [string, string][]
+  required?: boolean
+  autocomplete?: string
+}
+const { name, label, type = 'text', options, required, autocomplete } = Astro.props
+---
+<div class:list={['field', type === 'checkbox' && 'check']}>
+  <label for={name}>{type === 'checkbox' && <input id={name} name={name} type={type} value="si" required={required} aria-describedby={name + '-error'} />}{label}</label>
+  {options ? <select id={name} name={name} required={required} aria-describedby={name + '-error'}>
+    {options.map(([value, text]) => <option value={value}>{text}</option>)}
+  </select> : type === 'textarea' ? <textarea id={name} name={name} rows="3" aria-describedby={name + '-error'}></textarea> :
+    type !== 'checkbox' && <input id={name} name={name} type={type} required={required} autocomplete={autocomplete} aria-describedby={name + '-error'} />}
+  <span id={name + '-error'} class="error" aria-live="polite"></span>
+</div>

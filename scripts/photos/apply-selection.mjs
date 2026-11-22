@@ -19,7 +19,15 @@ if (!selection || typeof selection !== 'object' || Array.isArray(selection)) {
 const candidates = JSON.parse(await readFile(new URL('index.json', candidatesDir), 'utf8'));
 const simonLera = batch === 'candidates-simon-lera';
 const liaFerro = batch === 'candidates-lia-ferro';
-const grouped = simonLera || liaFerro;
+const losAlmendros = batch === 'candidates-los-almendros';
+const grouped = simonLera || liaFerro || losAlmendros;
+const footballCrops = new Map([
+  ['hero', [1600, 1040]], ['entrenamiento', [1200, 800]], ['portero', [1200, 800]],
+  ['chupetines', [1200, 800]], ['atardecer', [1200, 800]], ['historia', [1200, 800]],
+  ['femenino', [1200, 800]], ['juvenil', [1200, 800]], ['disparo', [1200, 800]],
+  ['circulo', [800, 800]], ['cal', [800, 400]], ['campo-municipal', [1200, 800]],
+  ['grada', [1200, 800]],
+]);
 const byNumber = new Map(grouped ? Object.entries(candidates) : candidates.map(photo => [photo.n, photo]));
 const photos = new Map();
 
@@ -55,11 +63,17 @@ for (const [key, number] of Object.entries(selection)) {
   if (liaFerro && !/^(?:trabajo-(?:0[1-9]|1[0-2])|estudio-0[1-3]|retrato-01)$/.test(key)) {
     throw new Error(`Invalid Lía Ferro target: ${key}`);
   }
+  if (losAlmendros && !footballCrops.has(key)) throw new Error(`Invalid Los Almendros target: ${key}`);
   const requestedPath = path.resolve(publicDir, grouped
     ? `examples/${batch.slice(11)}/img/${key}.webp`
     : key.replace(/^public\//, ''));
   if (!requestedPath.startsWith(publicDir + path.sep)) throw new Error(`Invalid target: ${key}`);
-  const target = await realpath(requestedPath);
+  const realDirectory = await realpath(path.dirname(requestedPath));
+  if (realDirectory !== path.dirname(requestedPath)) throw new Error(`Invalid target directory: ${key}`);
+  const target = await realpath(requestedPath).catch(error => {
+    if (losAlmendros && error.code === 'ENOENT') return requestedPath;
+    throw error;
+  });
   if (target !== requestedPath || path.extname(target).toLowerCase() !== '.webp' || targets.has(target)) {
     throw new Error(`Expected a unique existing WebP path under public/: ${key}`);
   }
@@ -69,7 +83,12 @@ for (const [key, number] of Object.entries(selection)) {
   const source = grouped ? photo.source
     : fileURLToPath(new URL(`${String(number).padStart(3, '0')}.webp`, candidatesDir));
   const crop = sharp(source).autoOrient();
-  let { width, height } = await sharp(target).metadata();
+  let width, height;
+  if (losAlmendros) {
+    [width, height] = footballCrops.get(key);
+  } else {
+    ({ width, height } = await sharp(target).metadata());
+  }
   if (liaFerro) {
     if (key.startsWith('trabajo-')) [width, height] = [1120, 1400];
     if (key === 'retrato-01') [width, height] = [1080, 1440];
@@ -124,7 +143,7 @@ async function replaceFile(file, contents) {
 const registered = new Set();
 for (const { target, image, downloadUrl, downloadId, creditsPath, file, credit } of replacements) {
   const credits = await readFile(creditsPath, 'utf8').catch(error => {
-    if (error.code === 'ENOENT') return '# Photo credits\n';
+    if (error.code === 'ENOENT') return grouped ? '# Créditos de fotografía\n' : '# Photo credits\n';
     throw error;
   });
   const lines = credits.trimEnd().split(/\r?\n/)

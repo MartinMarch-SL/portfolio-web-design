@@ -36,6 +36,13 @@ const pages = {
   encargoLia: 'lia-ferro/encargo/',
   flashLia: 'lia-ferro/flash/',
   cuidadosLia: 'lia-ferro/cuidados/',
+  almendros: 'los-almendros/',
+  equiposAlmendros: 'los-almendros/equipos/',
+  noticiasAlmendros: 'los-almendros/noticias/',
+  noticiaAlmendros: 'los-almendros/noticias/una-manana-de-derbis/',
+  competicionAlmendros: 'los-almendros/competicion/',
+  clubAlmendros: 'los-almendros/club/',
+  inscripcionAlmendros: 'los-almendros/inscripcion/',
 }
 
 for (const [width, height] of viewports) {

@@ -1,0 +1,56 @@
+---
+import PortfolioIcons from '../../lib/PortfolioIcons.astro'
+import { ClientRouter } from 'astro:transitions'
+import { route, image } from './lib/paths'
+import { url } from '../../lib/url'
+import '@fontsource/big-shoulders-display/latin-800'
+import '@fontsource/hanken-grotesk/latin-400.css'
+import '@fontsource/hanken-grotesk/latin-700.css'
+import '@fontsource/jetbrains-mono/latin-400.css'
+import './styles/site.css'
+const { title, section = '' } = Astro.props
+const links = [['', 'Inicio'], ['equipos', 'Equipos'], ['noticias', 'Noticias'], ['competicion', 'Competición'], ['club', 'El club'], ['inscripcion', 'Preinscripción']]
+---
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#0F3A2B" />
+  <meta name="description" content="UD Los Almendros, club de fútbol base del barrio desde 1972. Equipos, partidos y preinscripción para la temporada 2026/27." />
+  <title>{title ? title + ' · UD Los Almendros' : 'UD Los Almendros · Fútbol base desde 1972'}</title>
+  <PortfolioIcons name="los-almendros" />
+  <ClientRouter />
+</head>
+<body class="almendros">
+  <a class="skip" href="#contenido">Saltar al contenido</a>
+  <header class="mast">
+    <div class="wrap mast-inner">
+      <a class="brand" href={route()}><img src={image('escudo.svg')} alt="" width="45" height="52" /><span>UD LOS ALMENDROS<small>FÚTBOL BASE · DESDE 1972</small></span></a>
+      <nav class="desktop-nav" aria-label="Principal">
+        {links.map(([path, label]) => <a aria-current={section === path ? 'page' : undefined} href={route(path && path + '/')}>{label}</a>)}
+      </nav>
+      <div class="mobile-nav">
+        <a href={route('inscripcion/')} aria-current={section === 'inscripcion' ? 'page' : undefined}>Preinscripción</a>
+        <button type="button" data-menu-open aria-haspopup="dialog" aria-controls="club-menu">Menú</button>
+      </div>
+    </div>
+  </header>
+  <dialog class="menu-overlay" id="club-menu" aria-label="Menú principal">
+    <div class="wrap menu-inner">
+      <button type="button" data-menu-close autofocus>Cerrar menú</button>
+      <nav aria-label="Principal">
+        {links.map(([path, label]) => <a aria-current={section === path ? 'page' : undefined} href={route(path && path + '/')}>{label}</a>)}
+      </nav>
+    </div>
+  </dialog>
+  <main id="contenido" tabindex="-1"><slot /></main>
+  <footer class="footer" style={`--chalk-photo: url('${image('cal-640w.webp')}')`}><div class="wrap footer-inner">
+    <a class="brand" href={route()}><img src={image('escudo.svg')} alt="" width="45" height="52" /><span>UD LOS ALMENDROS<small>FÚTBOL BASE · DESDE 1972</small></span></a>
+    <span>Club ficticio · Temporada 2026/27</span>
+    <a href={url('')}>Volver al catálogo</a>
+  </div></footer>
+  <script>import './scripts/main'</script>
+</body>
+</html>

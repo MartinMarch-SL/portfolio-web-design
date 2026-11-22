@@ -1,0 +1,15 @@
+# Créditos de fotografía
+
+hero.webp — Foto de Kyle Hinkson en Unsplash (https://unsplash.com/photos/soccer-training-on-green-field-qKOwIJc7LgU)
+entrenamiento.webp — Foto de Ile Ristov en Unsplash (https://unsplash.com/photos/young-boy-dribbling-a-soccer-ball-on-a-field-ocroZaKaoyI)
+portero.webp — Foto de Baylee Gramling en Unsplash (https://unsplash.com/photos/boy-playing-soccer-R5eoT-c-jkY)
+chupetines.webp — Foto de Arseny Togulev en Unsplash (https://unsplash.com/photos/boy-standing-beside-soccer-ball-near-soccer-net-GKLQ8PJuCzI)
+atardecer.webp — Foto de Ahmed Nishaath en Unsplash (https://unsplash.com/photos/children-playing-soccer-on-green-field-LhqoPs_0rTk)
+historia.webp — Foto de NGUYEN DUONG en Unsplash (https://unsplash.com/photos/people-playing-soccer-on-grass-field-0G7Koz_zN3g)
+femenino.webp — Foto de Joppe Spaa en Unsplash (https://unsplash.com/photos/women-playing-soccer-on-green-field-during-daytime-TsYzva0e2pQ)
+juvenil.webp — Foto de Omar Ramadan en Unsplash (https://unsplash.com/photos/2-men-playing-soccer-on-green-grass-field-during-daytime-wdQz3RbcOgQ)
+disparo.webp — Foto de Quilia en Unsplash (https://unsplash.com/photos/children-playing-soccer-on-grass-field-otYC4eoGJGg)
+circulo.webp — Foto de S Nieb en Unsplash (https://unsplash.com/photos/soccer-field-center-circle-from-above-r7oPdtSRdU8)
+cal.webp — Foto de Mark Fletcher-Brown en Unsplash (https://unsplash.com/photos/grass-field-with-white-paint-line-rkfObQclwx4)
+campo-municipal.webp — Foto de Radek Skrzypczak en Unsplash (https://unsplash.com/photos/a-sign-on-the-side-of-a-building-KH4AflV56z4)
+grada.webp — Foto de Daniel Boberg en Unsplash (https://unsplash.com/photos/a-row-of-green-seats-in-a-stadium-7114RrNVZ9A)

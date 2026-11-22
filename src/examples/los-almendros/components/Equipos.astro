@@ -1,0 +1,15 @@
+---
+import Layout from '../Layout.astro'
+import { categories } from '../data/season'
+import { money } from '../lib/registration'
+import { route, photo } from '../lib/paths'
+const categoryPhotos = ['chupetines', 'chupetines', 'entrenamiento', 'femenino', 'femenino', 'entrenamiento', 'juvenil']
+---
+<Layout title="Equipos" section="equipos">
+  <header class="wrap page-head"><p class="eyebrow">TEMPORADA 2026/27</p><h1>Equipos</h1><p>Horarios en el Municipal. La cuota anual incluye ficha federativa, seguro y equipación.</p></header>
+  {categories.map((category, index) => <section class="wrap section team-section" data-reveal>
+    <div><p class="eyebrow">{category.first}–{category.last} · {category.format}</p><h2>{category.name}</h2><p class="eyebrow">CUOTA ANUAL · {money(category.fee * 100)}</p><span class="dorsal" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span><img class="photo section-photo" {...photo(categoryPhotos[index])} alt="" loading="lazy" /></div>
+    <div>{category.teams.map(team => <article class="team"><h3>{team.name}</h3><p>Entrena con {team.coach}</p><p class="eyebrow">{team.days} · {team.time}<br />{team.field}</p></article>)}</div>
+  </section>)}
+  <div class="wrap section"><a class="button primary" href={route('inscripcion/')}>Preinscripción 2026/27</a></div>
+</Layout>

@@ -1,0 +1,6 @@
+---
+import { image } from '../lib/paths'
+---
+<div class="crest" data-crest aria-hidden="true">
+  {[0, 1, 2, 3].map(layer => <img style={`--layer:${layer}`} src={image('escudo.svg')} alt="" width="120" height="139" />)}
+</div>

@@ -1,0 +1,108 @@
+---
+import Layout from '../Layout.astro'
+import Field from './Field.astro'
+import Crest from './Crest.astro'
+import { contact } from '../data/season'
+const yesNo: [string, string][] = [['', 'Selecciona una opción'], ['si', 'Sí'], ['no', 'No']]
+const months = new Intl.DateTimeFormat('es-ES', { month: 'long', timeZone: 'UTC' })
+const steps = ['Categoría', 'Jugador o jugadora', 'Tutor y autorizaciones', 'Resumen']
+---
+<Layout title="Preinscripción" section="inscripcion">
+  <header class="wrap page-head registration-intro">
+    <p class="eyebrow">TEMPORADA 2026/27</p>
+    <h1>Preinscripción</h1>
+    <p>Consulta el grupo, completa la ficha y descarga tu justificante.</p>
+  </header>
+  <section class="wrap section registration" aria-label="Ficha de preinscripción">
+    <p class="demo">Demostración: no se envía ningún dato</p>
+    <noscript><p>Activa JavaScript para completar la preinscripción.</p></noscript>
+    <form data-registration novalidate hidden>
+      <ol class="steps" aria-label="Pasos de la preinscripción">
+        {steps.map((label, index) => <li data-progress={index + 1}><span>{String(index + 1).padStart(2, '0')}</span>{label}</li>)}
+      </ol>
+      <section data-step="1" aria-labelledby="step-1">
+        <h2 id="step-1" tabindex="-1">Categoría</h2>
+        <div data-year-prefill hidden><p data-year-note></p><button class="text-link" type="button" data-confirm-date>Confirmar el 1 de enero</button></div>
+        <div class="fields">
+          <fieldset class="birth-fields">
+            <legend>Fecha de nacimiento</legend>
+            <div>
+              <label>Día<select name="birthDay" required aria-describedby="birth-error">
+                <option value="">Día</option>
+                {Array.from({ length: 31 }, (_, i) => <option value={String(i + 1).padStart(2, '0')}>{i + 1}</option>)}
+              </select></label>
+              <label>Mes<select name="birthMonth" required aria-describedby="birth-error">
+                <option value="">Mes</option>
+                {Array.from({ length: 12 }, (_, i) => <option value={String(i + 1).padStart(2, '0')}>{months.format(Date.UTC(2020, i, 1))}</option>)}
+              </select></label>
+              <label>Año<input name="birthYear" type="text" inputmode="numeric" maxlength="4" required aria-describedby="birth-error" /></label>
+            </div>
+            <p id="birth-error" class="error" aria-live="polite"></p>
+          </fieldset>
+          <Field name="female" label="Sexo (opcional)" options={[[ '', 'Sin indicar'], ['si', 'Femenino'], ['no', 'Masculino']]} />
+        </div>
+        <p>La cuota incluye ficha federativa, seguro y equipación. Matrícula de 40 € para nuevas altas y un 10 % de descuento en la cuota a partir del segundo hermano.</p>
+        <p>Dudas sobre edades o grupos: <a class="text-link" href={'mailto:' + contact}>escribe a secretaría</a>.</p>
+      </section>
+      <section data-step="2" aria-labelledby="step-2" hidden>
+        <h2 id="step-2" tabindex="-1">Jugador o jugadora</h2>
+        <div class="fields">
+          <Field name="name" label="Nombre" required />
+          <Field name="surname" label="Apellidos" required />
+          <Field name="identity" label="DNI o NIE (opcional)" />
+          <Field name="school" label="Centro educativo" required />
+          <Field name="size" label="Talla de equipación" options={[[ '', 'Selecciona una talla'], ...['4', '6', '8', '10', '12', '14', 'XS', 'S', 'M', 'L', 'XL'].map((size): [string, string] => [size, size])]} required />
+          <Field name="played" label="¿Ha jugado antes?" options={yesNo} required />
+          <Field name="member" label="¿Ya ha estado inscrito en el club?" options={yesNo} required />
+        </div>
+        <Field name="sibling" label="Es el segundo hermano o posterior inscrito en el club." type="checkbox" />
+      </section>
+      <section data-step="3" aria-labelledby="step-3" hidden>
+        <h2 id="step-3" tabindex="-1">Tutor y autorizaciones</h2>
+        <div class="fields">
+          <Field name="guardian" label="Nombre y apellidos del tutor o tutora" autocomplete="name" required />
+          <Field name="phone" label="Teléfono" type="tel" autocomplete="tel" required />
+          <Field name="email" label="Correo electrónico" type="email" autocomplete="email" required />
+          <Field name="allergies" label="Alergias y observaciones médicas (opcional)" type="textarea" />
+        </div>
+        <Field name="medical" label="Autorizo al club a solicitar asistencia sanitaria urgente si no puede localizarme." type="checkbox" required />
+        <Field name="image" label="¿Autorizas al club a publicar imágenes del jugador o jugadora en sus canales?" options={yesNo} required />
+        <p>Esta ficha de demostración se guarda en este navegador hasta que pulses «Empezar de nuevo» o borres sus datos. Puedes usar datos ficticios.</p>
+        <Field name="privacy" label="He leído cómo se guardan los datos de esta demostración." type="checkbox" required />
+      </section>
+      <section data-step="4" aria-labelledby="step-4" hidden>
+        <div class="receipt-head"><div><h2 id="step-4" tabindex="-1">Resumen</h2><p class="eyebrow">CÓDIGO DE PREINSCRIPCIÓN</p><strong class="code" data-code></strong></div><Crest /></div>
+        <p data-player></p>
+        <dl class="fee-breakdown">
+          <div><dt>Cuota anual</dt><dd data-base></dd></div>
+          <div><dt>Matrícula</dt><dd data-enrollment></dd></div>
+          <div><dt>Descuento por hermanos</dt><dd data-discount></dd></div>
+          <div><dt>Total</dt><dd data-total></dd></div>
+        </dl>
+        <Field name="instalments" label="Forma de pago" options={[[ '1', 'Un pago'], ['3', 'Tres plazos']]} />
+        <ol class="instalments" data-payments></ol>
+        <button class="button primary" type="button" data-download>Descargar justificante</button>
+      </section>
+      <aside class="ficha" aria-label="Ficha del jugador">
+        <div class="ficha-head">
+          <div><p class="eyebrow">UD LOS ALMENDROS · 2026/27</p><h2>Ficha de jugador</h2></div>
+          <Crest />
+        </div>
+        <p class="ficha-player" data-ficha-player hidden></p>
+        <p class="eyebrow ficha-identity" data-ficha-identity hidden></p>
+        <p class="live" aria-live="polite" data-category><strong data-ficha-category hidden></strong><span data-ficha-schedule>Introduce la fecha para consultar la categoría.</span></p>
+        <dl class="fee-breakdown ficha-fees" data-ficha-fees hidden>
+          <div><dt>Cuota anual</dt><dd></dd></div>
+          <div><dt>Matrícula</dt><dd></dd></div>
+          <div><dt>Descuento por hermanos</dt><dd></dd></div>
+          <div><dt>Total estimado</dt><dd></dd></div>
+        </dl>
+      </aside>
+      <div class="form-actions">
+        <button type="button" data-reset class="text-link">Empezar de nuevo</button>
+        <button type="button" data-back class="button" hidden>Volver</button>
+        <button type="submit" data-next class="button primary">Continuar</button>
+      </div>
+    </form>
+  </section>
+</Layout>

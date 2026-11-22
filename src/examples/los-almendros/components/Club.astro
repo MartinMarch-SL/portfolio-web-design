@@ -1,0 +1,42 @@
+---
+import { photo } from '../lib/paths'
+import Layout from '../Layout.astro'
+import { contact } from '../data/season'
+---
+<Layout title="El club" section="club">
+  <header class="wrap page-head"><p class="eyebrow">FUNDADO EN 1972</p><h1>El club</h1><p>Un campo municipal y varias generaciones de fútbol en Los Almendros.</p></header>
+  <section class="wrap section split editorial" data-reveal>
+    <div><p class="eyebrow">NUESTRA HISTORIA</p><h2>Del solar al Municipal</h2><img class="photo section-photo" {...photo('historia')} alt="Campo de barrio en blanco y negro" loading="lazy" /></div>
+    <div><p>En 1972, un grupo de vecinos marcó con cal un solar junto al camino del vivero. Las primeras porterías las hizo el herrero del barrio y los chavales traían el balón de casa.</p><p>El Municipal abrió en 1989. Con la ampliación de las pistas llegaron los primeros equipos de fútbol 7. Hoy entrenan aquí dieciocho equipos, desde la escuela hasta juvenil, y unas trescientas fichas pasan cada temporada por secretaría.</p></div>
+  </section>
+  <section class="wrap section" data-reveal>
+    <p class="eyebrow">MUNICIPAL LOS ALMENDROS</p><h2>Instalaciones</h2>
+    <div class="split section-photo">
+      <img class="photo" {...photo('campo-municipal')} alt="Vista del terreno de juego y sus gradas" loading="lazy" />
+      <img class="photo" {...photo('grada')} alt="Filas de asientos verdes" loading="lazy" />
+    </div>
+    <figure class="pitch-view" data-pitch>
+      <div class="pitch-board">
+        <svg viewBox="0 0 700 430" fill="none" role="img" aria-label="Plano del campo principal, las dos pistas y los servicios">
+          <g stroke="currentColor" vector-effect="non-scaling-stroke">
+            <path d="M34 35h399v356H34ZM34 213h399m-283-178v67h168V35M150 391v-67h168v67M189 35v27h90V35m-90 356v-27h90v27"/>
+            <circle cx="234" cy="213" r="49"/><circle cx="234" cy="213" r="3"/><circle cx="234" cy="83" r="2"/><circle cx="234" cy="343" r="2"/>
+            <path d="M463 35h203v131H463Zm0 65h203M463 184h203v131H463Zm0 66h203M463 336h126v55H463Zm143 0h60v55h-60Z"/>
+            <circle cx="564" cy="100" r="19"/><circle cx="564" cy="250" r="19"/>
+          </g>
+        </svg>
+        <span style="--x:33%;--y:50%">01</span><span style="--x:81%;--y:23%">02</span><span style="--x:81%;--y:58%">03</span><span style="--x:75%;--y:85%">04</span><span style="--x:91%;--y:85%">05</span>
+      </div>
+      <figcaption><ol><li>Campo de fútbol 11</li><li>Pista oeste · Fútbol 7</li><li>Pista este · Fútbol 7</li><li>Vestuarios</li><li>Cantina</li></ol></figcaption>
+    </figure>
+  </section>
+  <section class="wrap section split" data-reveal>
+    <div><h2>Contacto</h2><p>Municipal Los Almendros<br />Paseo del Vivero, 12 · Barrio de Los Almendros</p><p>Secretaría de lunes a jueves, de 17:00 a 20:00.</p><a class="text-link" href={'mailto:' + contact}>{contact}</a></div>
+    <figure class="map"><svg viewBox="0 0 450 270" role="img" aria-label="El municipal está en el Paseo del Vivero, junto a la Plaza de la Fuente">
+      <path fill="none" stroke="currentColor" d="M0 53h450M0 65h450M60 0v270M73 0v270M0 205h450M0 217h450M370 65v140M382 65v140"/>
+      <path fill="none" stroke="currentColor" d="M179 94h155v85H179zm77 0v85"/><circle cx="256" cy="136" r="17" fill="none" stroke="currentColor"/>
+      <circle cx="162" cy="207" r="6" fill="#E9E0CC"/>
+      <g fill="currentColor" font-family="Hanken Grotesk, sans-serif" font-size="22"><text x="88" y="41">Plaza de la Fuente</text><text x="176" y="196">Municipal</text><text x="91" y="248">Paseo del Vivero</text></g>
+    </svg></figure>
+  </section>
+</Layout>
