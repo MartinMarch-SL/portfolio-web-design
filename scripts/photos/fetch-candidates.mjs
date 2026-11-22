@@ -5,10 +5,19 @@ import sharp from 'sharp';
 import { buildGroupedSheets } from './grouped-sheets.mjs';
 
 const example = process.argv[2] ?? 'ruido';
-if (!['ruido', 'mares', 'simon-lera', 'lia-ferro'].includes(example)) throw new Error(`Unknown example: ${example}`);
-const grouped = ['simon-lera', 'lia-ferro'].includes(example);
+if (!['ruido', 'mares', 'simon-lera', 'lia-ferro', 'los-almendros'].includes(example)) throw new Error(`Unknown example: ${example}`);
+const grouped = ['simon-lera', 'lia-ferro', 'los-almendros'].includes(example);
 const directory = new URL(example === 'ruido' ? './candidates/' : `./candidates-${example}/`, import.meta.url);
-const queries = example === 'lia-ferro' ? [
+const queries = example === 'los-almendros' ? [
+  ['kids football training', 'landscape'],
+  ['youth soccer match', 'landscape'],
+  ['children soccer team', 'landscape'],
+  ['football pitch grass lines', 'landscape'],
+  ['soccer ball grass', 'landscape'],
+  ['football boots grass', 'portrait'],
+  ['empty football stadium stand small', 'landscape'],
+  ['soccer coach kids', 'portrait'],
+] : example === 'lia-ferro' ? [
   ['fine line tattoo', 'portrait'],
   ['blackwork tattoo', 'portrait'],
   ['ornamental tattoo', 'portrait'],
