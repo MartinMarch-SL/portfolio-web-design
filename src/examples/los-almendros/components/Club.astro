@@ -1,14 +1,15 @@
 ---
+import PageHero from './PageHero.astro'
 import { photo } from '../lib/paths'
 import Layout from '../Layout.astro'
 import { contact } from '../data/season'
 ---
 <Layout title="El club" section="club">
-  <header class="wrap page-head"><p class="eyebrow">FUNDADO EN 1972</p><h1>El club</h1><p>Un campo municipal y varias generaciones de fútbol en Los Almendros.</p></header>
-  <section class="wrap section split editorial" data-reveal>
+  <PageHero><p class="eyebrow">FUNDADO EN 1972</p><h1>El club</h1><p>Un campo municipal y varias generaciones de fútbol en Los Almendros.</p></PageHero>
+  <div class="programme"><section class="wrap section split editorial" data-reveal>
     <div><p class="eyebrow">NUESTRA HISTORIA</p><h2>Del solar al Municipal</h2><img class="photo section-photo" {...photo('historia')} alt="Campo de barrio en blanco y negro" loading="lazy" /></div>
     <div><p>En 1972, un grupo de vecinos marcó con cal un solar junto al camino del vivero. Las primeras porterías las hizo el herrero del barrio y los chavales traían el balón de casa.</p><p>El Municipal abrió en 1989. Con la ampliación de las pistas llegaron los primeros equipos de fútbol 7. Hoy entrenan aquí dieciocho equipos, desde la escuela hasta juvenil, y unas trescientas fichas pasan cada temporada por secretaría.</p></div>
-  </section>
+  </section></div>
   <section class="wrap section" data-reveal>
     <p class="eyebrow">MUNICIPAL LOS ALMENDROS</p><h2>Instalaciones</h2>
     <div class="split section-photo">
@@ -16,7 +17,7 @@ import { contact } from '../data/season'
       <img class="photo" {...photo('grada')} alt="Filas de asientos verdes" loading="lazy" />
     </div>
     <figure class="pitch-view" data-pitch>
-      <div class="pitch-board">
+      <div class="pitch-board turf">
         <svg viewBox="0 0 700 430" fill="none" role="img" aria-label="Plano del campo principal, las dos pistas y los servicios">
           <g stroke="currentColor" vector-effect="non-scaling-stroke">
             <path d="M34 35h399v356H34ZM34 213h399m-283-178v67h168V35M150 391v-67h168v67M189 35v27h90V35m-90 356v-27h90v27"/>

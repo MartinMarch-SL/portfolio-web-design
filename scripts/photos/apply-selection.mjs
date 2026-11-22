@@ -26,7 +26,8 @@ const footballCrops = new Map([
   ['chupetines', [1200, 800]], ['atardecer', [1200, 800]], ['historia', [1200, 800]],
   ['femenino', [1200, 800]], ['juvenil', [1200, 800]], ['disparo', [1200, 800]],
   ['circulo', [800, 800]], ['cal', [800, 400]], ['campo-municipal', [1200, 800]],
-  ['grada', [1200, 800]],
+  ['grada', [1200, 800]], ['cesped-perspectiva', [1440, 960]],
+  ['cesped-franjas', [960, 640]], ['cesped-cenital', [1280, 850]],
 ]);
 const byNumber = new Map(grouped ? Object.entries(candidates) : candidates.map(photo => [photo.n, photo]));
 const photos = new Map();

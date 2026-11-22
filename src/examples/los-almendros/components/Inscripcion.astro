@@ -1,4 +1,5 @@
 ---
+import PageHero from './PageHero.astro'
 import Layout from '../Layout.astro'
 import Field from './Field.astro'
 import Crest from './Crest.astro'
@@ -8,11 +9,11 @@ const months = new Intl.DateTimeFormat('es-ES', { month: 'long', timeZone: 'UTC'
 const steps = ['Categoría', 'Jugador o jugadora', 'Tutor y autorizaciones', 'Resumen']
 ---
 <Layout title="Preinscripción" section="inscripcion">
-  <header class="wrap page-head registration-intro">
+  <PageHero class="registration-intro">
     <p class="eyebrow">TEMPORADA 2026/27</p>
     <h1>Preinscripción</h1>
     <p>Consulta el grupo, completa la ficha y descarga tu justificante.</p>
-  </header>
+  </PageHero>
   <section class="wrap section registration" aria-label="Ficha de preinscripción">
     <p class="demo">Demostración: no se envía ningún dato</p>
     <noscript><p>Activa JavaScript para completar la preinscripción.</p></noscript>
@@ -83,7 +84,7 @@ const steps = ['Categoría', 'Jugador o jugadora', 'Tutor y autorizaciones', 'Re
         <ol class="instalments" data-payments></ol>
         <button class="button primary" type="button" data-download>Descargar justificante</button>
       </section>
-      <aside class="ficha" aria-label="Ficha del jugador">
+      <aside class="ficha turf" aria-label="Ficha del jugador">
         <div class="ficha-head">
           <div><p class="eyebrow">UD LOS ALMENDROS · 2026/27</p><h2>Ficha de jugador</h2></div>
           <Crest />

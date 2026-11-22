@@ -13,3 +13,6 @@ circulo.webp — Foto de S Nieb en Unsplash (https://unsplash.com/photos/soccer-
 cal.webp — Foto de Mark Fletcher-Brown en Unsplash (https://unsplash.com/photos/grass-field-with-white-paint-line-rkfObQclwx4)
 campo-municipal.webp — Foto de Radek Skrzypczak en Unsplash (https://unsplash.com/photos/a-sign-on-the-side-of-a-building-KH4AflV56z4)
 grada.webp — Foto de Daniel Boberg en Unsplash (https://unsplash.com/photos/a-row-of-green-seats-in-a-stadium-7114RrNVZ9A)
+cesped-perspectiva.webp — Foto de Se. Tsuchiya en Unsplash (https://unsplash.com/photos/green-grass-field-during-daytime-1wAmm_d2TDM)
+cesped-franjas.webp — Foto de Pete Alexopoulos en Unsplash (https://unsplash.com/photos/a-baseball-player-standing-on-top-of-a-lush-green-field-rdIYSoh9L80)
+cesped-cenital.webp — Foto de S Nieb en Unsplash (https://unsplash.com/photos/green-grass-field-with-mowing-stripes-qR-m9KrVJKM)

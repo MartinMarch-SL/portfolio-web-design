@@ -1,3 +1,4 @@
+import { mountStadium } from './stadium'
 import { categoryForBirthDate, money } from '../lib/registration'
 
 let controller: AbortController | undefined
@@ -7,6 +8,7 @@ document.addEventListener('astro:page-load', () => {
   if (!document.body.classList.contains('almendros')) return
   controller = new AbortController()
   const { signal } = controller
+  mountStadium(signal)
   const menu = document.querySelector<HTMLDialogElement>('#club-menu')!
   const openMenu = document.querySelector<HTMLButtonElement>('[data-menu-open]')!
   openMenu.addEventListener('click', () => menu.showModal(), { signal })

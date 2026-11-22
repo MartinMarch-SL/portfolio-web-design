@@ -1,0 +1,8 @@
+---
+import PitchLines from './PitchLines.astro'
+const { class: className } = Astro.props
+---
+<header class="page-hero turf">
+  <PitchLines />
+  <div class:list={['wrap', 'page-head', className]}><slot /></div>
+</header>

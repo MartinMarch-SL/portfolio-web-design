@@ -1,0 +1,21 @@
+---
+const { draw = false } = Astro.props
+---
+<svg class="pitch-lines" viewBox="0 0 1080 680" preserveAspectRatio="none" aria-hidden="true">
+  {draw && <defs>
+    <clipPath id="stadium-chalk"><rect class="chalk-reveal" width="1080" height="680" /></clipPath>
+    <pattern id="chalk-grain" width="11" height="13" patternUnits="userSpaceOnUse">
+      <rect width="11" height="13" fill="#fff" />
+      <path d="M1 2h.8 M5 4h1.3 M9 1l.5 .5 M2 8l.7 .4 M7 10h1 M10 7h.5 M4 12h.6"
+        stroke="#536355" stroke-width=".6" opacity=".42" />
+    </pattern>
+  </defs>}
+  <g clip-path={draw ? 'url(#stadium-chalk)' : undefined} opacity={draw ? .85 : undefined}>
+    <g fill="none" stroke={draw ? 'url(#chalk-grain)' : 'currentColor'} stroke-width={draw ? 1.5 : 2.5}>
+      <path d="M20 20H1060V660H20Z" />
+      <path d="M540 20V660 M20 140H190V540H20 M1060 140H890V540H1060 M20 245H77V435H20 M1060 245H1003V435H1060 M190 264A90 90 0 0 1 190 416 M890 264A90 90 0 0 0 890 416" />
+      <circle cx="540" cy="340" r="94" />
+    </g>
+    <circle cx="540" cy="340" r="5" fill={draw ? 'url(#chalk-grain)' : 'currentColor'} />
+  </g>
+</svg>

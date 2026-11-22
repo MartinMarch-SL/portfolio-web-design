@@ -1,0 +1,19 @@
+---
+import { image } from '../lib/paths'
+---
+<section class="programme">
+  <div class="wrap section kits" data-reveal>
+    <div><p class="eyebrow">TEMPORADA 2026/27</p><h2>Nuestras equipaciones</h2></div>
+    <div class="kit-pair">
+      {[['Primera equipación', 'home'], ['Segunda equipación', 'away']].map(([label, variant]) => <figure class:list={['kit', variant]}>
+        <svg class="kit-shirt" viewBox="0 0 260 255" aria-hidden="true">
+          <path class="kit-fabric" d="M89 25 112 15Q130 29 148 15L171 25 202 37 251 94 211 129 189 106V238H71V106L49 129 9 94 58 37Z" />
+          <path class="kit-trim" d="M89 25 112 15Q130 29 148 15L171 25Q155 52 130 58 105 52 89 25ZM9 94l7-8 40 35-7 8ZM251 94l-7-8-40 35 7 8Z" />
+          <path class="kit-seam" d="M58 37Q72 65 71 106 M202 37Q188 65 189 106 M78 229H182" />
+          <image href={image('escudo.svg')} x="146" y="68" width="29" height="34" />
+        </svg>
+        <figcaption>{label}</figcaption>
+      </figure>)}
+    </div>
+  </div>
+</section>

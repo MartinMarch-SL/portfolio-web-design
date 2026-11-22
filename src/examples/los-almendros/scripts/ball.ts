@@ -6,27 +6,31 @@ attribute vec3 position, normal;
 attribute float tone, edge;
 uniform mat4 modelViewMatrix, projectionMatrix;
 uniform mat3 normalMatrix;
-varying vec3 surface;
+varying vec3 surface, viewPosition;
 varying float panel, edgeDistance;
 void main() {
   surface = normalMatrix * normal;
   panel = tone;
   edgeDistance = edge;
-  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.);
+  vec4 point = modelViewMatrix * vec4(position, 1.);
+  viewPosition = point.xyz;
+  gl_Position = projectionMatrix * point;
 }`
 const fragment = `
 precision mediump float;
-varying vec3 surface;
+varying vec3 surface, viewPosition;
 varying float panel, edgeDistance;
 
 void main() {
   vec3 n = normalize(surface);
-  float light = max(dot(n, normalize(vec3(-.68,.72,.25))), 0.);
-  vec3 cream = mix(vec3(.91,.87,.80), vec3(.74,.70,.62), panel);
-  float seam = 1. - smoothstep(.005, .027, edgeDistance);
-  vec3 pigment = mix(cream, vec3(.33,.30,.24), seam);
-  float rim = pow(1. - max(n.z, 0.), 3.) * .12;
-  gl_FragColor = vec4(pigment * (.47 + light * .58) + rim, 1.);
+  vec3 floodlight = normalize(vec3(-.65, .78, .8));
+  float diffuse = max(dot(n, floodlight), 0.);
+  vec3 halfway = normalize(floodlight + normalize(-viewPosition));
+  float specular = pow(max(dot(n, halfway), 0.), 22.) * diffuse * .09;
+  vec3 leather = mix(vec3(244., 241., 234.), vec3(16., 36., 27.), panel) / 255.;
+  float seam = 1. - smoothstep(.002, .017, edgeDistance);
+  vec3 pigment = mix(leather, leather * .62, seam);
+  gl_FragColor = vec4(pigment * (.48 + diffuse * .52) + specular, 1.);
 }`
 
 export function mountBall(stage: HTMLElement, signal: AbortSignal) {
