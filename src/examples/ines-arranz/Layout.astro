@@ -3,7 +3,9 @@ import PortfolioIcons from '../../lib/PortfolioIcons.astro'
 import { url } from '../../lib/url'
 import '@fontsource-variable/newsreader/opsz.css'
 import '@fontsource-variable/newsreader/opsz-italic.css'
-import '@fontsource-variable/inter-tight'
+import '@fontsource/geist-sans/latin-400.css'
+import '@fontsource/geist-sans/latin-500.css'
+import '@fontsource/geist-sans/latin-600.css'
 import './styles/base.css'
 
 const { title, description = 'Psicología en Ruzafa, Valencia, y online.' } = Astro.props
@@ -14,7 +16,7 @@ const links = [['', 'Inicio'], ['sobre-mi/', 'Sobre mí'], ['blog/', 'Cuaderno']
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#F3EFE7" />
+    <meta name="theme-color" content="#ECEAE6" />
     <meta name="robots" content="noindex, nofollow" />
     <meta name="description" content={description} />
     <PortfolioIcons />

@@ -16,7 +16,7 @@ const posts = await getPosts()
   </div>
   <p data-filter-status role="status" hidden></p>
   <div class="essay-index" data-post-list>
-    {posts.map((post, index) => <PostCard {post} number={index + 1} />)}
+    {posts.map(post => <PostCard {post} />)}
   </div>
 </div>
 <script>

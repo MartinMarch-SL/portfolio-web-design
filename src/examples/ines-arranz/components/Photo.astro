@@ -7,9 +7,12 @@ interface Props {
   sizes?: string
   eager?: boolean
   alt?: string
+  layered?: boolean
 }
-const { name, width = 1080, height = 1350, sizes = '(max-width: 720px) 100vw, 50vw', eager = false, alt = '' } = Astro.props
+const { name, width = 1080, height = 1350, sizes = '(max-width: 720px) 100vw, 50vw', eager = false, alt = '', layered = false } = Astro.props
+const source = responsiveImage(`examples/ines-arranz/img/${name}.webp`, sizes, width)
 ---
-<div class="photo" data-reveal-image>
-  <img {...responsiveImage(`examples/ines-arranz/img/${name}.webp`, sizes, width)} {alt} {width} {height} loading={eager ? 'eager' : 'lazy'} decoding="async" />
+<div class="photo" data-reveal-image data-layered={layered || undefined}>
+  {layered && <div class="portrait-light" aria-hidden="true"></div>}
+  <img {...source} {alt} {width} {height} loading={eager ? 'eager' : 'lazy'} decoding="async" />
 </div>

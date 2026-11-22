@@ -5,12 +5,10 @@ import { readingTime } from '../lib/blog'
 import Photo from './Photo.astro'
 interface Props {
   post: CollectionEntry<'inesPosts'>
-  number?: number
 }
-const { post, number } = Astro.props
+const { post } = Astro.props
 ---
 <article class="essay-row" data-category={post.data.category}>
-  {number && <span class="eyebrow essay-number">Nº {String(number).padStart(2, '0')}</span>}
   <div>
     <h2><a href={url(`ines-arranz/blog/${post.id}/`)}>{post.data.title}</a></h2>
     <p class="eyebrow">{post.data.category} · {readingTime(post.body ?? '')} min</p>

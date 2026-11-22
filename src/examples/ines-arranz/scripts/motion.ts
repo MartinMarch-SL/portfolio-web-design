@@ -37,14 +37,14 @@ function startMotion() {
 
   const session = document.querySelector<HTMLElement>('[data-session]')
   if (session) {
-    const needle = session.querySelector<HTMLElement>('.needle-track')!
+    const dial = session.querySelector<HTMLElement>('.dial-ring')!
     const moments = Array.from(session.querySelectorAll<HTMLElement>('.moments li'))
-    const marks = [0, 8, 25, 40, 47]
+    const marks = moments.map(moment => Number(moment.dataset.minute))
     let active = -1
     changeSlide(moments, 0)
     session.classList.add('enhanced')
     const stop = scroll(progress => {
-      needle.style.transform = 'translateX(' + progress * 100 + '%)'
+      dial.style.setProperty('--turn', `${-progress * 300}deg`)
       const current = marks.findLastIndex(mark => mark <= progress * 50)
       if (current !== active) {
         active = current
@@ -54,7 +54,7 @@ function startMotion() {
     cleanups.push(() => {
       stop()
       session.classList.remove('enhanced')
-      needle.style.removeProperty('transform')
+      dial.style.removeProperty('--turn')
       moments.forEach(moment => moment.removeAttribute('aria-hidden'))
     })
   }
@@ -66,6 +66,18 @@ function startMotion() {
     cleanups.push(() => {
       stop()
       image.style.removeProperty('transform')
+    })
+  }
+
+  for (const portrait of document.querySelectorAll<HTMLElement>('[data-layered]')) {
+    const stop = scroll(progress => {
+      portrait.style.setProperty('--portrait-offset', `${(progress - .5) * 6}%`)
+      portrait.style.setProperty('--light-offset', `${(.5 - progress) * 13}%`)
+    }, { target: portrait, offset: ['start end', 'end start'] })
+    cleanups.push(() => {
+      stop()
+      portrait.style.removeProperty('--portrait-offset')
+      portrait.style.removeProperty('--light-offset')
     })
   }
 
