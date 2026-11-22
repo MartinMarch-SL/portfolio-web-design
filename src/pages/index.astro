@@ -1,51 +1,64 @@
 ---
 import Layout from '../showcase/Layout.astro'
-import { projects } from '../showcase/projects'
+import { kinds, projects } from '../showcase/projects'
 import { url } from '../lib/url'
-import { responsiveImage } from '../lib/responsive-image'
-
-const clock = new Intl.DateTimeFormat('es-ES', {
-  timeZone: 'Europe/Madrid', hour: '2-digit', minute: '2-digit', hourCycle: 'h23',
-})
+import '@fontsource-variable/archivo/wdth.css'
+import '@fontsource/jetbrains-mono/400.css'
 ---
 <Layout>
   <div class="catalogue">
     <header class="catalogue-header">
-      <h1>Catálogo de proyectos</h1>
-      <div class="catalogue-meta">
-        <nav aria-label="Menú del catálogo"><a class="encargo-link" href={url('encargo/')}>Encargo</a></nav>
-        <p>Edición 2026 <span class="clock">Madrid <time data-madrid-clock>{clock.format()}</time></span></p>
-      </div>
+      <a href={url('')}>Catálogo de proyectos</a>
+      <nav aria-label="Menú del catálogo">
+        <a href={url('#webs')}>Webs</a>
+        <a href={url('encargo/')}>Encargo</a>
+      </nav>
     </header>
     <main>
-      <p class="intro">Webs a medida para negocios que cuidan los detalles.</p>
-      <ol class="projects">
-        {projects.map((project, index) => {
-          const Tag = project.href ? 'a' : 'div'
-          return (
-            <li data-project data-status={project.status} style={`--row: ${index}`}>
-              <Tag class="project" href={project.href} data-preview={project.preview ? true : undefined}>
-                <span class="number">{project.n}</span>
-                <h2 class="name"><span>{project.name}{project.href && <span class="arrow" aria-hidden="true">→</span>}</span></h2>
-                <div class="sector">
-                  <span>{project.sector}</span>
-                  {project.status === 'soon' && <span class="status">En preparación</span>}
-                </div>
-                {project.preview && (
-                  <template data-preview-image>
-                    <img class="floating-preview" {...responsiveImage(project.preview, '280px')} alt="" width="280" height="350" fetchpriority="high" aria-hidden="true" />
-                  </template>
-                )}
-              </Tag>
-            </li>
-          )
-        })}
-      </ol>
+      <h1 class="display">Webs<br /> a medida.</h1>
+      <section id="webs" aria-label="Webs por tipo" data-carousel>
+        <div class="filters" role="group" aria-label="Tipo de web" hidden>
+          {['Todas', ...kinds].map((kind, index) => (
+            <button type="button" data-filter={index === 0 ? '' : kind} aria-pressed={index === 0 ? 'true' : 'false'}>
+              {kind} <span>{index === 0 ? projects.length : projects.filter(project => project.kind === kind).length}</span>
+            </button>
+          ))}
+        </div>
+        <div class="stage" data-stage>
+          <ol class="screens" data-screens aria-label="Proyectos">
+            {projects.map(project => (
+              <li data-project data-kind={project.kind} data-sector={project.sector}>
+                <a class="screen" href={project.href} aria-label={project.name} draggable="false">
+                  <img class="screen-desktop" src={project.desktop} alt="" width="1440" height="900" draggable="false" />
+                  <img class="screen-mobile" src={project.mobile} alt="" width="375" height="812" draggable="false" />
+                  <span class="screen-name">{project.name}</span>
+                </a>
+              </li>
+            ))}
+          </ol>
+        </div>
+        <div class="selection" data-selection hidden>
+          <div aria-live="polite" aria-atomic="true">
+            <h2 class="display" data-name>{projects[0].name}</h2>
+            <p data-details>{projects[0].kind} · {projects[0].sector}</p>
+          </div>
+          <div class="actions">
+            <a data-open href={projects[0].href}>Ver web</a>
+            <div role="group" aria-label="Navegación de proyectos">
+              <button type="button" data-direction="-1">Anterior</button>
+              <button type="button" data-direction="1">Siguiente</button>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
-    <footer class="catalogue-footer">Disponible bajo petición · 2026</footer>
+    <footer class="catalogue-footer">
+      <p>Encargo</p>
+      <h2 class="display">Tu web empieza aquí.</h2>
+      <a href={url('encargo/')}>Preparar un encargo</a>
+    </footer>
   </div>
 </Layout>
 <script>
-  import '../showcase/index-reveal'
-  import '../showcase/preview-cursor'
+  import '../showcase/carousel'
 </script>

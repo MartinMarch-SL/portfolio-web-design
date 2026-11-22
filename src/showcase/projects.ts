@@ -1,19 +1,18 @@
 import { url } from '../lib/url'
 
-interface Project {
-  n: string
-  name: string
-  sector: string
-  href?: string
-  preview?: string
-  status: 'live' | 'soon'
-}
+export const kinds = ['Tienda online', 'Reservas y citas', 'Portfolio', 'Catálogo', 'Hostelería'] as const
 
-export const projects: Project[] = [
-  { n: '01', name: 'RUIDO', sector: 'Moda urbana', href: url('ruido/'), preview: 'showcase/img/ruido-preview.webp', status: 'live' },
-  { n: '02', name: 'Bar Caribe', sector: 'Bar de barrio', href: url('bar-caribe/'), preview: 'showcase/img/bar-caribe-preview.webp', status: 'live' },
-  { n: '03', name: 'Inés Arranz', sector: 'Psicología', href: url('ines-arranz/'), preview: 'showcase/img/ines-arranz-preview.webp', status: 'live' },
-  { n: '04', name: 'Marès', sector: 'Inmobiliaria', href: url('mares/'), preview: 'showcase/img/mares-preview.webp', status: 'live' },
-  { n: '05', name: 'Simón Lera', sector: 'Pintura', href: url('simon-lera/'), preview: 'showcase/img/simon-lera-preview.webp', status: 'live' },
-  { n: '06', name: 'Lía Ferro', sector: 'Tatuaje', href: url('lia-ferro/'), preview: 'showcase/img/lia-ferro-preview.webp', status: 'live' },
-]
+const entries = [
+  ['ruido', 'RUIDO', 'Moda urbana', 'Tienda online'],
+  ['bar-caribe', 'Bar Caribe', 'Bar de barrio', 'Hostelería'],
+  ['ines-arranz', 'Inés Arranz', 'Psicología', 'Reservas y citas'],
+  ['mares', 'Marès', 'Inmobiliaria', 'Catálogo'],
+  ['simon-lera', 'Simón Lera', 'Pintura', 'Portfolio'],
+  ['lia-ferro', 'Lía Ferro', 'Tatuaje', 'Reservas y citas'],
+] satisfies [string, string, string, typeof kinds[number]][]
+
+export const projects = entries.map(([slug, name, sector, kind]) => ({
+  name, sector, kind, href: url(`${slug}/`),
+  desktop: url(`showcase/img/screens/${slug}-desktop.webp`),
+  mobile: url(`showcase/img/screens/${slug}-mobile.webp`),
+}))

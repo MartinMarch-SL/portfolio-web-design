@@ -20,7 +20,7 @@ button, summary, label:has([type=radio], [type=checkbox]), input[type=range] { c
 }
 .masthead span { text-align:right; }
 .masthead-divider { margin:0 .3em; }
-.desk { max-width:1660px; margin:auto; padding:clamp(1.5rem,4vw,4rem) clamp(1rem,4.4vw,5rem) 4rem; display:grid; grid-template-columns:minmax(0, .91fr) minmax(0, 1.09fr); gap:clamp(1.25rem,4vw,5rem); align-items:start; }
+.desk { max-width:1660px; margin:auto; padding:clamp(1.5rem,4vw,4rem) clamp(1rem,4.4vw,5rem) 4rem; display:grid; grid-template-columns:minmax(0, .86fr) minmax(0, 1.14fr); gap:clamp(1.25rem,3.5vw,4rem); align-items:start; }
 .work { min-width:0; }
 .ruler { font:400 .72rem/1.3 var(--mono); text-transform:uppercase; letter-spacing:.07em; }
 .ticks { display:grid; grid-template-columns:repeat(6,1fr); gap:5px; margin:.8rem 0 1.2rem; }
@@ -28,10 +28,18 @@ button, summary, label:has([type=radio], [type=checkbox]), input[type=range] { c
 .ticks i::after { content:''; position:absolute; inset:0 0 auto; border-top:2px solid var(--tinta); opacity:0; transition:opacity .65s var(--ease); }
 .ticks i[data-done]::after { opacity:.4; }
 .ticks i[data-current]::after { opacity:1; }
-.brief { position:relative; perspective:1500px; }
+.sheet-stack { position:relative; perspective:1500px; isolation:isolate; margin-bottom:.7rem; }
+.sheet-stack::before, .sheet-stack::after, .paper-edge {
+  content:""; position:absolute; z-index:-1; inset:2px 3px; pointer-events:none;
+  background:var(--gesso) var(--grain); border:1px solid #d8d0c2;
+  box-shadow:0 2px 4px #594a3533;
+}
+.sheet-stack::before { transform:translate(4px, 7px) rotate(.65deg); background-color:#eae5da; }
+.sheet-stack::after { transform:translate(-4px, 4px) rotate(-.55deg); background-color:#f2eee5; }
+.paper-edge { transform:translate(1px, 10px) rotate(.25deg); background-color:#f7f4ec; }
 .sheet {
   padding:clamp(1.1rem,2.7vw,2.75rem); background:var(--gesso); border:1px solid #e5e0d6;
-  box-shadow:0 1px 2px #3f34241a, 0 5px 0 -3px #e0dad0, 0 8px 0 -5px #f8f5ee, 0 21px 30px -24px #392e2180;
+  position:relative; box-shadow:0 1px 2px #3f34242a, 0 14px 27px -17px #392e2160;
   transform-origin:50% 8%; min-width:0;
 }
 .sheet header { margin-bottom:1.7rem; }
@@ -104,11 +112,15 @@ dialog::backdrop { background:#1a191766; }
 .preview-caption span { overflow-wrap:anywhere; }
 .preview-caption span:last-child { text-align:right; }
 .table {
-  position:relative; isolation:isolate; display:grid; place-items:center; margin:.75rem 0; aspect-ratio:1.13;
-  overflow:hidden; background:#e9e4d9; box-shadow:inset 0 12px 35px #fbfaf6a3, inset 0 -25px 65px #7c6b4f28;
+  position:relative; isolation:isolate; display:grid; place-items:center; margin:.75rem 0; aspect-ratio:1.36;
+  overflow:hidden; background-color:#e9e4d9; box-shadow:inset 0 12px 35px #fbfaf6a3, inset 0 -25px 65px #7c6b4f28;
 }
 .table-lines { position:absolute; inset:7%; border:1px solid #f9f5ebaa; box-shadow:0 0 0 1px #bdb4a63d; pointer-events:none; }
-.flat { width:86%; position:relative; margin:.5rem 0 0; }
+.flat { width:94%; position:relative; margin:.5rem 0 0; perspective:900px; }
+@media (min-width:801px) {
+  .flat .desktop-frame { transform:rotateX(9deg) rotateY(-13deg); }
+  .flat .phone-frame { transform:translateZ(28px) rotateX(7deg) rotateY(14deg); }
+}
 .desktop-frame, .phone-frame { overflow:hidden; background:#302d28; border:1px solid #3d382f; box-shadow:0 1px 2px #30281b80, 3px 7px 10px #30281b44, 9px 21px 30px -9px #30281b65; }
 .desktop-frame { width:83%; padding:0 3px 3px; border-radius:4px; }
 .desktop-frame span { display:block; height:14px; }
@@ -150,7 +162,8 @@ pre { font:400 .75rem/1.6 var(--mono); white-space:pre-wrap; overflow-wrap:anywh
   *, *::before, *::after { animation:none !important; transition:none !important; }
 }
 
-.sheet, .table, .swatches { background-image:var(--grain); }
+.sheet, .swatches { background-image:var(--grain); }
+.table { background-image:var(--grain), radial-gradient(ellipse at 30% 22%, #f8f5ed, #e4ddd0 76%); }
 .sheet.departing { position:absolute; z-index:1; inset:0 0 auto; pointer-events:none; }
 .controls { z-index:3; }
 :is(.chip,.sample,.artifact) input:focus-visible { outline:none; }

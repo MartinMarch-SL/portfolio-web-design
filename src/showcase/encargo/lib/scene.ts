@@ -22,13 +22,14 @@ export function createScene(host: HTMLElement, desktop: HTMLCanvasElement, phone
   const bodyProgram = new Program(gl, {
     vertex: `attribute vec3 position, normal;
       uniform mat4 modelViewMatrix, projectionMatrix;
+      uniform mat3 normalMatrix;
       varying vec3 vNormal;
-      void main() { vNormal = normal; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
+      void main() { vNormal = normalMatrix * normal; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
     fragment: `precision mediump float;
       varying vec3 vNormal;
       void main() {
-        float light = 0.52 + 0.48 * max(0.0, dot(normalize(vNormal), normalize(vec3(-.35,.85,.65))));
-        gl_FragColor = vec4(vec3(.28,.26,.22) * light,1.);
+        float light = 0.31 + 0.69 * max(0.0, dot(normalize(vNormal), normalize(vec3(-.55,.7,.62))));
+        gl_FragColor = vec4(vec3(.42,.38,.32) * light,1.);
       }`,
   })
   const blend = { value: 1 }
@@ -40,15 +41,15 @@ export function createScene(host: HTMLElement, desktop: HTMLCanvasElement, phone
     group.setParent(world)
 
     const shadow = new Mesh(gl, {
-      geometry: new Plane(gl, { width: width * 1.65, height: height * 1.45 }),
+      geometry: new Plane(gl, { width: width * 1.53, height: height * 1.28 }),
       program: new Program(gl, {
         vertex, transparent: true, depthWrite: false, depthTest: true,
         fragment: `precision mediump float;
           varying vec2 vUv;
           void main() {
             vec2 p = abs(vUv * 2. - 1.);
-            float ambient = pow(max(0., 1. - dot(p,p)), 2.5) * .22;
-            float contact = pow(max(0., 1. - length(p * vec2(1.32,1.55))), 2.) * .32;
+            float ambient = pow(max(0., 1. - dot(p,p)), 2.6) * .29;
+            float contact = pow(max(0., 1. - length(p * vec2(1.18,2.2))), 2.) * .44;
             gl_FragColor = vec4(.24,.19,.12,ambient + contact);
           }`,
       }),
@@ -57,7 +58,7 @@ export function createScene(host: HTMLElement, desktop: HTMLCanvasElement, phone
     shadow.setParent(world)
 
     const caseMesh = new Mesh(gl, {
-      geometry: new Box(gl, { width: width + .14, height: height + (mobile ? .18 : .28), depth: mobile ? .15 : .12 }),
+      geometry: new Box(gl, { width: width + .14, height: height + (mobile ? .18 : .28), depth: mobile ? .23 : .25 }),
       program: bodyProgram,
     })
     caseMesh.setParent(group)
@@ -65,7 +66,7 @@ export function createScene(host: HTMLElement, desktop: HTMLCanvasElement, phone
       geometry: new Box(gl, { width: width + .065, height: height + (mobile ? .1 : .2), depth: .06 }),
       program: bodyProgram,
     })
-    lip.position.z = .06
+    lip.position.z = .135
     lip.setParent(group)
 
     const previous = document.createElement('canvas')
@@ -86,7 +87,7 @@ export function createScene(host: HTMLElement, desktop: HTMLCanvasElement, phone
           void main() { gl_FragColor = mix(texture2D(previous,vUv), texture2D(current,vUv), blend); }`,
       }),
     })
-    screen.position.set(0, mobile ? 0 : -.055, .093)
+    screen.position.set(0, mobile ? 0 : -.055, .169)
     screen.setParent(group)
     return { group, shadow, canvas, current, old, previousCtx }
   })
@@ -115,14 +116,15 @@ export function createScene(host: HTMLElement, desktop: HTMLCanvasElement, phone
     blend.value = progress * progress * (3 - 2 * progress)
     const slow = time * .00085
     const [large, small] = devices
-    large.group.position.set(-.55, .25 + depth * Math.sin(slow) * .075, 0)
-    large.group.rotation.set(-.12 + pointerY * .15 * depth, .19 + pointerX * .19 * depth, .023)
-    small.group.position.set(2.06, -.69 + depth * Math.sin(slow + 1.1) * .095, .83)
-    small.group.rotation.set(-.14 + pointerY * .17 * depth, -.24 + pointerX * .2 * depth, -.09)
-    large.shadow.position.set(-.22, -.36, -.92)
-    large.shadow.rotation.z = .04
-    small.shadow.position.set(2.33, -1.08, -.18)
-    world.scale.set(.87 * Math.min(1, aspect / 1.13))
+    large.group.position.set(-.55, .27 + depth * Math.sin(slow) * .045, -.18)
+    large.group.rotation.set(-.24 + pointerY * .13 * depth, .37 + pointerX * .17 * depth, .035)
+    small.group.position.set(1.89, -.65 + depth * Math.sin(slow + 1.1) * .05, .94)
+    small.group.rotation.set(-.15 + pointerY * .16 * depth, -.39 + pointerX * .19 * depth, -.115)
+    large.shadow.position.set(-.15, -1.47, -.85)
+    large.shadow.rotation.set(-.83, .08, -.06)
+    small.shadow.position.set(2.08, -1.74, -.16)
+    small.shadow.rotation.set(-.92, -.1, -.08)
+    world.scale.set(1.11 * Math.min(1, aspect / 1.35, 1.62 / aspect))
     renderer.render({ scene: world, camera })
     if (depth || progress < 1) frame = requestAnimationFrame(draw)
   }
