@@ -33,3 +33,13 @@ Feedback del dueño: poco elegante, colores planos, emojis, "parece IA". Nuevo c
 - Tipos: **Newsreader** (display y lectura, ópticos), **Inter Tight** (etiquetas pequeñas en versalitas espaciadas).
 - Fuera: el blob OGL, las tarjetas de color, las píldoras, los emojis/pictogramas, los fondos planos de lavanda o salvia.
 - Artefactos: (1) **Reestructuración cognitiva** en el hero: un pensamiento automático se tacha con una línea fina y se reescribe en una versión más amable; hay 3 pares en ciclo. (2) **La primera sesión, minuto a minuto**: una regla de 0' a 50' en una sección sticky, con una aguja que avanza con el scroll y explica cada momento. (3) **Agenda de papel**: una doble página con el calendario del mes y las horas como renglones. (4) Blog como **Cuaderno** (ensayos Nº 01…), con notas al margen (sidenotes) en desktop.
+
+## Rediseño v3 — «Cambiar de perspectiva» (sustituye la home y el lenguaje visual)
+Feedback: falta un 3D interesante, elegante y moderno; debe diferenciarse de cualquier web de psicología.
+- Concepto: la terapia como **cambio de punto de vista**, hecho literal con **anamorfosis 3D**.
+- Hero (OGL): fragmentos de vidrio esmerilado (transmisión/refracción falsa, borde con brillo fino) y papel a distintas profundidades. Desde la posición de cámara A se alinean y leen el pensamiento automático; al hacer scroll la cámara orbita lento (≈25–35°) y los mismos fragmentos se leen, desde B, como la versión reestructurada. 3 pares (ciclo con el scroll en la sección sticky). Movimiento de cámara con inercia, idle de deriva mínima, puntero = paralaje leve. Fallback/reduced-motion: tipografía con tachado y reescritura (el gesto v2).
+- La primera sesión, minuto a minuto: pasa a un **dial 3D** (anillo fino en perspectiva, 0'–50') que gira con el scroll; cada momento aparece en el plano frontal.
+- Profundidad general: retratos con paralaje de capas (2.5D) muy suave; transiciones entre páginas con View Transitions (el título "se aleja" en Z y entra el nuevo).
+- Paleta más fría y actual: `--bruma:#ECEAE6` (fondo), `--grafito:#202227` (texto y secciones oscuras), `--vidrio:#D9DDE0`, `--ciruela:#4A2C3A` (único acento), `--piedra:#8E8A84`. Sin bloques planos: profundidad por luz, vidrio, grano y foto.
+- Tipos: Newsreader (display ligera, enorme, tracking ajustado) + Geist Sans (UI, si no existe en Fontsource: Inter Tight).
+- Se mantienen agenda de papel y cuaderno, con la nueva paleta y transiciones.
