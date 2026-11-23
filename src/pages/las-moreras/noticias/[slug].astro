@@ -1,0 +1,9 @@
+---
+import Page from '../../../examples/las-moreras/components/Noticia.astro'
+import { news } from '../../../examples/las-moreras/data/season'
+export function getStaticPaths() {
+  return news.map(item => ({ params: { slug: item.slug }, props: { item } }))
+}
+const { item } = Astro.props
+---
+<Page item={item} />

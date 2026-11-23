@@ -1,0 +1,77 @@
+---
+import Photo from './Photo.astro'
+import Layout from '../Layout.astro'
+import PageHero from './PageHero.astro'
+import Field from './Field.astro'
+import { levels } from '../data/season'
+import { image, route } from '../lib/paths'
+const months = Array.from({ length: 12 }, (_, index) => new Intl.DateTimeFormat('es-ES', { month: 'long', timeZone: 'UTC' }).format(Date.UTC(2026, index, 1)))
+const steps = ['Grupo y cuota', 'Alumno o alumna', 'Tutor y permisos', 'Resumen']
+---
+<Layout title="Preinscripción" section="inscripcion/">
+  <PageHero label="Escuela · Temporada 2026/27" title="Preinscripción" lead="Elige un grupo y prepara la ficha de escuela 2026/27."/>
+  <div class="wrap section compact">
+    <form data-registration novalidate class="flow-layout">
+      <div class="flow-main">
+        <ol class="step-index" aria-label="Pasos">{steps.map((label, index) => <li data-step-index={index + 1} aria-current={index === 0 ? 'step' : undefined}><span>0{index + 1}</span> {label}</li>)}</ol>
+        <section data-step="1">
+          <h2 tabindex="-1">Grupo y cuota</h2>
+          <fieldset class="birth-fields" aria-describedby="error-birth">
+            <legend>Fecha de nacimiento</legend>
+            <div class="fields date-parts">
+              <label>Día<select name="birthDay"><option value="">Día</option>{Array.from({ length: 31 }, (_, index) => String(index + 1).padStart(2, '0')).map(day => <option>{day}</option>)}</select></label>
+              <label>Mes<select name="birthMonth"><option value="">Mes</option>{months.map((month, index) => <option value={String(index + 1).padStart(2, '0')}>{month}</option>)}</select></label>
+              <label>Año<input name="birthYear" inputmode="numeric" maxlength="4" placeholder="2016"/></label>
+            </div>
+            <small class="error" id="error-birth" data-error="birth" hidden></small>
+          </fieldset>
+          <p data-group-preview aria-live="polite">Indica la fecha para consultar tu categoría.</p>
+          <p><a class="text-link" href={route('escuela/#adultos')} data-adults hidden>Consultar la escuela de adultos</a></p>
+          <div class="fields"><Field name="level" label="Nivel" options={levels}/><label>Días por semana<select name="days"><option value="1">1 día</option><option value="2">2 días</option><option value="3">3 días</option></select></label></div>
+          <p class="callout" data-trial hidden>Prueba de nivel. Si eliges competición, la escuela te citaría en pista antes de asignarte un grupo.</p>
+          <label>Forma de pago<select name="period"><option value="monthly">Mensual</option><option value="quarterly">Trimestral (5 % de descuento)</option></select></label>
+        </section>
+        <section data-step="2" hidden>
+          <h2 tabindex="-1">Alumno o alumna</h2>
+          <div class="fields"><Field name="name" label="Nombre" autocomplete="given-name"/><Field name="surname" label="Apellidos" autocomplete="family-name"/></div>
+          <Field name="identity" label="DNI o NIE del alumno (opcional)" maxlength={12}/>
+          <div class="fields"><Field name="hand" label="Mano dominante" options={['Diestra', 'Zurda']}/><Field name="experience" label="Experiencia previa" options={['Primera vez', 'Menos de un año', 'Un año o más']}/></div>
+          <Field name="size" label="Talla del polo" options={['6', '8', '10', '12', '14', '16', 'XS', 'S', 'M', 'L', 'XL']}/>
+          <label class="check"><input type="checkbox" name="sibling" value="si"/> Es el segundo hermano inscrito (10 % de descuento)</label>
+        </section>
+        <section data-step="3" hidden>
+          <h2 tabindex="-1">Tutor y permisos</h2>
+          <Field name="guardian" label="Nombre y apellidos del tutor o tutora"/>
+          <div class="fields"><Field name="guardianId" label="DNI o NIE del tutor" maxlength={12}/><Field name="phone" label="Teléfono" type="tel" autocomplete="tel"/></div>
+          <Field name="email" label="Correo electrónico" type="email" autocomplete="email"/>
+          <Field name="member" label="Número de socio del padre o madre (opcional)" inputmode="numeric" maxlength={6}/>
+          <p class="muted">El número de socio aplica un 15 % de descuento en la cuota de escuela.</p>
+          <fieldset class="permissions"><legend>Autorizaciones</legend>
+            <label class="check"><input type="checkbox" name="medical" value="si" aria-describedby="error-medical"/> Autorizo la atención médica en caso de urgencia</label><small id="error-medical" class="error" data-error="medical" hidden></small>
+            <Field name="image" label="Autorización de imagen" options={['Autorizo', 'No autorizo']}/>
+            <label class="check"><input type="checkbox" name="privacy" value="si" aria-describedby="error-privacy"/> He leído que los datos se guardan en este navegador y se pueden borrar con el botón de reinicio</label><small id="error-privacy" class="error" data-error="privacy" hidden></small>
+          </fieldset>
+        </section>
+        <section data-step="4" hidden>
+          <h2 tabindex="-1">Resumen de preinscripción</h2>
+          <p class="locator" data-code></p><dl class="ledger" data-registration-summary></dl>
+          <button type="button" class="primary" data-receipt>Descargar justificante</button>
+        </section>
+        <div class="flow-actions">
+          <button type="button" data-back hidden>Volver</button>
+          <button class="primary" data-next disabled>Continuar</button>
+          <button type="button" class="plain" data-reset>Empezar de nuevo</button>
+        </div>
+        <p class="muted">Demostración: no se envía ningún dato</p>
+        <noscript><p>Activa JavaScript para completar la preinscripción.</p></noscript>
+      </div>
+      <aside class="ficha tinta" aria-label="Ficha de la escuela">
+        <div class="ficha-top"><img src={image('escudo.svg')} alt="" width="52" height="63"/><div><p class="eyebrow">Ficha de escuela</p><p data-ficha-player>Temporada 2026/27</p></div></div>
+        <Photo name="clase-cesta" caption="Escuela · Iniciación" />
+        <p data-ficha-category>Grupo por determinar</p>
+        <dl class="ledger ficha-details" data-ficha-fees></dl>
+        <p class="ficha-total"><span data-ficha-period>Primer pago</span><strong data-ficha-total>—</strong></p>
+      </aside>
+    </form>
+  </div>
+</Layout>

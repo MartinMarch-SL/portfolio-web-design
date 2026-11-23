@@ -1,0 +1,61 @@
+---
+import PortfolioIcons from '../../lib/PortfolioIcons.astro'
+import { ClientRouter } from 'astro:transitions'
+import { route, image } from './lib/paths'
+import { contact } from './data/season'
+import { url } from '../../lib/url'
+import '@fontsource-variable/fraunces/full.css'
+import '@fontsource-variable/fraunces/full-italic.css'
+import '@fontsource-variable/manrope'
+import '@fontsource/ibm-plex-mono/latin-400.css'
+import './styles/site.css'
+import './styles/court.css'
+const { title, section = '' } = Astro.props
+const links = [['', 'Inicio'], ['escuela/', 'Escuela'], ['reservas/', 'Reservas'], ['noticias/', 'Noticias'], ['competicion/', 'Competición'], ['club/', 'El club'], ['inscripcion/', 'Preinscripción']]
+---
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#F4EFE6" />
+  <meta name="description" content="CT Las Moreras, club de tenis de barrio desde 1961. Escuela, competición y reservas de pista." />
+  <title>{title ? title + ' · CT Las Moreras' : 'CT Las Moreras · Tenis desde 1961'}</title>
+  <PortfolioIcons name="las-moreras" />
+  <ClientRouter />
+</head>
+<body class="moreras marfil" style={`--footer-image: url('${image('pista-cenital.webp')}')`}>
+  <a class="skip" href="#contenido">Saltar al contenido</a>
+  <header class="mast">
+    <div class="wrap mast-inner">
+      <a class="brand" href={route()}><img src={image('escudo.svg')} alt="" width="42" height="51"/><span>CT Las Moreras<small>CLUB DE TENIS · 1961</small></span></a>
+      <nav class="desktop-nav" aria-label="Principal">
+        {links.slice(1, -1).map(([path, label]) => <a aria-current={section === path ? 'page' : undefined} href={route(path)}>{label}</a>)}
+      </nav>
+      <a class="header-enroll" href={route('inscripcion/')} aria-current={section === 'inscripcion/' ? 'page' : undefined}>Preinscripción</a>
+      <button type="button" data-menu-open aria-haspopup="dialog" aria-controls="club-menu">Menú</button>
+    </div>
+  </header>
+  <dialog id="club-menu" class="menu-overlay marfil" aria-label="Menú principal">
+    <div class="wrap menu-inner">
+      <button type="button" data-menu-close autofocus>Cerrar menú</button>
+      <nav aria-label="Principal">
+        {links.map(([path, label]) => <a aria-current={section === path ? 'page' : undefined} href={route(path)}>{label}</a>)}
+      </nav>
+    </div>
+  </dialog>
+  <main id="contenido" tabindex="-1"><slot /></main>
+  <footer class="footer tinta">
+    <div class="wrap">
+      <div class="footer-inner">
+        <div><a class="brand" href={route()}><img src={image('escudo.svg')} alt="" width="52" height="63" loading="lazy"/><span>CT Las Moreras</span></a><p>Club ficticio · Temporada 2026/27</p></div>
+        <nav aria-label="El club">{links.slice(1).map(([path, label]) => <a href={route(path)}>{label}</a>)}</nav>
+        <div><p>Paseo de las Moreras, 61</p><a href={'mailto:' + contact}>{contact}</a><p><a href={url('')}>Volver al catálogo</a></p></div>
+      </div>
+      <div class="footer-wordmark" aria-hidden="true">Las Moreras</div>
+    </div>
+  </footer>
+  <script>import './scripts/main'</script>
+</body>
+</html>

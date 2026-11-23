@@ -3,6 +3,7 @@ import { crawlSite } from './site-crawl'
 
 test('reduced motion keeps first-viewport content visible on every page', async ({ page, baseURL, reducedMotion }) => {
   test.skip(reducedMotion !== 'reduce', 'Requires the reduced-motion project')
+  test.setTimeout(60_000)
   async function inspect() {
     const concealed = await page.evaluate(() => {
       const failures: string[] = []

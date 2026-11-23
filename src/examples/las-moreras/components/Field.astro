@@ -1,0 +1,10 @@
+---
+interface Props { name: string; label: string; type?: string; options?: string[]; autocomplete?: string; inputmode?: 'numeric'; maxlength?: number }
+const { name, label, type = 'text', options, autocomplete, inputmode, maxlength } = Astro.props
+---
+<div class="field">
+  <label for={'field-' + name}>{label}</label>
+  {options ? <select id={'field-' + name} name={name} aria-describedby={'error-' + name}><option value="">Selecciona</option>{options.map(option => <option>{option}</option>)}</select>
+    : <input id={'field-' + name} name={name} type={type} autocomplete={autocomplete} inputmode={inputmode} maxlength={maxlength} aria-describedby={'error-' + name}/>}
+  <small class="error" id={'error-' + name} data-error={name} hidden></small>
+</div>

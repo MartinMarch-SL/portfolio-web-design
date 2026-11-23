@@ -1,0 +1,18 @@
+---
+import { responsiveImage } from '../../../lib/responsive-image'
+
+interface Props {
+  name: string
+  caption?: string
+  width?: number
+  height?: number
+  sizes?: string
+  eager?: boolean
+}
+const { name, caption, width = 1200, height = 900, sizes = '(max-width: 760px) 100vw, 55vw', eager } = Astro.props
+const photo = responsiveImage(`examples/las-moreras/img/${name}.webp`, sizes, width)
+---
+<figure class="club-photo">
+  <img {...photo} alt="" width={width} height={height} loading={eager ? 'eager' : 'lazy'} decoding="async" draggable="false"/>
+  {caption && <figcaption class="figure-label">{caption}</figcaption>}
+</figure>

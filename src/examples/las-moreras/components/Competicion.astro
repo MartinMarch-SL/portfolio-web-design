@@ -1,0 +1,23 @@
+---
+import Layout from '../Layout.astro'
+import PageHero from './PageHero.astro'
+import Scoreboard from './Scoreboard.astro'
+import { teams } from '../data/season'
+const ladder = [['Inés Salvat', 1480], ['Leo Aranda', 1435], ['Nora Esteve', 1400], ['Bruno Cerdà', 1360], ['Vera Pons', 1315]]
+const events = [['12 dic 2026', 'Copa de invierno', 'Individual'], ['13 mar 2027', 'Dobles de primavera', 'Dobles mixtos'], ['18–27 jun 2027', 'Open de verano', 'Individual y dobles']]
+---
+<Layout title="Competición" section="competicion/">
+  <PageHero label="Temporada 2026/27" title="Competición" photo="deslizamiento" caption="Competición · Tierra batida" width={1600} height={960} lead="Liga por equipos, escalera interna y torneos en las pistas del club."/>
+  <section class="section tinta"><div class="wrap split"><div><p class="eyebrow">Última jornada</p><h2>Un set más.</h2><p>Consulta el marcador del último partido del júnior y de los demás equipos.</p></div><Scoreboard /></div></section>
+  <section class="section wrap">
+    <h2>Equipos y clasificación</h2><p>Dos puntos por eliminatoria ganada. El resultado indica partidos ganados y perdidos.</p>
+    <div class="table-scroll" data-stage tabindex="0" aria-label="Clasificación de la liga"><table class="data-table">
+      <thead><tr>{['Equipo', 'Liga', 'Puesto', 'Puntos', 'Último rival', 'Resultado'].map(label => <th scope="col">{label}</th>)}</tr></thead>
+      <tbody>{teams.map(team => <tr><th scope="row">{team.name}</th><td>{team.league}</td><td>{team.position}</td><td>{team.points}</td><td>{team.rival}</td><td>{team.result}</td></tr>)}</tbody>
+    </table></div>
+  </section>
+  <section class="section school-groups"><div class="wrap split">
+    <div><h2>Escalera del club</h2><table class="data-table"><thead><tr><th scope="col">Puesto</th><th scope="col">Jugador</th><th scope="col">Puntos</th></tr></thead><tbody>{ladder.map(([name, points], index) => <tr><td>{index + 1}</td><th scope="row">{name}</th><td>{points}</td></tr>)}</tbody></table></div>
+    <div><h2>Próximos torneos</h2><table class="data-table"><thead><tr><th scope="col">Fecha</th><th scope="col">Torneo</th><th scope="col">Modalidad</th></tr></thead><tbody>{events.map(([date, name, format]) => <tr><td>{date}</td><th scope="row">{name}</th><td>{format}</td></tr>)}</tbody></table></div>
+  </div></section>
+</Layout>

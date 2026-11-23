@@ -12,6 +12,7 @@ const examples = [
   ['CB Pinar Alto', 'pinar-alto'],
   ['RAMAL Instalaciones', 'ramal'],
   ['HALDA', 'halda'],
+  ['CT Las Moreras', 'las-moreras'],
 ]
 
 test.beforeEach(async ({ page }) => {
@@ -22,7 +23,7 @@ test.beforeEach(async ({ page }) => {
 test('filtra por tipo de web', async ({ page }) => {
   const projects = page.getByRole('list', { name: 'Proyectos' })
   const filters = page.getByRole('group', { name: 'Tipo de web' })
-  await expect(projects.getByRole('link')).toHaveCount(10)
+  await expect(projects.getByRole('link')).toHaveCount(11)
   await filters.getByRole('button', { name: 'Reservas y citas 2' }).click()
   await expect(projects.getByRole('link')).toHaveCount(2)
   await expect(projects.getByRole('link', { name: 'Inés Arranz' })).toBeAttached()
@@ -35,8 +36,9 @@ test('filtra por tipo de web', async ({ page }) => {
   await page.keyboard.press('ArrowRight')
   await expect(onlyProject).toBeFocused()
   await expect(page.locator('[data-name]')).toHaveText('Bar Caribe')
-  await filters.getByRole('button', { name: 'Clubes y asociaciones 2' }).click()
-  await expect(projects.getByRole('link')).toHaveCount(2)
+  await filters.getByRole('button', { name: 'Clubes y asociaciones 3' }).click()
+  await expect(projects.getByRole('link')).toHaveCount(3)
+  await expect(projects.getByRole('link', { name: 'CT Las Moreras' })).toBeAttached()
   await expect(projects.getByRole('link', { name: 'UD Los Almendros' })).toBeAttached()
   await expect(projects.getByRole('link', { name: 'CB Pinar Alto' })).toBeAttached()
   await expect(filters.getByRole('button')).toHaveCount(8)
@@ -44,8 +46,8 @@ test('filtra por tipo de web', async ({ page }) => {
   await expect(projects.getByRole('link')).toHaveCount(2)
   await expect(projects.getByRole('link', { name: 'HALDA' })).toBeAttached()
   await expect(projects.getByRole('link', { name: 'RAMAL Instalaciones' })).toBeAttached()
-  await filters.getByRole('button', { name: 'Todas 10' }).click()
-  await expect(projects.getByRole('link')).toHaveCount(10)
+  await filters.getByRole('button', { name: 'Todas 11' }).click()
+  await expect(projects.getByRole('link')).toHaveCount(11)
 })
 
 test('permite recorrer el carrusel con el teclado y abrir la web', async ({ page }) => {
@@ -56,9 +58,9 @@ test('permite recorrer el carrusel con el teclado y abrir la web', async ({ page
   await page.keyboard.press('ArrowLeft')
   await expect(first).toBeFocused()
   await page.keyboard.press('ArrowLeft')
-  await expect(page.locator('[data-name]')).toHaveText('HALDA')
+  await expect(page.locator('[data-name]')).toHaveText('CT Las Moreras')
   await page.keyboard.press('Enter')
-  await expect(page).toHaveURL(base + 'halda/')
+  await expect(page).toHaveURL(base + 'las-moreras/')
 })
 
 test('cada enlace abre el ejemplo de la pantalla frontal', async ({ page }) => {
@@ -76,7 +78,7 @@ test('una pantalla lateral pasa al frente y abre su ejemplo', async ({ page, red
   test.skip(reducedMotion === 'reduce', 'Las pantallas laterales están fuera de escena')
   await page.setViewportSize({ width: 1440, height: 900 })
   const front = (await page.getByRole('link', { name: 'RUIDO', exact: true }).boundingBox())!
-  const left = (await page.getByRole('link', { name: 'HALDA', exact: true }).boundingBox())!
+  const left = (await page.getByRole('link', { name: 'CT Las Moreras', exact: true }).boundingBox())!
   expect(left.x + left.width).toBeLessThan(front.x)
   const side = page.getByRole('link', { name: 'Bar Caribe', exact: true })
   const box = (await side.boundingBox())!

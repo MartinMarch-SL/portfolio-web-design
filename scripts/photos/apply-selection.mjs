@@ -23,7 +23,8 @@ const losAlmendros = batch === 'candidates-los-almendros';
 const pinarAlto = batch === 'candidates-pinar-alto';
 const ramal = batch === 'candidates-ramal';
 const halda = batch === 'candidates-halda';
-const grouped = halda || simonLera || liaFerro || losAlmendros || pinarAlto || ramal;
+const lasMoreras = batch === 'candidates-las-moreras';
+const grouped = lasMoreras || halda || simonLera || liaFerro || losAlmendros || pinarAlto || ramal;
 const basketballCrops = new Map([
   ['pabellon-noche', [1600, 1000, 'centre']],
   ['parquet-claro', [1200, 800, 'south']],
@@ -87,6 +88,24 @@ const haldaCrops = new Map([
   ['transportadores', [1200, 800, 'centre']],
   ['cableado-cuadro', [1200, 800, 'attention']],
 ]);
+const tennisCrops = new Map([
+  ['saque-aereo', [1600, 1000, 'centre']],
+  ['pista-arboles', [1440, 960, 'centre']],
+  ['red-diagonal', [1440, 800, 'centre']],
+  ['barrido-lineas', [1200, 900, 'attention']],
+  ['deslizamiento', [1600, 960, 'attention']],
+  ['sombra-raqueta', [1200, 900, 'attention']],
+  ['arcilla-lineas', [1440, 960, 'centre']],
+  ['pista-cenital', [1440, 800, 'centre']],
+  ['entrenador-nino', [1200, 900, 'attention']],
+  ['clase-cesta', [1200, 900, 'attention']],
+  ['minitenis-nina', [1200, 900, 'attention']],
+  ['nino-pared', [1200, 900, 'attention']],
+  ['clase-exterior', [1200, 900, 'attention']],
+  ['socio-jugando', [1200, 900, 'attention']],
+  ['nino-pelota', [1200, 900, 'attention']],
+  ['red-risas', [1200, 900, 'attention']],
+]);
 const byNumber = new Map(grouped ? Object.entries(candidates) : candidates.map(photo => [photo.n, photo]));
 const photos = new Map();
 
@@ -126,6 +145,7 @@ for (const [key, number] of Object.entries(selection)) {
   if (pinarAlto && !basketballCrops.has(key)) throw new Error(`Invalid Pinar Alto target: ${key}`);
   if (halda && !haldaCrops.has(key)) throw new Error(`Invalid HALDA target: ${key}`);
   if (ramal && !ramalCrops.has(key)) throw new Error(`Invalid RAMAL target: ${key}`);
+  if (lasMoreras && !tennisCrops.has(key)) throw new Error(`Invalid Las Moreras target: ${key}`);
   const requestedPath = path.resolve(publicDir, grouped
     ? `examples/${batch.slice(11)}/img/${key}.webp`
     : key.replace(/^public\//, ''));
@@ -133,7 +153,7 @@ for (const [key, number] of Object.entries(selection)) {
   const realDirectory = await realpath(path.dirname(requestedPath));
   if (realDirectory !== path.dirname(requestedPath)) throw new Error(`Invalid target directory: ${key}`);
   const target = await realpath(requestedPath).catch(error => {
-    if ((losAlmendros || pinarAlto || ramal || halda) && error.code === 'ENOENT') return requestedPath;
+    if ((losAlmendros || pinarAlto || ramal || halda || lasMoreras) && error.code === 'ENOENT') return requestedPath;
     throw error;
   });
   if (target !== requestedPath || path.extname(target).toLowerCase() !== '.webp' || targets.has(target)) {
@@ -146,8 +166,8 @@ for (const [key, number] of Object.entries(selection)) {
     : fileURLToPath(new URL(`${String(number).padStart(3, '0')}.webp`, candidatesDir));
   const crop = sharp(source).autoOrient();
   let width, height, position = sharp.strategy.attention;
-  if (pinarAlto || ramal || halda) {
-    const [cropWidth, cropHeight, anchor] = (halda ? haldaCrops : ramal ? ramalCrops : basketballCrops).get(key);
+  if (pinarAlto || ramal || halda || lasMoreras) {
+    const [cropWidth, cropHeight, anchor] = (lasMoreras ? tennisCrops : halda ? haldaCrops : ramal ? ramalCrops : basketballCrops).get(key);
     [width, height] = [cropWidth, cropHeight];
     position = anchor === 'attention' ? sharp.strategy.attention : anchor;
   } else if (losAlmendros) {
@@ -174,6 +194,7 @@ for (const [key, number] of Object.entries(selection)) {
   }
   if (halda) crop.modulate({ saturation: 0.78 }).linear(1.03, -8);
   if (ramal) crop.modulate({ saturation: 0.82 });
+  if (lasMoreras) crop.modulate({ saturation: 0.92 }).linear([1.035, 1, 0.96], [2, 2, 2]);
   let image;
   for (let quality = 78; ; quality = Math.max(1, quality - 2)) {
     image = await crop.clone().webp({ quality }).toBuffer();
@@ -215,6 +236,7 @@ for (const { target, image, downloadUrl, downloadId, creditsPath, file, credit }
     throw error;
   });
   const lines = credits.trimEnd().split(/\r?\n/)
+    .filter(line => !lasMoreras || !line.startsWith('Las imágenes'))
     .filter(line => !ramal || !line.startsWith('Las doce reservas fotográficas'))
     .filter(line => !liaFerro || !line.startsWith('Ilustraciones tipográficas y de línea originales'))
     .filter(line => !simonLera || !line.startsWith('Las imágenes de obra, detalle, estudio y sala son marcadores de posición'));

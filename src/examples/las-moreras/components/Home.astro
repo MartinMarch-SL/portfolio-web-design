@@ -1,0 +1,84 @@
+---
+import Photo from './Photo.astro'
+import Layout from '../Layout.astro'
+import Court from './Court.astro'
+import NewsList from './NewsList.astro'
+import Scoreboard from './Scoreboard.astro'
+import { categories, teams } from '../data/season'
+import { hours, clock } from '../lib/booking'
+import { route } from '../lib/paths'
+const results = teams.map(team => `${team.name} · Las Moreras ${team.result} ${team.rival}`)
+---
+<Layout>
+  <section class="home-hero">
+    <Court ball/>
+    <div class="wrap hero-layout">
+      <div class="hero-type">
+        <p class="eyebrow"><span class="club-dot"></span> Club de tenis de barrio</p>
+        <h1>Tierra batida <em>desde 1961.</em></h1>
+      </div>
+      <div class="hero-aside">
+        <p class="lead">Trece pistas, una escuela y una terraza a la sombra de las moreras.</p>
+        <div class="actions"><a class="primary" href={route('reservas/')}>Reservar pista</a><a class="text-link" href={route('escuela/')}>Conocer la escuela</a></div>
+      </div>
+    </div>
+    <p class="wrap court-caption figure-label">Pista central · Tierra batida</p>
+  </section>
+  <div class="ticker tinta" aria-label="Últimos resultados">
+    <div class="wrap ticker-inner">
+      <a href={route('competicion/')}>Resultados</a>
+      <div class="ticker-window" data-stage><div class="ticker-strip">
+        <div>{results.map(result => <span>{result}</span>)}</div>
+        <div aria-hidden="true">{results.map(result => <span>{result}</span>)}</div>
+      </div></div>
+      <button class="ticker-toggle" type="button" aria-pressed="false">Pausar</button>
+    </div>
+  </div>
+  <section class="section wrap">
+    <div class="split intro-split">
+      <div><p class="eyebrow">Competición de fin de semana</p><h2>La liga se juega<br/> <em>en el barrio.</em></h2><p>La pista central acoge a los equipos de la casa. El último partido del júnior se decidió en el tercer set.</p><a class="text-link" href={route('competicion/')}>Equipos, liga y escalera</a></div>
+      <Scoreboard />
+    </div>
+  </section>
+  <section class="quick-section section">
+    <div class="wrap split">
+      <form class="quick" action={route('inscripcion/')} data-quick-school>
+        <p class="eyebrow">Escuela · 2026/27</p><h2>Encuentra tu grupo</h2>
+        <label for="quick-year">Año de nacimiento</label><select id="quick-year" name="anio" required><option value="">Selecciona el año</option>{categories.flatMap(item => [item.last, item.first]).map(year => <option value={year}>{year}</option>)}</select>
+        <output data-school-category></output><p data-school-details>Consulta el horario y la cuota según el año de nacimiento.</p>
+        <button class="primary">Empezar preinscripción</button>
+      </form>
+      <form class="quick" action={route('reservas/')} data-quick-booking>
+        <p class="eyebrow">Pistas · 08:00 a 22:00</p><h2>Una hora de tenis</h2>
+        <div class="fields"><label>Fecha<input name="fecha" type="date" required/></label><label>Hora<select name="hora">{hours.map(hour => <option value={hour}>{clock(hour)}</option>)}</select></label></div>
+        <output data-free-courts></output><p class="muted">Tierra batida, rápida y minitenis.</p>
+        <button class="primary">Ver pistas libres</button>
+      </form>
+    </div>
+  </section>
+  <section class="section wrap split editorial">
+    <Photo name="nino-pared" caption="Escuela · Primeros golpes" />
+    <div><p class="eyebrow">La escuela</p><h2>Del primer peloteo<br/> <em>al partido.</em></h2><p>Adaptamos la pista, la pelota y el ritmo a cada etapa. A medida que crece el juego, llegan la táctica y los primeros partidos.</p>
+    <div class="year-links" aria-label="Categorías por año">{categories.map(category => <a href={route('escuela/#grupo-' + category.first)}>{category.first}–{category.last}<span>{category.name}</span></a>)}</div></div>
+  </section>
+  <section class="section news-band"><div class="wrap">
+    <div class="section-heading"><div><p class="eyebrow">Cuaderno del club</p><h2>Noticias de pista</h2></div><a class="text-link" href={route('noticias/')}>Todas las noticias</a></div>
+    <NewsList carousel />
+  </div></section>
+  <section class="section tinta"><div class="wrap">
+    <p class="eyebrow">El club en cifras</p><h2>El tenis que compartimos.</h2>
+    <div class="stats">
+      {[['8', 'Pistas de tierra'], ['13', 'Pistas en total'], ['900', 'Socios'], ['320', 'Alumnos']].map(([number, label]) => <div><strong data-count aria-hidden="true">{number}</strong><span class="sr-only">{number} </span><p>{label}</p></div>)}
+    </div>
+  </div></section>
+  <section class="section wrap split editorial terrace">
+    <div><p class="eyebrow">La casa club</p><h2>Después del último set, <em>la terraza.</em></h2><p>Un café antes de entrenar, la sobremesa del domingo y una mesa desde la que seguir el partido.</p><a class="text-link" href={route('club/')}>Visitar el club</a></div>
+    <Photo name="pista-arboles" caption="Las pistas entre los árboles" width={1440} height={960} />
+  </section>
+  <section class="section summer"><div class="wrap split editorial">
+    <Photo name="sombra-raqueta" caption="Campus · Verano en la pista" />
+    <div><p class="eyebrow">Junio y julio · De 6 a 15 años</p><h2>Verano bajo<br/> <em>las moreras.</em></h2><p>Tenis, juegos y un descanso a la sombra. Turnos semanales de lunes a viernes, de 9:00 a 13:30.</p><a class="text-link" href={route('escuela/#campus')}>Horarios del campus</a></div>
+  </div></section>
+  <section class="section wrap gallery"><h2>Una tarde en la pista</h2><Photo name="saque-aereo" caption="Saque en tierra batida" width={1600} height={1000} sizes="100vw" /></section>
+  <section class="section sponsors wrap"><p class="eyebrow">El comercio del barrio apoya al club</p><div><span>Horno Brisa</span><span>ÓPTICA LEVANTE</span><span>Vivero del Paseo</span><span>CASA JARA</span></div></section>
+</Layout>

@@ -1,0 +1,11 @@
+---
+import Photo from './Photo.astro'
+const { label, title, lead, photo, caption, width, height } = Astro.props
+---
+<section class="page-hero"><div class="wrap">
+  <p class="eyebrow">{label}</p>
+  <h1>{title}</h1>
+  {lead && <p class="lead">{lead}</p>}
+</div>
+{photo && <Photo name={photo} caption={caption} width={width} height={height} sizes="100vw" eager />}
+</section>

@@ -13,6 +13,7 @@ const entries = [
   ['pinar-alto', 'CB Pinar Alto', 'Club de baloncesto', 'Clubes y asociaciones'],
   ['ramal', 'RAMAL Instalaciones', 'Instaladora MEP', 'Industria y servicios'],
   ['halda', 'HALDA', 'Visión artificial e I+D', 'Industria y servicios'],
+  ['las-moreras', 'CT Las Moreras', 'Club de tenis', 'Clubes y asociaciones'],
 ] satisfies [string, string, string, typeof kinds[number]][]
 
 export const projects = entries.map(([slug, name, sector, kind]) => ({

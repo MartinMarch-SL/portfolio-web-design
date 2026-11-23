@@ -1,0 +1,25 @@
+---
+import { image } from '../lib/paths'
+const { ball = false } = Astro.props
+---
+<div class="court-scene" style={`--clay-photo: url('${image('arcilla-lineas.webp')}'); --clay-small: url('${image('arcilla-lineas-640w.webp')}'); --court-shade: url('${image('sombra-moreras.svg')}')`} data-court data-stage aria-hidden="true">
+  <div class="court-world">
+    <div class="court-floor">
+      <div class="court-lines">
+        <i class="boundary near"></i><i class="boundary far"></i>
+        <i class="boundary left"></i><i class="boundary right"></i>
+        <i class="singles left"></i><i class="singles right"></i>
+        <i class="service near"></i><i class="service far"></i><i class="centre"></i>
+      </div>
+    </div>
+    <div class="court-net"></div>
+  </div>
+  <div class="court-net court-net-mobile"></div>
+  {ball && <div class="ball-stage" data-ball>
+    <div class="clay-mark"></div>
+    <div class="ball-shadow"></div>
+    <div class="ball-trail"></div>
+    <img src={image('pelota.svg')} alt="" width="360" height="360"/>
+    <canvas hidden></canvas>
+  </div>}
+</div>

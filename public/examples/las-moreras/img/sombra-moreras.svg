@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 600" preserveAspectRatio="xMaxYMax slice">
+  <defs>
+    <radialGradient id="shade">
+      <stop stop-color="#3a2119" stop-opacity=".83"/>
+      <stop offset=".64" stop-color="#3a2119" stop-opacity=".56"/>
+      <stop offset="1" stop-color="#3a2119" stop-opacity="0"/>
+    </radialGradient>
+    <path id="leaf" fill="url(#shade)" d="M-24 1C-18-17 0-23 26-9 23 9 7 23-24 1Z"/>
+    <g id="sprig">
+      <path d="M0 0Q60-10 135-55M49-13l5-20m24 14 24 10m3-30 8-14" stroke="#3a2119" stroke-width="2" opacity=".35" fill="none"/>
+      <use href="#leaf" transform="translate(33 -18) rotate(-76)"/>
+      <use href="#leaf" transform="translate(65 2) rotate(21)"/>
+      <use href="#leaf" transform="translate(54 -36) rotate(-53)"/>
+      <use href="#leaf" transform="translate(91 -34) rotate(-66)"/>
+      <use href="#leaf" transform="translate(107 -11) rotate(18)"/>
+      <use href="#leaf" transform="translate(114 -53) rotate(-60)"/>
+      <use href="#leaf" transform="translate(145 -56) rotate(-29)"/>
+    </g>
+    <g id="branch">
+      <path d="M0 0Q125-20 320-102M119-27q30-45 82-91M170-45q70 9 142-15" fill="none" stroke="#3a2119" stroke-width="5" opacity=".28"/>
+      <use href="#sprig" transform="translate(75 -15) rotate(15)"/>
+      <use href="#sprig" transform="translate(119 -27) rotate(-37)"/>
+      <use href="#sprig" transform="translate(170 -45) rotate(16) scale(1.1)"/>
+      <use href="#sprig" transform="translate(225 -68) rotate(-9)"/>
+    </g>
+  </defs>
+  <g opacity=".42">
+    <use href="#branch" transform="translate(1510 230) rotate(163) scale(1.75 .9)"/>
+    <use href="#branch" transform="translate(1500 340) rotate(173) scale(2.3 1.1)"/>
+    <use href="#branch" transform="translate(1510 470) rotate(181) scale(2.6 1.3)"/>
+    <use href="#branch" transform="translate(1490 600) rotate(189) scale(2.9 1.5)"/>
+    <use href="#branch" transform="translate(-65 525) rotate(12) scale(1.8 .85)"/>
+    <use href="#branch" transform="translate(-120 595) rotate(-4) scale(2 1)"/>
+  </g>
+</svg>

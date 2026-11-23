@@ -1,0 +1,20 @@
+---
+import { news } from '../data/season'
+import Photo from './Photo.astro'
+import { route } from '../lib/paths'
+const { carousel = false } = Astro.props
+const format = new Intl.DateTimeFormat('es-ES', { day: 'numeric', month: 'long', timeZone: 'UTC' })
+---
+<div data-news={carousel ? '' : undefined}>
+  {carousel && <div class="news-controls" hidden><button type="button" data-news-step="-1">Anterior</button><button type="button" data-news-step="1">Siguiente</button></div>}
+  <div data-stage={carousel ? '' : undefined} class:list={['news-list', { 'news-carousel': carousel }]} tabindex={carousel ? '0' : undefined} aria-label={carousel ? 'Carrusel de noticias' : undefined}>
+    {news.map(item => <article>
+      <a class="story" href={route('noticias/' + item.slug + '/')}>
+        <Photo name={item.image} width={item.width} height={item.height} sizes="(max-width: 760px) 85vw, 33vw"/>
+        <p class="eyebrow">{item.subject} · <time datetime={item.date}>{format.format(new Date(item.date))}</time></p>
+        <h3>{item.title}</h3>
+        <p>{item.lead}</p>
+      </a>
+    </article>)}
+  </div>
+</div>

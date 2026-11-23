@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 146" role="img" aria-label="Escudo CT Las Moreras">
+<ellipse cx="60" cy="73" rx="56" ry="69" fill="#f4efe6" stroke="#17233a" stroke-width="3"/><ellipse cx="60" cy="73" rx="49" ry="62" fill="none" stroke="#17233a"/>
+<path id="top" d="M19 70a41 46 0 0 1 82 0" fill="none"/>
+<text fill="#17233a" font-family="Georgia,serif" font-size="11" letter-spacing="1.3"><textPath href="#top" startOffset="50%" text-anchor="middle">CT LAS MORERAS</textPath></text>
+<path d="M60 58c-2-10-14-8-12-20l7 4 5-10 5 10 7-4c2 12-10 10-12 20Zm0-11v13" fill="#17233a" stroke="#17233a"/>
+<g fill="none" stroke="#c4552d" stroke-width="2.8">
+<g transform="rotate(-38 60 88)"><ellipse cx="60" cy="75" rx="9" ry="13"/><path d="M60 88v24m-3-5h6m-6-40v16m6-16v16m-10-11h14m-14 6h14" stroke-width="1.6"/></g>
+<g transform="rotate(38 60 88)"><ellipse cx="60" cy="75" rx="9" ry="13"/><path d="M60 88v24m-3-5h6m-6-40v16m6-16v16m-10-11h14m-14 6h14" stroke-width="1.6"/></g></g>
+<text x="60" y="124" text-anchor="middle" fill="#17233a" font-family="Georgia,serif" font-size="12" letter-spacing="2">1961</text>
+</svg>

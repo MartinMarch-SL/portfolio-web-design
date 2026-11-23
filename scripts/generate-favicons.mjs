@@ -12,6 +12,7 @@ const examples = [
   ['pinar-alto', 'CB Pinar Alto', '#0B1420'],
   ['ramal', 'RAMAL Instalaciones', '#15181B'],
   ['halda', 'HALDA', '#060708'],
+  ['las-moreras', 'CT Las Moreras', '#F4EFE6'],
 ]
 const resultsDir = new URL('../test-results/', import.meta.url)
 const icoSizes = [16, 32, 48]

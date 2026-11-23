@@ -1,0 +1,9 @@
+---
+import Layout from '../Layout.astro'
+import PageHero from './PageHero.astro'
+import NewsList from './NewsList.astro'
+---
+<Layout title="Noticias" section="noticias/">
+  <PageHero label="Cuaderno del club" title="Noticias de pista" lead="Lo que se juega, lo que se aprende y lo que cambia en el club."/>
+  <section class="section compact wrap"><NewsList /></section>
+</Layout>

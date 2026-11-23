@@ -1,0 +1,18 @@
+---
+import Photo from './Photo.astro'
+import Layout from '../Layout.astro'
+import PageHero from './PageHero.astro'
+import { route } from '../lib/paths'
+import type { news } from '../data/season'
+interface Props { item: typeof news[number] }
+const { item } = Astro.props
+const date = new Intl.DateTimeFormat('es-ES', { dateStyle: 'long', timeZone: 'UTC' }).format(new Date(item.date))
+---
+<Layout title={item.title} section="noticias/">
+  <PageHero label={item.subject + ' · ' + date} title={item.title} lead={item.lead}/>
+  <article class="wrap section compact story-body">
+    <Photo name={item.image} width={item.width} height={item.height} caption={item.subject} eager/>
+    <p>{item.body}</p>
+    <a class="text-link" href={route('noticias/')}>Todas las noticias</a>
+  </article>
+</Layout>

@@ -1,0 +1,16 @@
+---
+import { matches } from '../data/season'
+const match = matches[0]
+---
+<div class="scoreboard" data-scoreboard>
+  <div class="score-heading"><p class="eyebrow">Marcador de pista</p><button type="button" data-score-next>Otro partido</button></div>
+  <table>
+    <caption data-match>{match.label}</caption>
+    <thead><tr><th scope="col">Equipo</th>{[1,2,3].map(set => <th scope="col">Set {set}</th>)}</tr></thead>
+    <tbody>
+      <tr><th scope="row">Las Moreras</th>{match.home.map(score => <td><span class="plate">{score}</span></td>)}</tr>
+      <tr><th scope="row" data-rival>{match.rival}</th>{match.away.map(score => <td><span class="plate">{score}</span></td>)}</tr>
+    </tbody>
+  </table>
+  <p class="sr-only" aria-live="polite" data-score-live></p>
+</div>

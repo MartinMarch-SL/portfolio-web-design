@@ -1,0 +1,39 @@
+---
+import Layout from '../Layout.astro'
+import PageHero from './PageHero.astro'
+import { surfaces } from '../lib/booking'
+---
+<Layout title="Reservas" section="reservas/">
+  <PageHero label="Pistas · 08:00 a 22:00" title="Reserva una pista" photo="red-diagonal" caption="La red de la pista central" width={1440} height={800} lead="Elige un día y un turno de una hora. Puedes tener hasta dos reservas activas en este navegador."/>
+  <section class="wrap section compact booking" data-booking>
+    <div class="booking-toolbar">
+      <div><h2>Disponibilidad</h2><div class="day-picker" role="group" aria-label="Día de juego" data-days></div></div>
+      <label>Superficie<select data-surface><option value="">Todas las superficies</option>{surfaces.map(surface => <option value={surface.id}>{surface.name}</option>)}</select></label>
+    </div>
+    <p class="booking-key"><span class="open-key"></span> Libre <span class="closed-key"></span> No disponible <span class="chosen-key"></span> Seleccionada</p>
+    <div class="table-scroll booking-scroll" data-stage tabindex="0" aria-label="Parrilla de pistas y horas">
+      <table class="booking-grid" data-grid><caption class="sr-only">Disponibilidad por pista y hora</caption></table>
+    </div>
+    <div class="flow-layout booking-details">
+      <section>
+        <h2>Tu turno</h2><p data-selection>Selecciona una pista libre en la parrilla.</p>
+        <div class="fields">
+          <label class="check"><input type="checkbox" data-member/> Soy socio o socia</label>
+          <label>Número de jugadores<select data-players>{[1,2,3,4].map(number => <option selected={number === 2}>{number}</option>)}</select></label>
+        </div>
+        <p class="muted">Desde las 19:00 se aplica un suplemento de luz de 4 € por turno.</p>
+        <p data-booking-status role="status"></p>
+      </section>
+      <section class="ficha tinta booking-summary">
+        <h3>Resumen de reserva</h3>
+        <dl class="ledger" data-booking-price></dl>
+        <button class="primary" type="button" data-confirm disabled>Confirmar reserva</button>
+        <p>Demostración: no se envía ningún dato</p>
+      </section>
+    </div>
+    <section class="active-section">
+      <h2>Reservas activas</h2><div data-active></div>
+    </section>
+    <noscript><p>Activa JavaScript para consultar la disponibilidad.</p></noscript>
+  </section>
+</Layout>

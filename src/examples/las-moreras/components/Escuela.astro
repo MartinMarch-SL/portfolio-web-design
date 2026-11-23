@@ -1,0 +1,34 @@
+---
+import Photo from './Photo.astro'
+import Layout from '../Layout.astro'
+import PageHero from './PageHero.astro'
+import { categories, schedules, levels, contact } from '../data/season'
+import { route } from '../lib/paths'
+const groupPhotos: Record<string, string> = { Minitenis: 'minitenis-nina', Benjamín: 'nino-pared', Cadete: 'nino-pelota' }
+---
+<Layout title="Escuela" section="escuela/">
+  <PageHero label="Temporada 2026/27" title="Escuela de tenis" lead="Grupos por edad y nivel, con entrenamientos de una hora de lunes a viernes."/>
+  <section class="section compact wrap split editorial">
+    <div><h2>El ritmo de cada grupo</h2><dl class="levels">
+      {levels.map((level, index) => <div><dt>{level}</dt><dd>{['Aprendemos los golpes básicos y las reglas jugando puntos cortos.', 'Trabajamos la regularidad, el movimiento y la táctica.', 'Entrenamos situaciones de partido. El acceso requiere una prueba de nivel.'][index]}</dd></div>)}
+    </dl><a class="primary" href={route('inscripcion/')}>Preinscripción 2026/27</a></div>
+    <Photo name="entrenador-nino" caption="Escuela · Perfeccionamiento" />
+  </section>
+  <section class="section school-groups"><div class="wrap">
+    <p class="eyebrow">De 5 a 16 años</p><h2>Categorías y horarios</h2>
+    <div class="group-list">{categories.map(group => <article id={'grupo-' + group.first}>
+      <div><p class="eyebrow">{group.first}–{group.last}</p><h3>{group.name}</h3><p>{group.method}</p><p>Entrena con {group.coach}.</p><a class="text-link" href={route('inscripcion/?anio=' + group.first)}>Elegir este grupo</a></div>
+      <dl class="schedule">{schedules.map((schedule, index) => <div><dt>{schedule} · {group.time}</dt><dd>{group.fees[index]} € / mes</dd></div>)}</dl>
+      {groupPhotos[group.name] && <Photo name={groupPhotos[group.name]} caption={group.name}/>}
+    </article>)}</div>
+    <p>Matrícula de 30 €. Descuentos para familias socias, segundo hermano y pago trimestral.</p>
+  </div></section>
+  <section class="section wrap split editorial">
+    <Photo name="clase-exterior" caption="Entrenamiento al aire libre" />
+    <div id="adultos"><p class="eyebrow">Escuela de adultos</p><h2>Volver a jugar</h2><p>Iniciación, martes 10:00 y jueves 20:00. Perfeccionamiento, miércoles 20:00. Secretaría te ayuda a elegir grupo.</p><a class="text-link" href={'mailto:' + contact}>Consultar plazas</a></div>
+  </section>
+  <section class="section compact wrap split editorial">
+    <div id="campus"><p class="eyebrow">Campus de verano</p><h2>Las mañanas de julio</h2><p>Turnos semanales desde el 28 de junio hasta el 30 de julio de 2027. De 9:00 a 13:30, para edades de 6 a 15 años.</p><a class="text-link" href={'mailto:' + contact}>Consultar el campus</a></div>
+    <Photo name="sombra-raqueta" caption="Campus de verano" />
+  </section>
+</Layout>
