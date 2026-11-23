@@ -5,10 +5,19 @@ import sharp from 'sharp';
 import { buildGroupedSheets } from './grouped-sheets.mjs';
 
 const example = process.argv[2] ?? 'ruido';
-if (!['ruido', 'mares', 'simon-lera', 'lia-ferro', 'los-almendros', 'pinar-alto', 'ramal'].includes(example)) throw new Error(`Unknown example: ${example}`);
-const grouped = ['simon-lera', 'lia-ferro', 'los-almendros', 'pinar-alto', 'ramal'].includes(example);
+if (!['ruido', 'mares', 'simon-lera', 'lia-ferro', 'los-almendros', 'pinar-alto', 'ramal', 'halda'].includes(example)) throw new Error(`Unknown example: ${example}`);
+const grouped = ['simon-lera', 'lia-ferro', 'los-almendros', 'pinar-alto', 'ramal', 'halda'].includes(example);
 const directory = new URL(example === 'ruido' ? './candidates/' : `./candidates-${example}/`, import.meta.url);
-const queries = example === 'ramal' ? [
+const queries = example === 'halda' ? [
+  ['industrial robot arm dark', 'landscape'],
+  ['machine vision camera', 'landscape'],
+  ['factory production line automation', 'landscape'],
+  ['circuit board macro dark', 'landscape'],
+  ['electronics engineer lab', 'landscape'],
+  ['cnc machined metal part', 'landscape'],
+  ['engineer prototype hardware workbench', 'landscape'],
+  ['oscilloscope laboratory', 'landscape'],
+] : example === 'ramal' ? [
   ['electrician cable tray installation', 'landscape'],
   ['hvac ductwork ceiling', 'landscape'],
   ['industrial piping mechanical room', 'landscape'],
