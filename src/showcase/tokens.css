@@ -35,8 +35,12 @@ button:disabled { opacity: .4; cursor: default; }
 h1.display { margin-block: clamp(2rem, 5vw, 4rem) 1.5rem; font-size: clamp(3.1rem, 10.4vw, 10.5rem); }
 .filters {
   display: flex; gap: clamp(1rem, 2.7vw, 3rem); overflow-x: auto;
-  padding: 5px 5px .65rem; border-bottom: 1px solid var(--rule);
+  padding: 5px 2rem .65rem 5px; border-bottom: 1px solid var(--rule);
+  scrollbar-width: none; mask-image: linear-gradient(to right, #000 calc(100% - 2rem), transparent);
 }
+.filters::-webkit-scrollbar, html::-webkit-scrollbar { display: none; }
+html { scrollbar-width: none; }
+@media (min-width: 768px) { .filters { flex-wrap: wrap; row-gap: .4rem; mask-image: none; padding-inline-end: 5px; } }
 .filters button { color: var(--muted); white-space: nowrap; font-size: clamp(1.05rem, 1.85vw, 1.8rem); }
 .filters button[aria-pressed="true"] {
   color: var(--ink); font-weight: 750; text-decoration: underline; text-underline-offset: .25em;
