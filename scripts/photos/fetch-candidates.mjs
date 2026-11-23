@@ -5,10 +5,19 @@ import sharp from 'sharp';
 import { buildGroupedSheets } from './grouped-sheets.mjs';
 
 const example = process.argv[2] ?? 'ruido';
-if (!['ruido', 'mares', 'simon-lera', 'lia-ferro', 'los-almendros', 'pinar-alto', 'ramal', 'halda'].includes(example)) throw new Error(`Unknown example: ${example}`);
-const grouped = ['simon-lera', 'lia-ferro', 'los-almendros', 'pinar-alto', 'ramal', 'halda'].includes(example);
+if (!['ruido', 'mares', 'simon-lera', 'lia-ferro', 'los-almendros', 'pinar-alto', 'ramal', 'halda', 'las-moreras'].includes(example)) throw new Error(`Unknown example: ${example}`);
+const grouped = ['simon-lera', 'lia-ferro', 'los-almendros', 'pinar-alto', 'ramal', 'halda', 'las-moreras'].includes(example);
 const directory = new URL(example === 'ruido' ? './candidates/' : `./candidates-${example}/`, import.meta.url);
-const queries = example === 'halda' ? [
+const queries = example === 'las-moreras' ? [
+  ['kids tennis lesson', 'landscape'],
+  ['clay tennis court', 'landscape'],
+  ['tennis ball clay court', 'landscape'],
+  ['junior tennis player', 'portrait'],
+  ['tennis net court lines', 'landscape'],
+  ['tennis coach', 'landscape'],
+  ['tennis racket', 'landscape'],
+  ['tennis club terrace', 'landscape'],
+] : example === 'halda' ? [
   ['industrial robot arm dark', 'landscape'],
   ['machine vision camera', 'landscape'],
   ['factory production line automation', 'landscape'],
