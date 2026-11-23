@@ -4,7 +4,7 @@ import sharp from 'sharp'
 
 const root = new URL(process.argv[2] ?? 'http://127.0.0.1:4399/portfolio-web-design/')
 const output = new URL('../../public/showcase/img/screens/', import.meta.url)
-const examples = ['ruido', 'bar-caribe', 'ines-arranz', 'mares', 'simon-lera', 'lia-ferro', 'los-almendros', 'pinar-alto', 'ramal']
+const examples = ['ruido', 'bar-caribe', 'ines-arranz', 'mares', 'simon-lera', 'lia-ferro', 'los-almendros', 'pinar-alto', 'ramal', 'halda']
 const selected = process.argv.slice(3)
 for (const name of selected) {
   if (!examples.includes(name)) throw new Error(`Ejemplo desconocido: ${name}`)
@@ -15,12 +15,15 @@ const viewports = [
 ]
 
 await mkdir(output, { recursive: true })
-const browser = await chromium.launch()
+const targets = selected.length ? selected : examples
+const browser = await chromium.launch(targets.includes('halda')
+  ? { args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'] }
+  : {})
 try {
   for (const [device, viewport] of viewports) {
     const page = await browser.newPage({ viewport, reducedMotion: 'reduce', hasTouch: device === 'mobile' })
     try {
-      for (const example of selected.length ? selected : examples) {
+      for (const example of targets) {
         const url = new URL(`${example}/`, root)
         const response = await page.goto(url.href)
         if (!response?.ok()) throw new Error(`No se pudo cargar ${url}`)
@@ -33,6 +36,15 @@ try {
           })
           await Promise.all(images.map(img => img.decode()))
         })
+        if (example === 'halda') {
+          const hero = page.locator('[data-scene="hero"]')
+          await hero.locator('canvas').waitFor({ state: 'visible' })
+          await page.waitForFunction(() => {
+            const canvas = document.querySelector('[data-scene="hero"] canvas')
+            const context = canvas?.getContext('2d')
+            return context?.getImageData(0, 0, canvas.width, canvas.height).data.some((value, index) => index % 4 !== 3 && value > 60)
+          })
+        }
         const screenshot = await page.screenshot({ animations: 'disabled' })
         let webp
         for (let quality = 88; quality >= 28; quality -= 6) {
@@ -42,7 +54,7 @@ try {
         if (webp.length >= 300_000) throw new Error(`Captura demasiado grande: ${example} ${device}`)
         const filename = `${example}-${device}.webp`
         await writeFile(new URL(filename, output), webp)
-        if (['los-almendros', 'pinar-alto', 'ramal'].includes(example) && device === 'desktop') {
+        if (['los-almendros', 'pinar-alto', 'ramal', 'halda'].includes(example) && device === 'desktop') {
           await copyFile(new URL(filename, output), new URL(`../${example}-preview.webp`, output))
         }
         console.log(`${filename} (${webp.length} bytes)`)

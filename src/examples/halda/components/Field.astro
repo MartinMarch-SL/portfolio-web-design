@@ -1,0 +1,14 @@
+---
+const { name, label, type = 'text', options, optional = false } = Astro.props as {
+  name: string; label: string; type?: string; options?: readonly (string | readonly [string, string])[]; optional?: boolean
+}
+---
+<label>
+  <span id={name + '-label'}>{label}</span>
+  {options ? <select name={name} aria-labelledby={name + '-label'} aria-describedby={name + '-error'} required={!optional}>
+    <option value="">Seleccionar</option>
+    {options.map(option => typeof option === 'string' ? <option>{option}</option> : <option value={option[0]}>{option[1]}</option>)}
+  </select> : type === 'textarea' ? <textarea name={name} rows="3" maxlength="1200" aria-labelledby={name + '-label'} aria-describedby={name + '-error'} required={!optional}></textarea> :
+    <input name={name} type={type} step={type === 'number' ? 'any' : undefined} inputmode={type === 'number' ? 'decimal' : undefined} maxlength={type === 'number' ? undefined : 240} aria-labelledby={name + '-label'} aria-describedby={name + '-error'} required={!optional} />}
+  <span class="field-error" id={name + '-error'} data-error={name} aria-live="polite"></span>
+</label>

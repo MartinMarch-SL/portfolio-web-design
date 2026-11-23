@@ -1,0 +1,52 @@
+---
+import PortfolioIcons from '../../lib/PortfolioIcons.astro'
+import { ClientRouter } from 'astro:transitions'
+import { route, image } from './lib/paths'
+import '@fontsource-variable/geist'
+import '@fontsource/geist-mono/latin-400.css'
+import '@fontsource/instrument-serif/latin-400-italic.css'
+import './styles/site.css'
+
+const { title, section = '' } = Astro.props
+const links = [['casos/', 'Casos de uso'], ['servicios/', 'Servicios'], ['laboratorio/', 'Laboratorio']]
+---
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#060708" />
+  <meta name="description" content="Ingeniería de visión artificial y hardware industrial a medida en Bilbao." />
+  <title>{title ? title + ' · HALDA' : 'HALDA · Visión artificial y hardware industrial'}</title>
+  <PortfolioIcons name="halda" />
+  <ClientRouter />
+</head>
+<body class="halda">
+  <a class="skip" href="#contenido">Saltar al contenido</a>
+  <header class="mast">
+    <div class="wrap mast-inner">
+      <a class="brand" href={route()} aria-label="HALDA, inicio"><img src={image('marca.svg')} width="29" height="29" alt="" /> HALDA<span>.</span></a>
+      <nav aria-label="Principal">
+        {links.map(([path, label]) => <a href={route(path)} aria-current={section === path ? 'page' : undefined}>{label}</a>)}
+      </nav>
+      <a class="button mast-contact" href={route('contacto/')}>Cuéntanos tu reto</a>
+      <button class="menu-toggle" type="button" data-menu-open aria-haspopup="dialog" aria-controls="halda-menu">Menú</button>
+    </div>
+  </header>
+  <dialog id="halda-menu" aria-label="Menú principal">
+    <button type="button" data-menu-close autofocus>Cerrar menú</button>
+    <nav aria-label="Principal móvil">
+      <a href={route()}>Inicio</a>
+      {[...links, ['contacto/', 'Cuéntanos tu reto']].map(([path, label]) => <a href={route(path)} aria-current={section === path ? 'page' : undefined}>{label}</a>)}
+    </nav>
+  </dialog>
+  <main id="contenido" tabindex="-1"><slot /></main>
+  <footer class="wrap footer">
+    <a class="brand" href={route()}><img src={image('marca.svg')} width="29" height="29" alt="" /> HALDA<span>.</span></a>
+    <p>Visión artificial y hardware industrial<br />Bilbao · Desde 2016</p>
+    <p>Consultora ficticia · Sitio de demostración</p>
+  </footer>
+  <script>import './scripts/main'</script>
+</body>
+</html>

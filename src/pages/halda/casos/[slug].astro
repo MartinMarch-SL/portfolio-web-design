@@ -1,0 +1,33 @@
+---
+import Layout from '../../../examples/halda/Layout.astro'
+import Scene from '../../../examples/halda/components/Scene.astro'
+import Photo from '../../../examples/halda/components/Photo.astro'
+import Closing from '../../../examples/halda/components/Closing.astro'
+import { cases } from '../../../examples/halda/data/cases'
+import { route } from '../../../examples/halda/lib/paths'
+export function getStaticPaths() {
+  return cases.map(item => ({ params: { slug: item.slug }, props: { item } }))
+}
+const { item } = Astro.props
+---
+<Layout title={item.title} section="casos/">
+  <section class="wrap page-head">
+    <a class="inline-link" href={route('casos/')}>Todos los casos</a>
+    <p class="eyebrow">{item.sector} · {item.tech}</p><h1>{item.title}.</h1><p>{item.intro}</p>
+  </section>
+  <figure class="wrap detail-scene"><Scene scene={item.scene} label={item.intro} eager /><figcaption>Modelo de la estación · {item.tech}</figcaption></figure>
+  <section class="wrap section">
+    <div class="feature-grid">
+      <article><h2>Reto</h2><p>{item.challenge}</p></article>
+      <article><h2>Solución</h2><p>{item.solution}</p></article>
+    </div>
+    {item.photos.length > 1 && <div class="photo-strip">{item.photos.map(([name, alt]: readonly [string, string]) =>
+      <Photo {name} {alt} width={name === 'linea-robots' ? 1600 : 1200} height={name === 'linea-robots' ? 900 : 800} />
+    )}</div>}
+    <h2>Resultado</h2>
+    <ul class="word-list">{item.metrics.map(metric => <li>{metric}</li>)}</ul>
+    <p class="mono">{item.weeks} semanas · {item.stack}</p>
+    <blockquote><p>«{item.quote}»</p><footer>{item.person}</footer></blockquote>
+  </section>
+  <Closing />
+</Layout>

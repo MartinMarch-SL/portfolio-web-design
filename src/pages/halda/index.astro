@@ -1,0 +1,79 @@
+---
+import Layout from '../../examples/halda/Layout.astro'
+import Scene from '../../examples/halda/components/Scene.astro'
+import Photo from '../../examples/halda/components/Photo.astro'
+import Closing from '../../examples/halda/components/Closing.astro'
+import { cases, sectors } from '../../examples/halda/data/cases'
+import { method } from '../../examples/halda/data/company'
+import { route } from '../../examples/halda/lib/paths'
+---
+<Layout>
+  <section class="hero wrap">
+    <div class="hero-copy">
+      <p class="eyebrow"><span class="cross" aria-hidden="true"></span> Ingeniería de visión · Bilbao</p>
+      <h1>Vemos lo que<br /> tu línea <em>no ve.</em></h1>
+      <p>Diseñamos sistemas de visión artificial y hardware a medida para inspeccionar, medir y guiar en planta.</p>
+      <div class="actions"><a class="button primary" href={route('contacto/')}>Cuéntanos tu reto</a><a class="inline-link" href={route('casos/')}>Explorar casos</a></div>
+    </div>
+    <figure class="hero-figure">
+      <Scene scene="hero" label="Estación óptica con cámara, cinta de inspección y réplica en nube de puntos" eager />
+      <figcaption><span>FIG. 01 / ESTACIÓN DE INSPECCIÓN</span><span>HALDA · I+D</span></figcaption>
+    </figure>
+  </section>
+  <div class="telemetry">
+    <dl class="wrap" data-telemetry>
+      <div class="telemetry-title"><dt><span aria-hidden="true"></span> Telemetría</dt><dd>Simulación de línea</dd></div>
+      <div><dt>Cadencia</dt><dd><span data-live>148</span> <small>piezas/min</small></dd></div>
+      <div><dt>Tasa de defectos</dt><dd><span data-live>0,82</span> <small>%</small></dd></div>
+      <div><dt>Latencia p95</dt><dd><span data-live>42</span> <small>ms</small></dd></div>
+    </dl>
+  </div>
+  <section class="wrap section" data-selector>
+    <p class="eyebrow"><span class="cross" aria-hidden="true"></span> Aplicaciones</p>
+    <h2>Casos de uso</h2>
+    <div class="selector">
+      <div class="case-list" role="group" aria-label="Elegir caso de uso">
+        {cases.map((item, index) => <button type="button" data-case={item.scene} aria-pressed={index === 0}><span class="mono">{String(index + 1).padStart(2, '0')}</span><span>{item.title}</span></button>)}
+      </div>
+      <div class="case-display">
+        <Scene scene="surface" label={cases[0].intro} />
+        {cases.map((item, index) => <div class="case-caption" data-caption={item.scene} hidden={index !== 0}><p>{item.intro}</p><a class="inline-link" href={route('casos/' + item.slug + '/')} aria-label={'Ver ficha de ' + item.title}>Ver ficha</a></div>)}
+      </div>
+    </div>
+  </section>
+  <section class="wrap section">
+    <p class="eyebrow"><span class="cross" aria-hidden="true"></span> Capacidades</p>
+    <h2>Del sensor al PLC.</h2>
+    <div class="feature-grid">
+      {[
+        ['Visión artificial', 'Inspección 2D y 3D, lectura de códigos, metrología y guiado robótico.'],
+        ['Hardware y electrónica', 'Óptica, iluminación, placas y carcasas diseñadas para las condiciones del puesto.'],
+        ['Edge y MLOps', 'Inferencia en la máquina, control de versiones y supervisión por lote.'],
+        ['Integración industrial', 'Sincronización por encoder y comunicación con PLC, OPC UA y MES.'],
+      ].map(([name, description]) => <article><h3>{name}</h3><p>{description}</p></article>)}
+    </div>
+    <Photo name="brazo-rojo" alt="Brazo robótico rojo" width={1600} height={900} sizes="92vw" class="photo-banner" />
+    <a class="inline-link" href={route('servicios/')}>Ver servicios</a>
+  </section>
+  <section class="wrap section pinned">
+    <div><p class="eyebrow"><span class="cross" aria-hidden="true"></span> Método</p><h2>De la muestra a la planta.</h2></div>
+    <ol class="method">{method.map(([name, description], index) => <li><span class="mono">0{index + 1}</span><div><h3>{name}</h3><p>{description}</p></div></li>)}</ol>
+  </section>
+  <section class="wrap section lab-split">
+    <div><p class="eyebrow"><span class="cross" aria-hidden="true"></span> Laboratorio · Bilbao</p><h2>La prueba empieza con tu pieza.</h2><p>Replicamos la geometría del puesto y ensayamos con lotes buenos, defectos límite y condiciones reales de iluminación.</p><a class="inline-link" href={route('laboratorio/')}>Conocer el laboratorio</a></div>
+    <Photo name="banco-pruebas" alt="Técnico en un banco de pruebas" />
+  </section>
+  <section class="wrap section">
+    <p class="eyebrow"><span class="cross" aria-hidden="true"></span> Sectores</p><h2>Ingeniería para fábrica.</h2>
+    <Photo name="linea-robots" alt="Robots en una línea de automoción" width={1600} height={900} sizes="92vw" class="photo-banner" />
+    <ul class="word-list">{sectors.map(sector => <li>{sector}</li>)}</ul>
+    <dl class="stats">
+      <div><dt>Profesionales</dt><dd data-count="40">40</dd></div>
+      <div><dt>Desde</dt><dd>2016</dd></div>
+      <div><dt>Disciplinas de ingeniería</dt><dd data-count="5">5</dd></div>
+    </dl>
+    <h3>Colaboradores tecnológicos</h3>
+    <ul class="word-list partners"><li>Óptica Industrial</li><li>Sistemas Embebidos</li><li>Robótica de Planta</li></ul>
+  </section>
+  <Closing />
+</Layout>

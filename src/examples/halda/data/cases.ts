@@ -1,0 +1,66 @@
+export const cases = [
+  {
+    slug: 'inspeccion-superficial', scene: 'surface', title: 'Inspección superficial', sector: 'Automoción Tier 1', tech: 'Visión 2D',
+    photos: [["pieza-mecanizada", "Pieza de aluminio mecanizada"], ["linea-robots", "Robots en una línea de automoción"]],
+    intro: 'Rayas de 80 µm en aluminio mecanizado, a plena cadencia.',
+    challenge: 'Una marca de herramienta y un rayado superficial podían verse iguales bajo la luz difusa de la línea.',
+    solution: 'Óptica telecéntrica y estrobos rasantes en cuatro direcciones. Un modelo de segmentación separa rayado y textura; el equipo edge comunica el rechazo al PLC y conserva el recorte en el MES.',
+    metrics: ['−82 % escapes de defecto', '0,4 s por pieza', 'Retorno en 7 meses'], weeks: 14,
+    stack: 'Óptica telecéntrica · Campo oscuro · Segmentación · PLC · MES',
+    quote: 'Ahora podemos localizar el origen de la marca en el mismo turno.', person: 'Leire Aldunate, responsable de calidad',
+  },
+  {
+    slug: 'bin-picking', scene: 'bin', title: 'Bin-picking robótico', sector: 'Farmacéutico', tech: 'Visión 3D',
+    photos: [["cobot-mesa", "Brazo robótico sobre una mesa de trabajo"]],
+    intro: 'Localización 6D de cuerpos de dosificación a granel.',
+    challenge: 'Los cuerpos de dosificación se solapaban en la cuba y las paredes limitaban la entrada de la pinza.',
+    solution: 'Óptica de luz estructurada y proyección polarizada en dos tomas. Registro de nube contra CAD y planificación de agarres en un controlador edge con intercambio de poses por OPC UA.',
+    metrics: ['98,4 % agarres al primer intento', '3,2 s por ciclo', '−61 % paradas por alimentación'], weeks: 17,
+    stack: 'Luz estructurada · Registro CAD · Planificación 6D · OPC UA',
+    quote: 'La última capa del contenedor ya no exige intervención manual.', person: 'Mikel Ardanza, responsable de planta',
+  },
+  {
+    slug: 'aoi-placas', scene: 'pcb', title: 'AOI de placas electrónicas', sector: 'Electrónica', tech: 'Visión 2D',
+    photos: [["pcb-oscura", "Detalle de una placa electrónica"]],
+    intro: 'Lectura del menisco de soldadura antes de la prueba funcional.',
+    challenge: 'Las uniones frías en conectores de paso estrecho podían pasar la prueba funcional inicial.',
+    solution: 'Macro de baja distorsión, cúpula difusa y luz segmentada por ángulo. El modelo compara el menisco con referencias aprobadas; la unidad edge devuelve el defecto al PLC y registra coordenadas en el MES.',
+    metrics: ['−74 % retrabajos tardíos', '1,8 s por placa', '0,6 % falsos rechazos'], weeks: 13,
+    stack: 'Macro · Iluminación multicanal · Clasificación · PLC · MES',
+    quote: 'El equipo de reparación recibe el pin exacto que debe revisar.', person: 'Ane Eguren, jefa de producción',
+  },
+  {
+    slug: 'metrologia-3d', scene: 'laser', title: 'Metrología 3D', sector: 'Fundición', tech: 'Visión 3D',
+    photos: [["fresado", "Fresado con refrigerante"], ["palpador", "Palpador de metrología sobre una pieza"]],
+    intro: 'Perfil láser para medir alturas y rebabas en fundición.',
+    challenge: 'El control por muestreo dejaba fuera deformaciones entre lotes y acumulaba piezas en espera.',
+    solution: 'Láser lineal, óptica de triangulación con filtro de banda y encoder. El equipo edge reconstruye perfiles, ajusta planos de referencia y publica cotas con tolerancia por OPC UA.',
+    metrics: ['±35 µm repetibilidad', '100 % piezas medidas', '−48 % tiempo de control'], weeks: 16,
+    stack: 'Triangulación láser · Encoder · Ajuste geométrico · OPC UA',
+    quote: 'Las cotas en línea nos permiten intervenir antes de completar el lote.', person: 'Jon Bengoa, responsable de proceso',
+  },
+  {
+    slug: 'trazabilidad-dpm', scene: 'dpm', title: 'Trazabilidad DPM', sector: 'Alimentación', tech: 'Lectura DPM',
+    photos: [["linea-alimentacion", "Línea de procesamiento de alimentos"], ["transportadores", "Cintas transportadoras de clasificación"]],
+    intro: 'Lectura de marcados Data Matrix en útiles de acero inoxidable.',
+    challenge: 'El lavado y los reflejos del acero húmedo volvían intermitente la lectura en un punto de control.',
+    solution: 'Óptica macro, iluminación coaxial polarizada y estrobo rasante de respaldo. Un lector edge rectifica la perspectiva y sincroniza cada lectura con PLC y registro de lote en MES.',
+    metrics: ['99,7 % lecturas válidas', '110 ms por lectura', '−89 % registros manuales'], weeks: 10,
+    stack: 'Polarización · Data Matrix ECC 200 · Lector edge · PLC · MES',
+    quote: 'La lectura sigue siendo fiable al reincorporar el útil recién lavado.', person: 'Nerea Urrutia, responsable de operaciones',
+  },
+  {
+    slug: 'hardware-edge', scene: 'edge', title: 'Hardware edge a medida', sector: 'Logística', tech: 'Hardware edge',
+    photos: [["placa-foco", "Placa electrónica iluminada en el banco"]],
+    intro: 'Cabezal de visión compacto para estaciones de clasificación.',
+    challenge: 'El armario exterior y el cableado de vídeo dificultaban replicar estaciones con poco espacio.',
+    solution: 'Sensor global, lente de baja distorsión e iluminación pulsada. Diseñamos portadora, disipador y carcasa; el modelo se ejecuta en el módulo local y entrega resultados por OPC UA.',
+    metrics: ['42 ms latencia p95', '−36 % volumen instalado', '24 estaciones equipadas'], weeks: 22,
+    stack: 'Sensor global · Portadora propia · Inferencia local · OPC UA',
+    quote: 'El cabezal se cambia desde el frontal y recupera la receta de puesto.', person: 'Iker Zubia, responsable de automatización',
+  },
+] as const
+
+export type Scene = 'hero' | typeof cases[number]['scene']
+export const sectors = [...new Set(cases.map(item => item.sector))]
+export const technologies = [...new Set(cases.map(item => item.tech))]

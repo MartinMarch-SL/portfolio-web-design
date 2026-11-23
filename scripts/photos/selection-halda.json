@@ -1,0 +1,21 @@
+{
+  "brazo-rojo": "q1-15",
+  "rig-camaras": "q1-11",
+  "brazo-silueta": "q1-13",
+  "cobot-mesa": "q1-03",
+  "cabezal-bn": "q1-06",
+  "pcb-oscura": "q4-05",
+  "pcb-pads": "q4-02",
+  "placa-foco": "q4-20",
+  "conectores": "q4-17",
+  "pcb-bokeh": "q5-08",
+  "soldadura": "q5-07",
+  "banco-pruebas": "q5-06",
+  "fresado": "q6-04",
+  "palpador": "q6-16",
+  "pieza-mecanizada": "q6-06",
+  "linea-robots": "q3-07",
+  "linea-alimentacion": "q3-08",
+  "transportadores": "q3-11",
+  "cableado-cuadro": "q3-20"
+}

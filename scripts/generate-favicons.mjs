@@ -11,6 +11,7 @@ const examples = [
   ['los-almendros', 'UD Los Almendros', '#0F3A2B'],
   ['pinar-alto', 'CB Pinar Alto', '#0B1420'],
   ['ramal', 'RAMAL Instalaciones', '#15181B'],
+  ['halda', 'HALDA', '#060708'],
 ]
 const resultsDir = new URL('../test-results/', import.meta.url)
 const icoSizes = [16, 32, 48]

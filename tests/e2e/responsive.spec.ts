@@ -66,6 +66,17 @@ const pages = {
   vedaRamal: 'ramal/obras/centro-logistico-la-veda/',
   empresaRamal: 'ramal/empresa/',
   ofertaRamal: 'ramal/oferta/',
+  halda: 'halda/',
+  casosHalda: 'halda/casos/',
+  inspeccionHalda: 'halda/casos/inspeccion-superficial/',
+  binHalda: 'halda/casos/bin-picking/',
+  aoiHalda: 'halda/casos/aoi-placas/',
+  metrologiaHalda: 'halda/casos/metrologia-3d/',
+  trazabilidadHalda: 'halda/casos/trazabilidad-dpm/',
+  edgeHalda: 'halda/casos/hardware-edge/',
+  serviciosHalda: 'halda/servicios/',
+  laboratorioHalda: 'halda/laboratorio/',
+  contactoHalda: 'halda/contacto/',
 }
 
 for (const [width, height] of viewports) {

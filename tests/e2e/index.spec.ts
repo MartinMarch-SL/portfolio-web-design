@@ -11,6 +11,7 @@ const examples = [
   ['UD Los Almendros', 'los-almendros'],
   ['CB Pinar Alto', 'pinar-alto'],
   ['RAMAL Instalaciones', 'ramal'],
+  ['HALDA', 'halda'],
 ]
 
 test.beforeEach(async ({ page }) => {
@@ -21,7 +22,7 @@ test.beforeEach(async ({ page }) => {
 test('filtra por tipo de web', async ({ page }) => {
   const projects = page.getByRole('list', { name: 'Proyectos' })
   const filters = page.getByRole('group', { name: 'Tipo de web' })
-  await expect(projects.getByRole('link')).toHaveCount(9)
+  await expect(projects.getByRole('link')).toHaveCount(10)
   await filters.getByRole('button', { name: 'Reservas y citas 2' }).click()
   await expect(projects.getByRole('link')).toHaveCount(2)
   await expect(projects.getByRole('link', { name: 'Inés Arranz' })).toBeAttached()
@@ -39,11 +40,12 @@ test('filtra por tipo de web', async ({ page }) => {
   await expect(projects.getByRole('link', { name: 'UD Los Almendros' })).toBeAttached()
   await expect(projects.getByRole('link', { name: 'CB Pinar Alto' })).toBeAttached()
   await expect(filters.getByRole('button')).toHaveCount(8)
-  await filters.getByRole('button', { name: 'Industria y servicios 1' }).click()
-  await expect(projects.getByRole('link')).toHaveCount(1)
+  await filters.getByRole('button', { name: 'Industria y servicios 2' }).click()
+  await expect(projects.getByRole('link')).toHaveCount(2)
+  await expect(projects.getByRole('link', { name: 'HALDA' })).toBeAttached()
   await expect(projects.getByRole('link', { name: 'RAMAL Instalaciones' })).toBeAttached()
-  await filters.getByRole('button', { name: 'Todas 9' }).click()
-  await expect(projects.getByRole('link')).toHaveCount(9)
+  await filters.getByRole('button', { name: 'Todas 10' }).click()
+  await expect(projects.getByRole('link')).toHaveCount(10)
 })
 
 test('permite recorrer el carrusel con el teclado y abrir la web', async ({ page }) => {
@@ -54,9 +56,9 @@ test('permite recorrer el carrusel con el teclado y abrir la web', async ({ page
   await page.keyboard.press('ArrowLeft')
   await expect(first).toBeFocused()
   await page.keyboard.press('ArrowLeft')
-  await expect(page.locator('[data-name]')).toHaveText('RAMAL Instalaciones')
+  await expect(page.locator('[data-name]')).toHaveText('HALDA')
   await page.keyboard.press('Enter')
-  await expect(page).toHaveURL(base + 'ramal/')
+  await expect(page).toHaveURL(base + 'halda/')
 })
 
 test('cada enlace abre el ejemplo de la pantalla frontal', async ({ page }) => {
@@ -74,7 +76,7 @@ test('una pantalla lateral pasa al frente y abre su ejemplo', async ({ page, red
   test.skip(reducedMotion === 'reduce', 'Las pantallas laterales están fuera de escena')
   await page.setViewportSize({ width: 1440, height: 900 })
   const front = (await page.getByRole('link', { name: 'RUIDO', exact: true }).boundingBox())!
-  const left = (await page.getByRole('link', { name: 'RAMAL Instalaciones', exact: true }).boundingBox())!
+  const left = (await page.getByRole('link', { name: 'HALDA', exact: true }).boundingBox())!
   expect(left.x + left.width).toBeLessThan(front.x)
   const side = page.getByRole('link', { name: 'Bar Caribe', exact: true })
   const box = (await side.boundingBox())!

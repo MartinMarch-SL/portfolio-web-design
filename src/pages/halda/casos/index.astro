@@ -1,0 +1,22 @@
+---
+import Layout from '../../../examples/halda/Layout.astro'
+import Photo from '../../../examples/halda/components/Photo.astro'
+import Closing from '../../../examples/halda/components/Closing.astro'
+import { cases, sectors, technologies } from '../../../examples/halda/data/cases'
+import { route } from '../../../examples/halda/lib/paths'
+---
+<Layout title="Casos de uso" section="casos/">
+  <section class="wrap page-head"><p class="eyebrow"><span class="cross" aria-hidden="true"></span> Proyectos de planta</p><h1>Casos de uso.</h1><p>Seis estaciones que resuelven problemas distintos de inspección, medida y automatización.</p></section>
+  <section class="wrap case-index" aria-label="Casos de uso">
+    <div class="case-filters" data-filter>
+      <label>Sector<select><option value="">Todos los sectores</option>{sectors.map(sector => <option>{sector}</option>)}</select></label>
+      <label>Tecnología<select><option value="">Todas las tecnologías</option>{technologies.map(tech => <option>{tech}</option>)}</select></label>
+      <output aria-live="polite">6 casos</output>
+    </div>
+    <p data-empty hidden>No hay casos para esta combinación.</p>
+    <div class="case-grid">
+      {cases.map(item => <article data-project={item.slug}><a href={route('casos/' + item.slug + '/')}><Photo name={item.photos[0][0]} /><div><p class="eyebrow">{item.sector} · {item.tech}</p><h2>{item.title}</h2><p>{item.intro}</p></div></a></article>)}
+    </div>
+  </section>
+  <Closing />
+</Layout>

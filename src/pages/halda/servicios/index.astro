@@ -1,0 +1,20 @@
+---
+import Layout from '../../../examples/halda/Layout.astro'
+import Photo from '../../../examples/halda/components/Photo.astro'
+import Closing from '../../../examples/halda/components/Closing.astro'
+import { services } from '../../../examples/halda/data/company'
+---
+<Layout title="Servicios" section="servicios/">
+  <section class="wrap page-head"><p class="eyebrow"><span class="cross" aria-hidden="true"></span> Ingeniería industrial</p><h1>Del ensayo al <em>despliegue.</em></h1><p>Un equipo de visión, electrónica, mecánica, software embebido y datos para diseñar y mantener sistemas de planta.</p></section>
+  <section class="wrap section" aria-label="Servicios">
+    <Photo name="brazo-silueta" width={1600} height={900} sizes="92vw" class="photo-banner" />
+    <div class="feature-grid">{services.map(([name, description]) => <article><h2>{name}</h2><p>{description}</p></article>)}</div>
+    <div class="photo-strip">
+      <Photo name="pcb-pads" alt="Pistas y contactos de una placa electrónica" />
+      <Photo name="conectores" alt="Conectores industriales en detalle" />
+      <Photo name="soldadura" alt="Soldadura manual de una placa" />
+      <Photo name="cableado-cuadro" alt="Cableado de un cuadro industrial" />
+    </div>
+  </section>
+  <Closing />
+</Layout>

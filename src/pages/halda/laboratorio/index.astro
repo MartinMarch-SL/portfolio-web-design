@@ -1,0 +1,12 @@
+---
+import Layout from '../../../examples/halda/Layout.astro'
+import Photo from '../../../examples/halda/components/Photo.astro'
+import Closing from '../../../examples/halda/components/Closing.astro'
+import { lab, method } from '../../../examples/halda/data/company'
+---
+<Layout title="Laboratorio" section="laboratorio/">
+  <section class="wrap page-head"><p class="eyebrow"><span class="cross" aria-hidden="true"></span> Bilbao · Desde 2016</p><h1>Laboratorio de <em>visión.</em></h1><p>Probamos las condiciones que determinan si un sistema seguirá midiendo bien en el primer turno y en el último.</p></section>
+  <section class="wrap section"><div class="case-grid">{lab.map(([name, description, file]) => <article><Photo name={file} /><div><h2>{name}</h2><p>{description}</p></div></article>)}</div></section>
+  <section class="wrap section pinned"><div><p class="eyebrow">Método</p><h2>Cuatro fases.</h2></div><ol class="method">{method.map(([name, description], index) => <li><span class="mono">0{index + 1}</span><div><h3>{name}</h3><p>{description}</p></div></li>)}</ol></section>
+  <Closing />
+</Layout>

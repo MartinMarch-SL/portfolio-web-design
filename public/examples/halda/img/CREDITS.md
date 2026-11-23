@@ -1,0 +1,22 @@
+# HALDA · Créditos de imagen
+
+Los fotogramas de las escenas 3D se capturaron con Chromium mediante `scripts/qa/halda-stills.mjs`.
+brazo-rojo.webp — Foto de Mathew Schwartz en Unsplash (https://unsplash.com/photos/a-close-up-of-a-red-bike-with-a-black-background-zIIXVa5BwvM)
+rig-camaras.webp — Foto de yang miao en Unsplash (https://unsplash.com/photos/plastic-case-on-shel-tNmKSwQnhkw)
+brazo-silueta.webp — Foto de Sylvester Sabo en Unsplash (https://unsplash.com/photos/a-black-and-white-photo-of-a-microphone-and-a-pair-of-shoes-ciWMS2yDwtk)
+cobot-mesa.webp — Foto de Maria Teneva en Unsplash (https://unsplash.com/photos/a-robot-that-is-sitting-on-a-table-xk9htrFBeAw)
+cabezal-bn.webp — Foto de Miguel Ángel Hernández en Unsplash (https://unsplash.com/photos/black-video-camera-4Kmvlc1M9rU)
+pcb-oscura.webp — Foto de Anne Nygård en Unsplash (https://unsplash.com/photos/a-circuit-board-with-many-small-components-vILVKROnyGA)
+pcb-pads.webp — Foto de Vishnu Mohanan en Unsplash (https://unsplash.com/photos/close-up-of-dark-blue-circuit-board-pfR18JNEMv8)
+placa-foco.webp — Foto de Vinayak Veer en Unsplash (https://unsplash.com/photos/black-and-gray-computer-motherboard-vOGChnR8zhM)
+conectores.webp — Foto de Patrick Hendry en Unsplash (https://unsplash.com/photos/a-close-up-view-of-a-computer-motherboard-A1v0-iH3T5A)
+pcb-bokeh.webp — Foto de Laurens van der Drift en Unsplash (https://unsplash.com/photos/a-close-up-view-of-a-circuit-board-eEsPIoTSBz8)
+soldadura.webp — Foto de Bermix Studio en Unsplash (https://unsplash.com/photos/a-man-wearing-a-blindfold-working-on-a-circuit-board-y9RGeKyVpM8)
+banco-pruebas.webp — Foto de ThisisEngineering en Unsplash (https://unsplash.com/photos/woman-in-white-long-sleeve-shirt-using-black-laptop-computer-aL2rxQhEfAM)
+fresado.webp — Foto de Jelifer Maniago en Unsplash (https://unsplash.com/photos/a-machine-that-is-cutting-a-piece-of-metal-8MBTn3Z71zI)
+palpador.webp — Foto de Jelifer Maniago en Unsplash (https://unsplash.com/photos/a-machine-that-is-making-a-piece-of-metal-u_9k4ueKPHM)
+pieza-mecanizada.webp — Foto de Mastars en Unsplash (https://unsplash.com/photos/silver-and-black-electronic-device-cJpvBX_gNrg)
+linea-robots.webp — Foto de Homa Appliances en Unsplash (https://unsplash.com/photos/a-line-of-electrical-equipment-in-a-factory-ERXFD4jLpJc)
+linea-alimentacion.webp — Foto de Arno Senoner en Unsplash (https://unsplash.com/photos/a-group-of-men-in-a-factory-oLS6IxceVNs)
+transportadores.webp — Foto de Hyundai Motor Group en Unsplash (https://unsplash.com/photos/a-factory-filled-with-lots-of-machines-and-boxes-h2rWePLKxvs)
+cableado-cuadro.webp — Foto de Shoeib Abolhassani en Unsplash (https://unsplash.com/photos/man-in-blue-polo-shirt-standing-in-front-of-shopping-cart-Sy2Zo3iULG8)

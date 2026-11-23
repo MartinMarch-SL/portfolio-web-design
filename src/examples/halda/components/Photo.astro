@@ -1,0 +1,6 @@
+---
+import { responsiveImage } from '../../../lib/responsive-image'
+
+const { name, alt = '', width = 1200, height = 800, sizes = '(max-width: 850px) 92vw, 46vw', class: className } = Astro.props
+---
+<img {...responsiveImage(`examples/halda/img/${name}.webp`, sizes, width)} {alt} {width} {height} class={className} loading="lazy" decoding="async" />

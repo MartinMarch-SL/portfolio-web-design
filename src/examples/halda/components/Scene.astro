@@ -1,0 +1,11 @@
+---
+import { image } from '../lib/paths'
+import type { Scene } from '../data/cases'
+const { scene, label, eager = false } = Astro.props as { scene: Scene; label: string; eager?: boolean }
+---
+<div class="scene" data-stage data-scene={scene} data-stills={image('stills/')} role="img" aria-label={label}>
+  <img data-still src={image('stills/' + scene + '.webp')} alt="" width="1200" height="850" loading={eager ? 'eager' : 'lazy'} />
+  <canvas hidden aria-hidden="true"></canvas>
+  <div class="scene-overlay" aria-hidden="true"></div>
+  <span class="reticle reticle-tl" aria-hidden="true"></span><span class="reticle reticle-br" aria-hidden="true"></span>
+</div>

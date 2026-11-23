@@ -1,0 +1,51 @@
+---
+import Layout from '../../../examples/halda/Layout.astro'
+import Field from '../../../examples/halda/components/Field.astro'
+import { sectors } from '../../../examples/halda/data/cases'
+import { demo, types } from '../../../examples/halda/lib/estimate'
+---
+<Layout title="Cuéntanos tu reto" section="contacto/">
+  <section class="wrap page-head"><p class="eyebrow"><span class="cross" aria-hidden="true"></span> Diagnóstico inicial</p><h1>Cuéntanos <em>tu reto.</em></h1><p>Describe el puesto de trabajo y calcula una primera estimación para ensayar con tus piezas.</p></section>
+  <section class="wrap challenge">
+    <noscript><p>Activa JavaScript para calcular la estimación y guardar el borrador en este dispositivo.</p></noscript>
+    <form data-challenge novalidate hidden>
+      <ol class="progress" aria-label="Pasos del formulario"><li data-progress="1">01 · Problema</li><li data-progress="2">02 · Datos</li><li data-progress="3">03 · Contacto</li></ol>
+      <section class="form-panel" data-step="1">
+        <h2 tabindex="-1">El problema</h2>
+        <div class="form-grid">
+          <Field name="type" label="Tipo de problema" options={Object.entries(types)} />
+          <Field name="sector" label="Sector" options={sectors} />
+          <Field name="rate" label="Cadencia (piezas/min)" type="number" />
+          <Field name="defect" label="Defecto mínimo (mm)" type="number" />
+          <Field name="width" label="Ancho de pieza (mm)" type="number" />
+          <Field name="height" label="Alto de pieza (mm)" type="number" />
+        </div>
+        <Field name="environment" label="Entorno (polvo, temperatura, vibración)" type="textarea" />
+      </section>
+      <section class="form-panel" data-step="2" hidden>
+        <h2 tabindex="-1">Datos disponibles</h2>
+        <p>Puedes adjuntar imágenes de la pieza y del defecto. Al recargar se recuperan los nombres y tamaños de archivo. Para volver a ver una miniatura, adjunta de nuevo la imagen.</p>
+        <label>Imágenes de ejemplo (opcional)<input type="file" multiple accept="image/*" data-attachment /></label>
+        <p data-file-status role="status"></p><ul class="attachments" data-files></ul>
+        <Field name="samples" label="Notas sobre las muestras (opcional)" type="textarea" optional />
+      </section>
+      <section class="form-panel" data-step="3" hidden>
+        <h2 tabindex="-1">Contacto</h2>
+        <div class="form-grid">
+          <Field name="person" label="Nombre y apellidos" />
+          <Field name="company" label="Empresa" />
+          <Field name="email" label="Correo profesional" type="email" />
+          <Field name="phone" label="Teléfono (opcional)" type="tel" optional />
+        </div>
+      </section>
+      <section class="form-panel" data-step="4" hidden>
+        <h2 tabindex="-1">Resumen y estimación orientativa</h2>
+        <p data-reference class="mono"></p>
+        <dl class="summary" data-summary></dl>
+        <button class="button primary" type="button" data-receipt>Descargar justificante HTML</button>
+      </section>
+      <div class="form-actions"><button class="button" type="button" data-back>Volver</button><button class="button primary" type="submit" data-next>Continuar</button><button class="button" type="button" data-reset>Borrar borrador</button></div>
+      <p class="notice">{demo}</p>
+    </form>
+  </section>
+</Layout>

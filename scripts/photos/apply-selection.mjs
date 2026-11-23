@@ -22,7 +22,8 @@ const liaFerro = batch === 'candidates-lia-ferro';
 const losAlmendros = batch === 'candidates-los-almendros';
 const pinarAlto = batch === 'candidates-pinar-alto';
 const ramal = batch === 'candidates-ramal';
-const grouped = simonLera || liaFerro || losAlmendros || pinarAlto || ramal;
+const halda = batch === 'candidates-halda';
+const grouped = halda || simonLera || liaFerro || losAlmendros || pinarAlto || ramal;
 const basketballCrops = new Map([
   ['pabellon-noche', [1600, 1000, 'centre']],
   ['parquet-claro', [1200, 800, 'south']],
@@ -65,6 +66,27 @@ const ramalCrops = new Map([
   ['revision-plano', [1200, 800, 'attention']],
   ['ferralla', [1200, 800, 'attention']],
 ]);
+const haldaCrops = new Map([
+  ['brazo-rojo', [1600, 900, 'centre']],
+  ['rig-camaras', [1200, 800, 'centre']],
+  ['brazo-silueta', [1600, 900, 'centre']],
+  ['cobot-mesa', [1200, 800, 'attention']],
+  ['cabezal-bn', [1200, 800, 'centre']],
+  ['pcb-oscura', [1200, 800, 'centre']],
+  ['pcb-pads', [1200, 800, 'centre']],
+  ['placa-foco', [1200, 800, 'centre']],
+  ['conectores', [1200, 800, 'centre']],
+  ['pcb-bokeh', [1200, 800, 'centre']],
+  ['soldadura', [1200, 800, 'attention']],
+  ['banco-pruebas', [1200, 800, 'attention']],
+  ['fresado', [1200, 800, 'centre']],
+  ['palpador', [1200, 800, 'centre']],
+  ['pieza-mecanizada', [1200, 800, 'centre']],
+  ['linea-robots', [1600, 900, 'centre']],
+  ['linea-alimentacion', [1200, 800, 'centre']],
+  ['transportadores', [1200, 800, 'centre']],
+  ['cableado-cuadro', [1200, 800, 'attention']],
+]);
 const byNumber = new Map(grouped ? Object.entries(candidates) : candidates.map(photo => [photo.n, photo]));
 const photos = new Map();
 
@@ -102,6 +124,7 @@ for (const [key, number] of Object.entries(selection)) {
   }
   if (losAlmendros && !footballCrops.has(key)) throw new Error(`Invalid Los Almendros target: ${key}`);
   if (pinarAlto && !basketballCrops.has(key)) throw new Error(`Invalid Pinar Alto target: ${key}`);
+  if (halda && !haldaCrops.has(key)) throw new Error(`Invalid HALDA target: ${key}`);
   if (ramal && !ramalCrops.has(key)) throw new Error(`Invalid RAMAL target: ${key}`);
   const requestedPath = path.resolve(publicDir, grouped
     ? `examples/${batch.slice(11)}/img/${key}.webp`
@@ -110,7 +133,7 @@ for (const [key, number] of Object.entries(selection)) {
   const realDirectory = await realpath(path.dirname(requestedPath));
   if (realDirectory !== path.dirname(requestedPath)) throw new Error(`Invalid target directory: ${key}`);
   const target = await realpath(requestedPath).catch(error => {
-    if ((losAlmendros || pinarAlto || ramal) && error.code === 'ENOENT') return requestedPath;
+    if ((losAlmendros || pinarAlto || ramal || halda) && error.code === 'ENOENT') return requestedPath;
     throw error;
   });
   if (target !== requestedPath || path.extname(target).toLowerCase() !== '.webp' || targets.has(target)) {
@@ -123,8 +146,8 @@ for (const [key, number] of Object.entries(selection)) {
     : fileURLToPath(new URL(`${String(number).padStart(3, '0')}.webp`, candidatesDir));
   const crop = sharp(source).autoOrient();
   let width, height, position = sharp.strategy.attention;
-  if (pinarAlto || ramal) {
-    const [cropWidth, cropHeight, anchor] = (ramal ? ramalCrops : basketballCrops).get(key);
+  if (pinarAlto || ramal || halda) {
+    const [cropWidth, cropHeight, anchor] = (halda ? haldaCrops : ramal ? ramalCrops : basketballCrops).get(key);
     [width, height] = [cropWidth, cropHeight];
     position = anchor === 'attention' ? sharp.strategy.attention : anchor;
   } else if (losAlmendros) {
@@ -149,6 +172,7 @@ for (const [key, number] of Object.entries(selection)) {
     if (simonLera && key.startsWith('detalle-')) height = width;
     crop.resize(width, height, { fit: 'cover', position });
   }
+  if (halda) crop.modulate({ saturation: 0.78 }).linear(1.03, -8);
   if (ramal) crop.modulate({ saturation: 0.82 });
   let image;
   for (let quality = 78; ; quality = Math.max(1, quality - 2)) {
