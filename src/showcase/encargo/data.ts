@@ -1,3 +1,6 @@
+import type { Tipo } from './data/plataformas'
+import type { Attachment } from './lib/upload'
+
 export const palettes = [
   ['Cal y tinta', '#F1EEE5', '#22211D', '#A69A84'],
   ['Arcilla', '#F2E3D8', '#422B25', '#A7543B'],
@@ -61,7 +64,14 @@ export const tones: Record<string, [string, string]> = {
   Institucional: ['Accede a la información y a los canales de atención.', 'Acceda a la información y a los canales de atención.'],
 }
 
+export const textFields = [['headline', 'Titular'], ['body', 'Texto principal'], ['sections', 'Textos de las secciones']] as const
+export type PageText = Partial<Record<typeof textFields[number][0], { text?: string; studio?: boolean }>>
+
 export interface Answers {
+  tipo?: Tipo; style?: string; imagery?: string; movement?: string
+  pageSections?: Record<string, string>; content?: Record<string, PageText>; files?: Attachment[]; shareLink?: string
+  editable?: string[]; admins?: string; adminRoles?: string; roles?: string; permissions?: string
+  marketplace?: string; sellers?: string; commissions?: string; integrations?: string; workflow?: string; domain?: string
   business?: string; sector?: string; otherSector?: string; city?: string; offer?: string; audiences?: string[]
   goal?: string; competition?: string; difference?: string; brand?: string
   logo?: { name: string; width: number; height: number; colors: string[]; image?: string }

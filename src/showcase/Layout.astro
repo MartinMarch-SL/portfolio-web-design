@@ -2,6 +2,7 @@
 import PortfolioIcons from '../lib/PortfolioIcons.astro'
 import '@fontsource-variable/inter-tight'
 import './tokens.css'
+const { title = 'Catálogo de proyectos · 2026' } = Astro.props
 ---
 <!doctype html>
 <html lang="es">
@@ -10,7 +11,7 @@ import './tokens.css'
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex, nofollow" />
     <PortfolioIcons />
-    <title>Catálogo de proyectos · 2026</title>
+    <title>{title}</title>
   </head>
   <body><slot /></body>
 </html>

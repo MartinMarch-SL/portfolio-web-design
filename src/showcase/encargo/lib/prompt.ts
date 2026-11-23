@@ -1,4 +1,6 @@
-import { artifacts, goals, motion, pages, personality, selectedPair, selectedPalette, tones, brandColors, type Answers } from '../data'
+import { plataformas } from '../data/plataformas'
+import { planUpload } from './upload'
+import { artifacts, goals, motion, pages, personality, selectedPair, selectedPalette, tones, brandColors, textFields, type Answers } from '../data'
 
 const value = (text?: string) => text?.trim() || 'Sin indicar'
 const list = (items?: string[]) => value(items?.join(', '))
@@ -20,26 +22,44 @@ export function buildPrompt(answers: Answers): string {
     ? ['Respetar la identidad existente.', `Logo: ${answers.logo ? `${answers.logo.name} (${answers.logo.width} × ${answers.logo.height} px)` : 'Sin indicar'}`,
       `Colores de marca: ${list(brandColors(answers))}`, `Fuentes de marca: ${value(answers.brandFonts)}`, `Pautas: ${value(answers.brandNotes)}`]
     : ['Diseñar la identidad para el proyecto.', `Personalidad: ${character.join('; ')}.`, `Referencias: ${value(answers.references)}`, `Pautas: ${value(answers.brandNotes)}`]
-  const dark = answers.mode === 'Oscuro'
+  const dark = (answers.mode ?? (answers.tipo ? 'Oscuro' : 'Claro')) === 'Oscuro'
+  const platform = plataformas.find(item => item.tipo === answers.tipo)
+  const content = chosenPages.map(page => [
+    `### ${page}`,
+    `- Secciones: ${value(answers.pageSections?.[page])}`,
+    ...textFields.map(([key, label]) => {
+      const field = answers.content?.[page]?.[key]
+      return `- ${label}: ${field?.studio ? 'Lo escribe el estudio' : value(field?.text)}`
+    }),
+  ].join('\n')).join('\n\n')
+  const files = planUpload(answers.files ?? []).entries.map(file =>
+    `- ${file.name} · ${file.page} · destino previsto: imagenes/${file.folder}/${file.filename}${file.caption ? ` · ${file.caption}` : ''}`).join('\n')
   return [
     '# Brief para crear la web',
     'Construye la web completa siguiendo esta ficha. Entrega una versión utilizable desde la primera revisión.',
+    platform && `## Tipo de plataforma\n${platform.tipo} · ${platform.nombre}\n${platform.descripcion}`,
     `## Cliente\n- Negocio: ${value(answers.business)}\n- Sector: ${value(answers.sector === 'Otro' ? answers.otherSector : answers.sector)}\n- Ciudad: ${value(answers.city)}\n- Oferta: ${value(answers.offer)}\n- Diferenciación: ${value(answers.difference)}\n- Competencia y referencias: ${value(answers.competition)}`,
     `## Objetivos\n- Prioridad: ${value(answers.goal)}\n- Acción principal: ${value(goal?.[1])}`,
     `## Público\n${list(answers.audiences)}`,
     `## Marca\n${brand.map(line => '- ' + line).join('\n')}`,
     `## Tokens de color\nPaleta: ${palette}\n\n\`\`\`css\n:root {\n  --fondo: ${dark ? ink : paper};\n  --texto: ${dark ? paper : ink};\n  --acento: ${accent};\n}\n\`\`\``,
     `## Tipografías\n- Pareja: ${pair}\n- Titulares: ${heading}, peso ${headingWeight}\n- Texto e interfaz: ${body}, peso ${bodyWeight}\n- Escala: ${value(answers.scale)}\n- Servir fuentes OFL con Fontsource y font-display: swap.`,
-    `## Texturas y luz\n- Materia: ${value(answers.texture)}\n- Luz: ${value(answers.mode)}\n- Indicaciones: ${value(answers.materialNotes)}`,
+    `## Texturas y luz\n- Materia: ${value(answers.texture)}\n- Luz: ${value(answers.mode ?? (platform ? 'Oscuro' : undefined))}\n- Indicaciones: ${value(answers.materialNotes)}`,
     `## Páginas\n${chosenPages.map(page => `- ${page}: ${pages[page]}.`).join('\n') || 'Sin indicar'}\n\nIndicaciones de estructura: ${value(answers.structureNotes)}`,
     `## Artefactos\n${chosenArtifacts.map(([, title, description]) => `- ${title}: ${description}`).join('\n') || 'Sin artefactos seleccionados.'}`,
     `## Movimiento y 3D\nNivel: ${value(motion[Number(answers.motion ?? 1)])}. Anima solo transformaciones y opacidad, con alternativa estática o fundido simple para movimiento reducido. Evita reacciones al puntero en pantallas táctiles.`,
     `## Tono y voz\n- Tono: ${value(answers.tone)}\n- Tratamiento: ${value(answers.address)}\n- Ejemplo: ${tone ? tone[1][answers.address === 'Usted' ? 1 : 0] : 'Sin indicar'}`,
-    `## Contenido\n- Fotos: ${value(answers.photos)}\n- Idiomas: ${list(answers.languages)}\n- Funcionalidades: ${list(answers.features)}`,
-    `## Logística\n- Plazo: ${value(answers.timing)}\n- Presupuesto cualitativo: ${value(answers.budget)}\n- Contacto: ${value(answers.contact)}\n- Email: ${value(answers.email)}\n- Teléfono: ${value(answers.phone)}\n- Preferencia: ${value(answers.preference)}\n- Indicaciones: ${value(answers.logisticsNotes)}`,
+    `## Contenido\n- Fotos: ${value(answers.photos)}\n- Idiomas: ${list(answers.languages)}\n${platform ? '' : `- Funcionalidades: ${list(answers.features)}`}`,
+    platform && `## Preferencias de diseño\n- Estilo: ${value(answers.style)}\n- Imagen: ${value(answers.imagery)}\n- Movimiento: ${value(answers.movement)}`,
+    platform && `## Textos por página\n${content || 'Sin indicar'}`,
+    platform && `## Archivos\n${files || 'Sin archivos'}\n\nEnlace al material: ${value(answers.shareLink)}`,
+    platform && platform.tipo >= 2 && `## Contenido editable\n- Elementos: ${list(answers.editable)}\n- Administradores: ${value(answers.admins)}\n- Roles: ${value(answers.adminRoles)}`,
+    platform && platform.tipo >= 3 && `## Funcionalidades\n- Selección: ${list(answers.features)}\n- Integraciones: ${value(answers.integrations)}\n- Flujo: ${value(answers.workflow)}`,
+    platform?.tipo === 4 && `## Usuarios y marketplace\n- Roles: ${value(answers.roles)}\n- Permisos: ${value(answers.permissions)}\n- Marketplace: ${value(answers.marketplace)}\n- Vendedores: ${value(answers.sellers)}\n- Comisiones: ${value(answers.commissions)}`,
+    `## Logística\n- Plazo: ${value(answers.timing)}\n${platform ? `- Dominio o alojamiento: ${value(answers.domain)}` : `- Presupuesto cualitativo: ${value(answers.budget)}`}\n- Referencias: ${value(answers.references)}\n- Contacto: ${value(answers.contact)}\n- Email: ${value(answers.email)}\n- Teléfono: ${value(answers.phone)}\n- Preferencia: ${value(answers.preference)}\n- Indicaciones: ${value(answers.logisticsNotes)}`,
     '## Restricciones de diseño\n- Evita la estética de IA, emojis, iconos en círculos, píldoras, tarjetas chillones, manchas de gradiente y plantillas SaaS.\n- Combina tipografía, materia y luz con intención. Usa contraste accesible, foco visible y navegación por teclado.\n- Comprueba 375 y 1440 px sin desbordamiento horizontal. Optimiza fuentes, imágenes y animaciones. Respeta prefers-reduced-motion.',
     '## Criterios de hecho\n- Las páginas, llamadas a la acción e interacciones acordadas funcionan.\n- La identidad, el tono y el contenido reflejan el brief.\n- La web es operable en móvil y escritorio, con teclado y con movimiento reducido.',
-  ].join('\n\n') + '\n'
+  ].filter(Boolean).join('\n\n') + '\n'
 }
 
 export function buildJson(answers: Answers): string {

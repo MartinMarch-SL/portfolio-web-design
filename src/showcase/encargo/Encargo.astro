@@ -1,195 +1,179 @@
 ---
-import PortfolioIcons from '../../lib/PortfolioIcons.astro'
+import Layout from '../Layout.astro'
 import { url } from '../../lib/url'
 import Choices from './components/Choices.astro'
 import Field from './components/Field.astro'
-import Artifact from './components/Artifact.astro'
-import { artifacts, goals, motion, pages, palettes, pairs, personality, textures, tones } from './data'
-import { STUDIO_EMAIL } from './config'
-import '@fontsource-variable/newsreader/wght.css'
-import '@fontsource-variable/inter-tight/wght.css'
-import '@fontsource/jetbrains-mono/latin-400.css'
+import { goals, motion, pages, pairs, palettes, textures } from './data'
+import { plataformas } from './data/plataformas'
+import { levels } from './lib/levels'
+import '@fontsource-variable/archivo/wdth.css'
+import '@fontsource/jetbrains-mono/400.css'
+import '@fontsource-variable/newsreader'
 import './studio.css'
-import './artifacts.css'
 
-const headings = ['Tú y tu negocio', 'Marca', 'Color y materia', 'Tipografía', 'Estructura y artefactos', 'Contenido y logística']
+const duels = [
+  ['mode', 'Luz', ['Claro', 'Oscuro']],
+  ['style', 'Carácter', ['Sobrio', 'Expresivo']],
+  ['imagery', 'Imagen', ['Fotografía', 'Ilustración']],
+  ['movement', 'Ritmo', ['Quieto', 'Con movimiento']],
+] as const
 ---
-<!doctype html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="robots" content="noindex, nofollow" />
-    <title>Encargo · Estudio web</title>
-    <PortfolioIcons />
-  </head>
-  <body>
-    <header class="masthead">
+<Layout title="Encargo · Catálogo de proyectos">
+  <div class="encargo" data-encargo>
+    <header class="game-header">
       <a href={url('')}>Catálogo de proyectos</a>
-      <span>Estudio web <span class="masthead-divider">/</span> Encargo</span>
+      <a href={url('plataformas/')}>Plataformas</a>
     </header>
-    <main class="desk" data-encargo>
-      <section class="work">
-        <div class="ruler">
-          <span data-progress aria-live="polite">Lámina 01 / 06</span>
-          <div class="ticks" aria-hidden="true">{headings.map(() => <i></i>)}</div>
-        </div>
+    <main class="game">
+      <nav class="level-map" aria-label="Mapa de niveles">
+        {levels.map((title, level) => <button type="button" data-level={level} aria-label={`Nivel ${level} · ${title}`} disabled={level !== 0}><span>{String(level).padStart(2, '0')}</span><span>{title}</span></button>)}
+      </nav>
+      <section class="play">
+        <p class="level-label" data-level-label>Nivel 00</p>
+        <p class="note" data-storage role="status" hidden></p>
         <form class="brief" novalidate>
-          <div class="sheet-stack">
-            <div class="paper-edge" aria-hidden="true"></div>
-            <section class="sheet" data-step>
-              <header><p class="kicker">El punto de partida</p><h1 tabindex="-1">{headings[0]}</h1>
-              <p>Danos unas pinceladas de tu negocio. Verás cómo toman forma en la maqueta.</p></header>
-              <Field name="business" label="Nombre del negocio" required autocomplete="organization" />
-              <Choices name="sector" label="Sector" options={['Gastronomía', 'Comercio', 'Salud y bienestar', 'Cultura y diseño', 'Servicios', 'Otro']} />
-              <div data-other hidden><Field name="otherSector" label="¿En qué sector trabajas?" /></div>
-              <div class="field-grid">
-                <Field name="city" label="Ciudad" autocomplete="address-level2" />
-                <Field name="offer" label="¿Qué vendes u ofreces?" />
-              </div>
-              <Choices name="audiences" label="¿A quién te diriges?" options={['Público local', 'Visitantes', 'Particulares', 'Profesionales', 'Empresas', 'Comunidad especializada']} multiple />
-              <Choices name="goal" label="Objetivo principal" options={Object.keys(goals)} />
-              <details><summary>Más detalle</summary>
-                <Field name="competition" label="Competencia y webs de referencia" area />
-                <Field name="difference" label="¿Qué te diferencia?" area />
-              </details>
-            </section>
-            <section class="sheet" data-step hidden>
-              <header><p class="kicker">Identidad</p><h2 tabindex="-1">{headings[1]}</h2>
-              <p>Partimos de tu identidad visual o definimos el carácter que tendrá.</p></header>
-              <Choices name="brand" label="¿Ya tienes marca?" options={['Existente', 'A diseñar']} />
-              <div data-existing hidden>
-                <label class="field"><span>Archivo del logotipo</span><input type="file" accept="image/*" data-logo /></label>
-                <p class="feedback" data-logo-status role="status"></p>
-                <fieldset><legend>Colores de marca</legend><div class="color-fields">
-                  {[1, 2, 3].map(i => <div class="field"><span>Color {i}</span><div class="color-input">
-                    <input type="color" data-picker={i} aria-label={`Elegir color ${i}`} />
-                    <input name={`brandColor${i}`} placeholder="#000000" aria-label={`Hexadecimal del color ${i}`} maxlength="7" spellcheck="false" />
-                  </div></div>)}
-                </div></fieldset>
-                <Field name="brandFonts" label="Fuentes de marca" />
-              </div>
-              <div data-personality hidden>
-                {personality.map(([left, right], i) => <label class="range">
-                  <span><span>{left}</span><span>{right}</span></span>
-                  <input type="range" min="0" max="4" value="2" name={`character${i}`} aria-label={`Entre ${left.toLowerCase()} y ${right.toLowerCase()}`} />
-                </label>)}
-                <Field name="references" label="Referencias visuales o enlaces" area />
-              </div>
-              <details><summary>Más detalle</summary><Field name="brandNotes" label="Pautas de identidad" area /></details>
-            </section>
-            <section class="sheet" data-step hidden>
-              <header><p class="kicker">Superficie</p><h2 tabindex="-1">{headings[2]}</h2>
-              <p>Elige una paleta, una luz y la materia que quieras evocar.</p></header>
-              <fieldset><legend>Paleta</legend>
-                <div class="palette-grid">
-                  <label class="sample" data-brand-palette hidden><input type="radio" name="palette" value="Tu paleta" />
-                    <span class="swatches" aria-hidden="true"><i></i><i></i><i></i></span><span>Tu paleta</span>
-                  </label>
-                  {palettes.map(([name, ...colors]) => <label class="sample">
-                    <input type="radio" name="palette" value={name} />
-                    <span class="swatches" aria-hidden="true">{colors.map(color => <i style={`--sample:${color}`}></i>)}</span><span>{name}</span>
-                  </label>)}
+          {levels.map((title, level) => (
+            <section class="level" data-step={level} hidden={level !== 0}>
+              {level === 0 ? <h1 tabindex="-1">{title}</h1> : <h2 tabindex="-1">{title}</h2>}
+              {level === 0 && <>
+                <p>Cada nivel se adapta al tipo de web que elijas.</p>
+                <fieldset aria-label="Tipo de web">
+                  <div class="choices platform-cards">
+                    {plataformas.map(item => <label class="card"><input type="radio" name="tipo" value={item.tipo} /><span><small>0{item.tipo}</small><strong>{item.nombre}</strong><span>{item.descripcion}</span></span></label>)}
+                  </div>
+                </fieldset>
+                <details>
+                  <summary>No lo sé, ayúdame</summary>
+                  <Choices name="quizEdit" label="¿Quieres cambiar tú los textos y las fotos?" options={['Sí', 'No']} />
+                  <Choices name="quizFeatures" label="¿Necesitas reservas, inscripciones o pagos?" options={['Sí', 'No']} />
+                  <Choices name="quizPlatform" label="¿Habrá distintos tipos de usuario o vendedores?" options={['Sí', 'No']} />
+                  <p data-recommendation role="status"></p>
+                  <button type="button" data-recommend hidden>Elegir este tipo</button>
+                </details>
+                <p><a href={url('plataformas/')}>Compara los cuatro tipos de plataforma</a></p>
+              </>}
+              {level === 1 && <>
+                <Field name="business" label="Nombre del negocio" required />
+                <Choices name="sector" label="Sector" options={['Hostelería', 'Comercio', 'Cultura', 'Deporte', 'Servicios', 'Otro']} />
+                <div data-other hidden><Field name="otherSector" label="¿En qué sector trabajas?" /></div>
+                <Choices name="goal" label="Objetivo principal" options={Object.keys(goals)} />
+                <Choices name="audiences" label="¿A quién te diriges?" options={['Público local', 'Particulares', 'Empresas', 'Comunidad']} multiple />
+              </>}
+              {level === 2 && <>
+                <p>Elige una carta de cada pareja y mira cómo va tomando forma tu web.</p>
+                <div class="duels">{duels.map(([name, label, options]) => <Choices {name} {label} {options} />)}</div>
+                <fieldset>
+                  <legend>Paleta</legend>
+                  <div class="choices">
+                    {palettes.map(([name, ...colors]) => <label class="card"><input type="radio" name="palette" value={name} /><span><span class="swatches" aria-hidden="true">{colors.map(color => <i style={`background:${color}`}></i>)}</span>{name}</span></label>)}
+                  </div>
+                </fieldset>
+                <fieldset>
+                  <legend>Tipografía</legend>
+                  <div class="choices">
+                    {pairs.map(([name, heading, body, weight]) => <label class="card"><input type="radio" name="pair" value={name} /><span><strong data-business-name style={`font-family:'${heading}', serif;font-weight:${weight}`}>Tu negocio</strong><span style={`font-family:'${body}', sans-serif`}>{name}</span></span></label>)}
+                  </div>
+                </fieldset>
+                <Choices name="texture" label="Materia" options={textures} />
+                <label class="field dial"><span>Animación y 3D <output data-motion>{motion[1]}</output></span><input type="range" name="motion" min="0" max="3" value="1" /></label>
+              </>}
+              {level === 3 && <>
+                <Choices name="pages" label="Páginas" options={Object.keys(pages)} multiple />
+                <div data-structure></div>
+              </>}
+              {level === 4 && <>
+                <p>Sube carpetas de fotos y añade los textos que tengas. También podemos escribirlos por ti.</p>
+                <p class="note">Hasta 150 archivos y unos 300 MB. Si tienes más, comparte un enlace de Drive o WeTransfer.</p>
+                <p class="note" data-file-notice role="status"></p>
+                <div data-content></div>
+                <div class="extras">
+                  <label class="field">Logo<input type="file" data-upload="logo" accept="image/*,.svg,.heic,.heif" /></label>
+                  <label class="field">Documentos PDF<input type="file" data-upload="pdf" accept="application/pdf,.pdf" multiple /></label>
+                  <div data-extra-files></div>
                 </div>
-              </fieldset>
-              <Choices name="mode" label="Luz" options={['Claro', 'Oscuro']} />
-              <fieldset><legend>Materia dominante</legend>
-                <div class="palette-grid textures">
-                  {textures.map((texture, index) => <label class="sample"><input type="radio" name="texture" value={texture} />
-                    <canvas width="140" height="44" data-texture={index} aria-hidden="true"></canvas><span>{texture}</span>
-                  </label>)}
+                <Field name="shareLink" label="Enlace a tus archivos" type="url" />
+              </>}
+              {level === 5 && <>
+                <Choices name="editable" label="¿Qué quieres cambiar desde el panel?" options={['Títulos', 'Textos', 'Galerías u obras', 'Noticias', 'Importes', 'Horarios', 'Secciones']} multiple />
+                <Field name="admins" label="Número de administradores" type="number" />
+                <Field name="adminRoles" label="¿Qué hará cada administrador?" area />
+              </>}
+              {level === 6 && <>
+                <Choices name="features" label="¿Qué debe hacer tu web?" options={['Reservas', 'Inscripciones', 'Pagos', 'Área privada', 'Notificaciones', 'Multiidioma', 'Integraciones']} multiple />
+                <Field name="integrations" label="¿Con qué servicios debe conectarse?" area />
+                <div data-type-four hidden>
+                  <Field name="roles" label="Tipos de usuario y roles" area />
+                  <Field name="permissions" label="¿Qué podrá hacer cada usuario?" area />
+                  <Choices name="marketplace" label="¿Habrá un marketplace?" options={['Sí', 'No']} />
+                  <div data-marketplace hidden>
+                    <Field name="sellers" label="¿Cómo se incorporan y gestionan los vendedores?" area />
+                    <Field name="commissions" label="¿Cómo se gestionan las comisiones?" area />
+                  </div>
                 </div>
-              </fieldset>
-              <details><summary>Más detalle</summary><Field name="materialNotes" label="Indicaciones de color o materia" area /></details>
-            </section>
-            <section class="sheet" data-step hidden>
-              <header><p class="kicker">Composición</p><h2 tabindex="-1">{headings[3]}</h2>
-              <p>Prueba cada pareja con el nombre de tu negocio.</p></header>
-              <fieldset><legend>Pareja tipográfica</legend>
-                <div class="type-grid">
-                  {pairs.map(([name, title, body, weight]) => <label class="sample type" style={`--title-font:'${title}';--body-font:'${body}';--title-weight:${weight}`}>
-                    <input type="radio" name="pair" value={name} />
-                    <span class="type-label">{name}</span>
-                    <span class="type-name" data-business-name>Tu negocio</span><span class="type-line">Una web hecha a medida.</span>
-                  </label>)}
-                </div>
-              </fieldset>
-              <details><summary>Más detalle</summary><Choices name="scale" label="Escala tipográfica" options={['Contenida', 'Generosa']} /></details>
-            </section>
-            <section class="sheet" data-step hidden>
-              <header><p class="kicker">Recorrido</p><h2 tabindex="-1">{headings[4]}</h2>
-              <p>Traza las páginas y elige hasta dos piezas interactivas.</p></header>
-              <Choices name="pages" label="Páginas" options={Object.keys(pages)} multiple />
-              <fieldset><legend>Artefactos</legend>
-                <p class="feedback artifact-count" data-artifact-count aria-live="polite">0 de 2 seleccionados</p>
-                <div class="artifact-grid">{artifacts.map(([id, title, description]) => <Artifact {id} {title} {description} />)}</div>
-              </fieldset>
-              <label class="range"><span>Nivel de animación y 3D <output data-motion>{motion[1]}</output></span>
-                <input type="range" min="0" max="3" value="1" name="motion" />
-              </label>
-              <Choices name="tone" label="Tono de los textos" options={Object.keys(tones)} />
-              <Choices name="address" label="Tratamiento" options={['Tú', 'Usted']} />
-              <details><summary>Más detalle</summary><Field name="structureNotes" label="Qué debe tener cada página" area /></details>
-            </section>
-            <section class="sheet" data-step hidden>
-              <header><p class="kicker">Producción</p><h2 tabindex="-1">{headings[5]}</h2>
-              <p>Cuéntanos con qué materiales cuentas y cómo podemos hablar.</p></header>
-              <Choices name="photos" label="Fotografías" options={['Propias', 'Banco de imágenes', 'Sesión a encargar', 'Mezcla']} />
-              <Choices name="languages" label="Idiomas" options={['Español', 'Catalán', 'Inglés', 'Francés', 'Otro']} multiple />
-              <Choices name="features" label="Funcionalidades" options={['Reservas', 'Tienda', 'Blog', 'Newsletter', 'Formulario', 'Mapa', 'Multilingüe', 'Área privada']} multiple />
-              <Choices name="timing" label="Plazo" options={['Lo antes posible', 'En unas semanas', 'En unos meses', 'Flexible']} />
-              <Choices name="budget" label="Presupuesto orientativo" options={['Ajustado', 'Estándar', 'Ambicioso', 'Por definir']} />
-              <div class="field-grid">
+                <Field name="workflow" label="Cuéntanos cómo funciona" area />
+              </>}
+              {level === 7 && <>
+                <Choices name="timing" label="Plazo" options={['Lo antes posible', 'En unas semanas', 'En unos meses', 'Flexible']} />
+                <Choices name="languages" label="Idiomas" options={['Español', 'Catalán', 'Inglés', 'Francés', 'Otro']} multiple />
+                <Field name="domain" label="Dominio o alojamiento actual" />
+                <Field name="references" label="Enlaces de referencia" area />
                 <Field name="contact" label="Nombre de contacto" autocomplete="name" />
-                <Field name="email" label="Email" required type="email" autocomplete="email" />
+                <Field name="email" label="Correo electrónico" type="email" autocomplete="email" required />
                 <Field name="phone" label="Teléfono" type="tel" autocomplete="tel" />
-              </div>
-              <Choices name="preference" label="Preferencia de contacto" options={['Email', 'Teléfono', 'Videollamada']} />
-              <details><summary>Más detalle</summary><Field name="logisticsNotes" label="Fechas, idiomas u otros detalles" area /></details>
+              </>}
+              {level === 8 && <>
+                <p>Revisa tu ficha y compártela con el estudio cuando esté lista.</p>
+                <dl data-specs></dl>
+                <details><summary>Brief para crear la web</summary>
+                  <pre tabindex="0" aria-label="Prompt generado" data-prompt></pre>
+                  <button type="button" data-copy>Copiar brief</button>
+                </details>
+                <details><summary>Respuestas en JSON</summary><pre tabindex="0" data-json></pre></details>
+                <div class="delivery">
+                  <button type="button" class="primary" data-send>Enviar al estudio</button>
+                  <button type="button" data-download>Descargar .md</button>
+                  <a data-email>Escribir por email</a>
+                </div>
+                <div data-progress hidden>
+                  <label>Total <progress data-total value="0" max="1"></progress></label>
+                  <label><span data-current-file>Archivo actual</span> <progress data-file-progress max="1"></progress></label>
+                </div>
+                <p role="status" data-delivery-status></p>
+                <div class="fallback" data-fallback hidden>
+                  <label class="field">Enlace para compartir los archivos<input type="url" data-fallback-link /></label>
+                  <button type="button" data-link-only hidden>Enviar solo el brief y el enlace</button>
+                </div>
+              </>}
             </section>
-            <section class="sheet final-sheet" data-step hidden>
-              <header><p class="kicker">Ficha técnica</p><h2 tabindex="-1" data-final-heading>Tu encargo</h2>
-              <p data-final-intro>Revisa la maqueta y el brief antes de compartirlo con el estudio.</p></header>
-              <dl data-specs></dl>
-              <div class="document-bar"><h3>Brief para crear la web</h3><button type="button" data-copy>Copiar</button></div>
-              <pre class="prompt" tabindex="0" aria-label="Prompt generado" data-prompt></pre>
-              <details><summary>Respuestas en JSON</summary><pre tabindex="0" aria-label="Respuestas en JSON" data-json></pre></details>
-              <div class="delivery">
-                <button type="button" class="ink" data-send>Enviar al estudio</button>
-                <button type="button" data-download>Descargar .md</button>
-                <a href={`mailto:${STUDIO_EMAIL}`} data-email>Escribir por email</a>
-              </div>
-              <p class="feedback" role="status" data-delivery-status></p>
-            </section>
-          </div>
+          ))}
+          <p class="unlock note" data-unlock role="status"></p>
           <div class="controls">
             <button type="button" data-back disabled>Atrás</button>
-            <button type="button" class="ink" data-next>Siguiente</button>
+            <button type="button" class="restart" data-reset>Empezar de nuevo</button>
+            <button type="submit" class="primary" data-next>Siguiente</button>
           </div>
         </form>
-        <button type="button" class="restart" data-reset>Empezar de nuevo</button>
         <dialog data-reset-dialog>
           <form method="dialog">
             <h2>Empezar de nuevo</h2>
-            <p>Se borrarán las respuestas guardadas en este dispositivo.</p>
-            <div class="delivery"><button value="cancel">Cancelar</button><button class="ink" value="reset">Borrar respuestas</button></div>
+            <p>Se borrarán las respuestas y los archivos guardados en este dispositivo.</p>
+            <div class="delivery"><button value="cancel">Cancelar</button><button class="primary" value="reset">Borrar respuestas</button></div>
           </form>
         </dialog>
       </section>
       <aside class="preview" data-preview aria-label="Maqueta viva">
         <div class="preview-heading"><span>Maqueta viva</span><span>Escritorio / móvil</span></div>
         <button type="button" class="preview-toggle" aria-expanded="false" aria-controls="encargo-preview">Ampliar maqueta</button>
-        <figure id="encargo-preview" class="table" data-table>
-          <div class="table-lines" aria-hidden="true"></div>
+        <figure id="encargo-preview" class="preview-stage">
           <div class="flat" data-flat>
-            <div class="desktop-frame"><span></span><canvas width="840" height="540" data-desktop></canvas></div>
+            <div class="desktop-frame"><canvas width="840" height="540" data-desktop></canvas></div>
             <div class="phone-frame"><canvas width="290" height="540" data-phone></canvas></div>
           </div>
           <div class="scene" data-scene aria-hidden="true" hidden></div>
         </figure>
-        <div class="preview-caption"><span data-preview-name>Tu negocio</span><span data-preview-material>Papel · Claro</span></div>
+        <div class="preview-caption"><span data-preview-name>Tu negocio</span><span data-preview-material>Papel · Oscuro</span></div>
       </aside>
     </main>
     <script>import './client'</script>
-  </body>
-</html>
+  </div>
+</Layout>

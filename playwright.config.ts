@@ -1,3 +1,4 @@
+process.env.LANG ||= 'C.UTF-8'
 import { defineConfig, devices } from '@playwright/test'
 
 const origin = 'http://127.0.0.1:4321'

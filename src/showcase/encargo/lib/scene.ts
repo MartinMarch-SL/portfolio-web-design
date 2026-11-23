@@ -29,7 +29,7 @@ export function createScene(host: HTMLElement, desktop: HTMLCanvasElement, phone
       varying vec3 vNormal;
       void main() {
         float light = 0.31 + 0.69 * max(0.0, dot(normalize(vNormal), normalize(vec3(-.55,.7,.62))));
-        gl_FragColor = vec4(vec3(.42,.38,.32) * light,1.);
+        gl_FragColor = vec4(vec3(.34,.34,.34) * light,1.);
       }`,
   })
   const blend = { value: 1 }
@@ -50,7 +50,7 @@ export function createScene(host: HTMLElement, desktop: HTMLCanvasElement, phone
             vec2 p = abs(vUv * 2. - 1.);
             float ambient = pow(max(0., 1. - dot(p,p)), 2.6) * .29;
             float contact = pow(max(0., 1. - length(p * vec2(1.18,2.2))), 2.) * .44;
-            gl_FragColor = vec4(.24,.19,.12,ambient + contact);
+            gl_FragColor = vec4(.02,.02,.02,ambient + contact);
           }`,
       }),
       renderOrder: -1,

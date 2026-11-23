@@ -134,3 +134,6 @@ html { scrollbar-width: none; }
 @media (prefers-reduced-motion: reduce) and (hover: hover) and (pointer: fine) {
   [data-current] .screen:hover .screen-mobile { visibility: visible; }
 }
+@media (max-width: 475px) {
+  .catalogue-header, .catalogue-header nav { flex-wrap: wrap; }
+}

@@ -10,6 +10,6 @@ const {name, label, options, multiple} = Astro.props
 <fieldset>
   <legend>{label}</legend>
   <div class="choices">
-    {options.map(option => <label class="chip"><input type={multiple ? 'checkbox' : 'radio'} name={name} value={option} /><span>{option}</span></label>)}
+    {options.map(option => <label class="card"><input type={multiple ? 'checkbox' : 'radio'} name={name} value={option} /><span>{option}</span></label>)}
   </div>
 </fieldset>

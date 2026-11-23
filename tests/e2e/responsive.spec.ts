@@ -8,6 +8,7 @@ const viewports = [
 const pages = {
   index: '',
   encargo: 'encargo/',
+  plataformas: 'plataformas/',
   ruido: 'ruido/',
   tienda: 'ruido/tienda/',
   producto: 'ruido/producto/bloc-380/',
