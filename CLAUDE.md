@@ -32,8 +32,8 @@ Lee `AGENTS.md` (mapa del código, reglas y comandos). Este archivo solo describ
 
 ## Git y deploy
 - Trabajar en la rama de la sesión; el dueño autorizó fusionar en `main` (fast-forward) cuando todo pasa. Push a `main` despliega a GitHub Pages (workflow `deploy.yml`).
-- Comprobar el run: `gh api "repos/MartinMarch-SL/portfolio-web-design/actions/runs?per_page=1"` hasta `completed success`.
-- URL: https://martinmarch-sl.github.io/portfolio-web-design/
+- Comprobar el run: `gh api "repos/march-labs/portfolio-web-design/actions/runs?per_page=1"` hasta `completed success`.
+- URL: https://march-labs.github.io/portfolio-web-design/
 
 ## Proceso por ejemplo nuevo
 Una **sesión nueva por ejemplo**. Brainstorm corto con el dueño (cliente, tono, páginas) → spec en `docs/superpowers/specs/` → plan en `docs/superpowers/plans/` → 2–3 briefs grandes a Codex → revisión con hoja de contactos → deploy. Cada ejemplo con identidad visual propia (anti-plantilla, anti-estética IA; ver spec de RUIDO como referencia de nivel).
